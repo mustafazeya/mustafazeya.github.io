@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Platform Engineering Tools | Mustafa Zeya</title>
+    <title>Platform Engineering Tools v2 | Mustafa Zeya</title>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* Theme Variables */
         :root {
+            /* Dark Theme (Default) */
             --primary-bg: #0a0e27;
             --secondary-bg: #1a1f3a;
             --accent-blue: #00d9ff;
@@ -20,6 +22,70 @@
             --text-primary: #ffffff;
             --text-secondary: #a1a1aa;
             --card-bg: rgba(26, 31, 58, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --gradient-2: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
+            --gradient-3: linear-gradient(135deg, var(--accent-green), var(--accent-orange));
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --primary-bg: #f8fafc;
+            --secondary-bg: #ffffff;
+            --accent-blue: #0ea5e9;
+            --accent-purple: #7c3aed;
+            --accent-green: #059669;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --gradient-2: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
+            --gradient-3: linear-gradient(135deg, var(--accent-green), #f97316);
+        }
+
+        /* Azure Theme */
+        [data-theme="azure"] {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-blue: #0ea5e9;
+            --accent-purple: #3b82f6;
+            --accent-green: #06b6d4;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --border-color: rgba(14, 165, 233, 0.2);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --gradient-2: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
+            --gradient-3: linear-gradient(135deg, var(--accent-green), #0ea5e9);
+        }
+
+        /* Sunset Theme */
+        [data-theme="sunset"] {
+            --primary-bg: #1a0f0a;
+            --secondary-bg: #2d1b15;
+            --accent-blue: #f97316;
+            --accent-purple: #dc2626;
+            --accent-green: #eab308;
+            --text-primary: #fef7ed;
+            --text-secondary: #fed7aa;
+            --card-bg: rgba(45, 27, 21, 0.8);
+            --border-color: rgba(249, 115, 22, 0.2);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --gradient-2: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
+            --gradient-3: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+        }
+
+        /* Monochrome Theme */
+        [data-theme="monochrome"] {
+            --primary-bg: #111111;
+            --secondary-bg: #1f1f1f;
+            --accent-blue: #ffffff;
+            --accent-purple: #e5e5e5;
+            --accent-green: #d4d4d4;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --card-bg: rgba(31, 31, 31, 0.8);
             --border-color: rgba(255, 255, 255, 0.1);
             --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             --gradient-2: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
@@ -67,6 +133,83 @@
             text-align: center;
             background: var(--secondary-bg);
             border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .theme-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            backdrop-filter: blur(20px);
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .theme-option:last-child {
+            border-bottom: none;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-blue);
+        }
+
+        .theme-option.active {
+            background: var(--accent-blue);
+            color: white;
         }
 
         .logo {
@@ -154,26 +297,10 @@
             transform: scaleX(1);
         }
 
-        .tool-card:nth-child(2)::before {
-            background: var(--gradient-2);
-        }
-
-        .tool-card:nth-child(3)::before {
-            background: var(--gradient-3);
-        }
-
-        .tool-card:nth-child(4)::before {
-            background: var(--gradient-1);
-        }
-
-        .tool-card:nth-child(5)::before {
-            background: var(--gradient-2);
-        }
-
         .tool-card:hover {
             transform: translateY(-5px);
+            border-color: rgba(0, 217, 255, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: var(--accent-blue);
         }
 
         .tool-icon {
@@ -183,38 +310,36 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-icon.network {
             background: var(--gradient-1);
         }
 
-        .tool-card:nth-child(2) .tool-icon {
+        .tool-icon.ssl {
             background: var(--gradient-2);
         }
 
-        .tool-card:nth-child(3) .tool-icon {
+        .tool-icon.iac {
             background: var(--gradient-3);
         }
 
-        .tool-card:nth-child(4) .tool-icon {
-            background: var(--gradient-1);
-        }
-
-        .tool-card:nth-child(5) .tool-icon {
-            background: var(--gradient-2);
-        }
-
-        .tool-card h3 {
-            font-size: 1.5rem;
+        .tool-title {
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: var(--text-primary);
         }
 
-        .tool-card p {
+        .tool-description {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
             line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         .tool-features {
@@ -223,236 +348,324 @@
         }
 
         .tool-features li {
+            padding: 0.3rem 0;
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
         }
 
         .tool-features li::before {
-            content: '✓';
-            color: var(--accent-green);
-            font-weight: bold;
+            content: '✦';
+            color: var(--accent-blue);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
         }
 
         .tool-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            background: var(--gradient-1);
-            color: white;
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-blue);
             text-decoration: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 8px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
             font-weight: 500;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
+            width: 100%;
+            justify-content: center;
         }
 
         .tool-btn:hover {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: rgba(0, 217, 255, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
         }
 
-        .coming-soon {
-            background: var(--text-secondary);
-            color: var(--primary-bg);
-            pointer-events: none;
+        .tool-btn i {
+            margin-right: 0.5rem;
         }
 
-        .back-to-main {
-            position: fixed;
-            top: 2rem;
-            left: 2rem;
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
+            border-radius: 12px;
             backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            z-index: 100;
         }
 
-        .back-to-main:hover {
-            background: var(--accent-blue);
-            color: white;
-            transform: translateY(-2px);
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         @media (max-width: 768px) {
             .container {
                 padding: 2rem 1rem;
             }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
+            
             .header h1 {
                 font-size: 2rem;
             }
-
-            .header p {
-                font-size: 1rem;
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .back-to-main {
+            .theme-switcher {
                 top: 1rem;
-                left: 1rem;
-                padding: 0.5rem 0.75rem;
-                font-size: 0.9rem;
+                right: 1rem;
+            }
+
+            .theme-dropdown {
+                right: 0;
+                left: auto;
+                width: 140px;
+                transform: translateY(-10px);
+            }
+
+            .theme-dropdown.active {
+                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
-    <a href="/" class="back-to-main">
-        <i class="fas fa-arrow-left"></i>
-        <span>Back to Portfolio</span>
-    </a>
-
-    <header class="header">
-        <a href="/v2/" class="logo">
+    <div class="header">
+        <div class="theme-switcher">
+            <button class="theme-btn" id="themeToggle">
+                <i class="fas fa-palette"></i>
+                <span>Theme</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="theme-dropdown" id="themeDropdown">
+                <div class="theme-option" data-theme="dark">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark</span>
+                </div>
+                <div class="theme-option" data-theme="light">
+                    <i class="fas fa-sun"></i>
+                    <span>Light</span>
+                </div>
+                <div class="theme-option" data-theme="azure">
+                    <i class="fas fa-cloud"></i>
+                    <span>Azure</span>
+                </div>
+                <div class="theme-option" data-theme="sunset">
+                    <i class="fas fa-mountain-sun"></i>
+                    <span>Sunset</span>
+                </div>
+                <div class="theme-option" data-theme="monochrome">
+                    <i class="fas fa-circle-half-stroke"></i>
+                    <span>Monochrome</span>
+                </div>
+            </div>
+        </div>
+        <a href="/" class="logo">
             <div class="logo-icon">
-                <span class="bracket">[</span>
-                <span class="initials">MZ</span>
-                <span class="bracket">]</span>
+                <span class="bracket">[</span><span class="initials">MZ</span><span class="bracket">]</span>
             </div>
         </a>
-        <h1>Platform Engineering Tools</h1>
-        <p>Interactive tools and dashboards for DevOps, Infrastructure, and Security Management</p>
-    </header>
+        <h1>Platform Engineering Tools v2</h1>
+        <p>Essential Network & Infrastructure Utilities</p>
+    </div>
 
     <div class="container">
         <div class="tools-grid">
-            <!-- DevOps Dashboard -->
             <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-chart-line"></i>
+                <div class="tool-icon network">
+                    <i class="fas fa-network-wired"></i>
                 </div>
-                <h3>DevOps Dashboard</h3>
-                <p>Real-time monitoring of CI/CD pipelines, infrastructure status, and deployment metrics with live GitHub Actions integration.</p>
+                <h3 class="tool-title">IP Subnet Calculator</h3>
+                <p class="tool-description">
+                    Calculate network details from CIDR blocks. Get network address, 
+                    usable IP ranges, broadcast address, and host counts instantly.
+                </p>
                 <ul class="tool-features">
-                    <li>Live GitHub Actions workflows</li>
-                    <li>Infrastructure health monitoring</li>
-                    <li>Performance metrics visualization</li>
-                    <li>Security compliance tracking</li>
+                    <li>CIDR to network details conversion</li>
+                    <li>First/Last usable IP calculation</li>
+                    <li>Host count and broadcast address</li>
+                    <li>Real-time updates & copy-to-clipboard</li>
                 </ul>
-                <a href="devops-dashboard.html" class="tool-btn">
-                    <i class="fas fa-external-link-alt"></i>
-                    Launch Dashboard
-                </a>
-            </div>
-
-            <!-- IaC Playground -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-cubes"></i>
-                </div>
-                <h3>IaC Playground</h3>
-                <p>Interactive Infrastructure as Code editor with syntax highlighting, validation, and visual architecture mapping.</p>
-                <ul class="tool-features">
-                    <li>Terraform & Bicep editor</li>
-                    <li>Real-time syntax validation</li>
-                    <li>Architecture visualization</li>
-                    <li>Security scanning</li>
-                </ul>
-                <a href="iac-playground.html" class="tool-btn">
-                    <i class="fas fa-code"></i>
-                    Open Playground
-                </a>
-            </div>
-
-            <!-- Cloud Cost Optimizer -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <h3>Cloud Cost Optimizer</h3>
-                <p>Analyze cloud spending patterns, get optimization recommendations, and calculate potential savings across providers.</p>
-                <ul class="tool-features">
-                    <li>Multi-cloud cost analysis</li>
-                    <li>Right-sizing recommendations</li>
-                    <li>Reserved instance optimizer</li>
-                    <li>Savings calculator</li>
-                </ul>
-                <a href="cost-optimizer.html" class="tool-btn">
+                <a href="subnet-calculator.html" class="tool-btn">
                     <i class="fas fa-calculator"></i>
-                    Analyze Costs
+                    Open Calculator
                 </a>
             </div>
 
-            <!-- Security Compliance Tracker -->
             <div class="tool-card">
-                <div class="tool-icon">
+                <div class="tool-icon ssl">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h3>Security Compliance Tracker</h3>
-                <p>Track compliance across frameworks like SOC2, ISO27001, and custom policies with automated security assessments.</p>
+                <h3 class="tool-title">SSL/TLS Certificate Viewer</h3>
+                <p class="tool-description">
+                    Analyze SSL certificates for any domain. Check expiration dates, 
+                    issuer information, TLS versions, and cipher suites.
+                </p>
                 <ul class="tool-features">
-                    <li>Multiple compliance frameworks</li>
-                    <li>Automated security scanning</li>
-                    <li>Risk assessment matrix</li>
-                    <li>Remediation workflows</li>
+                    <li>Certificate expiration monitoring</li>
+                    <li>Issuer and chain validation</li>
+                    <li>TLS version and cipher analysis</li>
+                    <li>SSL Labs integration</li>
                 </ul>
-                <a href="security-tracker.html" class="tool-btn">
+                <a href="ssl-checker.html" class="tool-btn">
                     <i class="fas fa-search"></i>
-                    Security Scan
+                    Check Certificate
                 </a>
             </div>
 
-            <!-- Documentation Hub -->
             <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-book"></i>
+                <div class="tool-icon iac">
+                    <i class="fas fa-code"></i>
                 </div>
-                <h3>Documentation Hub</h3>
-                <p>Interactive documentation system with runbook generators, ADR tracking, and searchable knowledge base.</p>
+                <h3 class="tool-title">IaC Playground</h3>
+                <p class="tool-description">
+                    Interactive playground for Terraform and Azure Bicep. Validate syntax, 
+                    lint configurations, and convert between formats.
+                </p>
                 <ul class="tool-features">
-                    <li>Runbook generator</li>
-                    <li>Architecture Decision Records</li>
-                    <li>Incident response playbooks</li>
-                    <li>Searchable knowledge base</li>
+                    <li>Terraform HCL validation & linting</li>
+                    <li>Bicep to ARM template conversion</li>
+                    <li>Syntax highlighting & error detection</li>
+                    <li>Security and best practice checks</li>
                 </ul>
-                <a href="documentation-hub.html" class="tool-btn">
-                    <i class="fas fa-book-open"></i>
-                    Browse Docs
+                <a href="iac-playground.html" class="tool-btn">
+                    <i class="fas fa-play"></i>
+                    Launch Playground
                 </a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Active Tools</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Client-Side</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0ms</div>
+                <div class="stat-label">Latency</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Enterprise</div>
+                <div class="stat-label">Grade</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Add some interactive animations
-        document.querySelectorAll('.tool-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-5px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // Add loading animation for tool buttons
-        document.querySelectorAll('.tool-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+        // Theme Switcher Functionality
+        class ThemeSwitcher {
+            constructor() {
+                this.currentTheme = localStorage.getItem('portfolio-theme') || 'dark';
+                this.themeToggle = document.getElementById('themeToggle');
+                this.themeDropdown = document.getElementById('themeDropdown');
+                this.themeOptions = document.querySelectorAll('.theme-option');
                 
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                }, 1000);
-            });
+                this.init();
+            }
+
+            init() {
+                // Set initial theme
+                this.setTheme(this.currentTheme);
+                
+                // Toggle dropdown
+                this.themeToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.themeDropdown.classList.toggle('active');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', () => {
+                    this.themeDropdown.classList.remove('active');
+                });
+
+                // Theme option selection
+                this.themeOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const theme = e.currentTarget.dataset.theme;
+                        this.setTheme(theme);
+                        this.themeDropdown.classList.remove('active');
+                    });
+                });
+
+                // Update active state
+                this.updateActiveState();
+            }
+
+            setTheme(theme) {
+                this.currentTheme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('portfolio-theme', theme);
+                this.updateActiveState();
+                this.updateThemeButton(theme);
+            }
+
+            updateActiveState() {
+                this.themeOptions.forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.theme === this.currentTheme) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+
+            updateThemeButton(theme) {
+                const themeNames = {
+                    dark: 'Dark',
+                    light: 'Light',
+                    azure: 'Azure',
+                    sunset: 'Sunset',
+                    monochrome: 'Monochrome'
+                };
+                
+                const themeIcons = {
+                    dark: 'fas fa-moon',
+                    light: 'fas fa-sun',
+                    azure: 'fas fa-cloud',
+                    sunset: 'fas fa-mountain-sun',
+                    monochrome: 'fas fa-circle-half-stroke'
+                };
+
+                const icon = this.themeToggle.querySelector('i');
+                const span = this.themeToggle.querySelector('span');
+                
+                icon.className = themeIcons[theme] || 'fas fa-palette';
+                span.textContent = themeNames[theme] || 'Theme';
+            }
+        }
+
+        // Initialize theme switcher when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ThemeSwitcher();
         });
     </script>
 </body>
