@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} | {{ site.title }}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* Theme Variables */
         :root {
+            /* Dark Theme (Default) */
             --primary-bg: #0a0e27;
             --secondary-bg: #1a1f3a;
             --accent-blue: #00d9ff;
@@ -20,6 +28,58 @@
             --text-secondary: #a1a1aa;
             --card-bg: rgba(26, 31, 58, 0.8);
             --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --primary-bg: #f8fafc;
+            --secondary-bg: #ffffff;
+            --accent-blue: #0ea5e9;
+            --accent-purple: #7c3aed;
+            --accent-green: #059669;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Cyberpunk Theme */
+        [data-theme="cyberpunk"] {
+            --primary-bg: #0d001a;
+            --secondary-bg: #1a0033;
+            --accent-blue: #00ffff;
+            --accent-purple: #ff00ff;
+            --accent-green: #00ff41;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --card-bg: rgba(26, 0, 51, 0.8);
+            --border-color: rgba(0, 255, 255, 0.2);
+        }
+
+        /* Matrix Theme */
+        [data-theme="matrix"] {
+            --primary-bg: #000000;
+            --secondary-bg: #001100;
+            --accent-blue: #00ff41;
+            --accent-purple: #00ff41;
+            --accent-green: #00ff41;
+            --text-primary: #00ff41;
+            --text-secondary: #008f11;
+            --card-bg: rgba(0, 17, 0, 0.8);
+            --border-color: rgba(0, 255, 65, 0.2);
+        }
+
+        /* Ocean Theme */
+        [data-theme="ocean"] {
+            --primary-bg: #0c1445;
+            --secondary-bg: #1e3a8a;
+            --accent-blue: #60a5fa;
+            --accent-purple: #a78bfa;
+            --accent-green: #34d399;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --card-bg: rgba(30, 58, 138, 0.8);
+            --border-color: rgba(96, 165, 250, 0.2);
         }
 
         * {
@@ -199,6 +259,79 @@
         .nav-links a:hover::after,
         .nav-links a.active::after {
             width: 100%;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .theme-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            backdrop-filter: blur(20px);
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .theme-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .theme-option:last-child {
+            border-bottom: none;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-blue);
+        }
+
+        .theme-option.active {
+            background: var(--accent-blue);
+            color: white;
         }
 
         /* Main Content */
@@ -419,6 +552,20 @@
                 gap: 1rem;
             }
 
+            /* Mobile theme switcher */
+            .theme-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .theme-btn span {
+                display: none;
+            }
+
+            .theme-dropdown {
+                right: -50px;
+            }
+
             /* Mobile logo adjustments */
             .logo-icon {
                 padding: 10px 14px;
@@ -498,6 +645,35 @@
                 <li><a href="{{ '/about' | relative_url }}" {% if page.url contains 'about' %}class="active"{% endif %}><i class="fas fa-user"></i> About</a></li>
                 <li><a href="{{ '/projects' | relative_url }}" {% if page.url contains 'projects' %}class="active"{% endif %}><i class="fas fa-code"></i> Projects</a></li>
                 <li><a href="{{ '/contact' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}><i class="fas fa-envelope"></i> Contact</a></li>
+                <li class="theme-switcher">
+                    <button class="theme-btn" id="themeToggle">
+                        <i class="fas fa-palette"></i>
+                        <span>Theme</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="dark">
+                            <i class="fas fa-moon"></i>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i>
+                            <span>Light</span>
+                        </div>
+                        <div class="theme-option" data-theme="cyberpunk">
+                            <i class="fas fa-robot"></i>
+                            <span>Cyberpunk</span>
+                        </div>
+                        <div class="theme-option" data-theme="matrix">
+                            <i class="fas fa-code"></i>
+                            <span>Matrix</span>
+                        </div>
+                        <div class="theme-option" data-theme="ocean">
+                            <i class="fas fa-water"></i>
+                            <span>Ocean</span>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
@@ -527,6 +703,92 @@
             } else {
                 navbar.style.background = 'rgba(10, 14, 39, 0.95)';
             }
+        });
+
+        // Theme Switcher Functionality
+        class ThemeSwitcher {
+            constructor() {
+                this.currentTheme = localStorage.getItem('portfolio-theme') || 'dark';
+                this.themeToggle = document.getElementById('themeToggle');
+                this.themeDropdown = document.getElementById('themeDropdown');
+                this.themeOptions = document.querySelectorAll('.theme-option');
+                
+                this.init();
+            }
+
+            init() {
+                // Set initial theme
+                this.setTheme(this.currentTheme);
+                
+                // Toggle dropdown
+                this.themeToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.themeDropdown.classList.toggle('active');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', () => {
+                    this.themeDropdown.classList.remove('active');
+                });
+
+                // Theme option selection
+                this.themeOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const theme = e.currentTarget.dataset.theme;
+                        this.setTheme(theme);
+                        this.themeDropdown.classList.remove('active');
+                    });
+                });
+
+                // Update active state
+                this.updateActiveState();
+            }
+
+            setTheme(theme) {
+                this.currentTheme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('portfolio-theme', theme);
+                this.updateActiveState();
+                this.updateThemeButton(theme);
+            }
+
+            updateActiveState() {
+                this.themeOptions.forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.theme === this.currentTheme) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+
+            updateThemeButton(theme) {
+                const themeNames = {
+                    dark: 'Dark',
+                    light: 'Light',
+                    cyberpunk: 'Cyberpunk',
+                    matrix: 'Matrix',
+                    ocean: 'Ocean'
+                };
+                
+                const themeIcons = {
+                    dark: 'fas fa-moon',
+                    light: 'fas fa-sun',
+                    cyberpunk: 'fas fa-robot',
+                    matrix: 'fas fa-code',
+                    ocean: 'fas fa-water'
+                };
+
+                const icon = this.themeToggle.querySelector('i');
+                const span = this.themeToggle.querySelector('span');
+                
+                icon.className = themeIcons[theme] || 'fas fa-palette';
+                span.textContent = themeNames[theme] || 'Theme';
+            }
+        }
+
+        // Initialize theme switcher when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ThemeSwitcher();
         });
     </script>
 </body>
