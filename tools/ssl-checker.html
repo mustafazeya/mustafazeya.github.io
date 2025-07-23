@@ -1038,12 +1038,20 @@
             }
         }
 
+        // Global SSL checker instance
+        let sslChecker;
+
         // Global functions
         function setExample(domain) {
             document.getElementById('domain-input').value = domain;
         }
 
         async function checkCertificate() {
+            if (!sslChecker) {
+                console.error('SSL Checker not initialized yet');
+                return;
+            }
+            
             const domain = document.getElementById('domain-input').value.trim();
             
             if (!domain) {
@@ -1148,7 +1156,7 @@
 
         // Initialize SSL checker and theme switcher when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            const sslChecker = new SSLChecker();
+            sslChecker = new SSLChecker();
             new ThemeSwitcher();
         });
     </script>
