@@ -9,35 +9,44 @@ title: "About Me"
 </section>
 
 <section class="section">
-    <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
-        <!-- Profile Section with Image -->
-        <div class="profile-section" style="display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 3rem; backdrop-filter: blur(20px);">
-            <div class="profile-image-container" style="text-align: center;">
-                <div style="position: relative; display: inline-block;">
-                    <img src="/assets/images/profile.jpg" alt="Zeyaul Mustafa - Senior Platform Engineer" 
-                         class="profile-image"
-                         style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-blue); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); transition: transform 0.3s ease;"
-                         onmouseover="this.style.transform='scale(1.05)'" 
-                         onmouseout="this.style.transform='scale(1)'">
-                    <div style="position: absolute; bottom: 10px; right: 10px; background: var(--accent-green); color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 3px solid white;">
-                        <i class="fas fa-check" style="font-size: 0.8rem;"></i>
-                    </div>
-                </div>
-                <div style="margin-top: 1rem;">
-                    <h3 style="color: var(--text-primary); margin: 0.5rem 0; font-size: 1.2rem;">Zeyaul Mustafa</h3>
-                    <p style="color: var(--accent-blue); margin: 0; font-weight: 600;">Senior Platform Engineer</p>
-                    <p style="color: var(--text-secondary); margin: 0.5rem 0; font-size: 0.9rem;">📍 Sweden</p>
-                </div>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 900px; margin: 0 auto;">
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 2.5rem; backdrop-filter: blur(20px);">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">🚀 Current Role & Mission</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.7;">
+                As a <strong>Senior Platform Engineer</strong> based in Sweden, I architect and implement enterprise-scale cloud infrastructure using Microsoft Azure's Cloud Adoption Framework. I specialize in designing secure, scalable platforms that enable organizations to innovate while maintaining the highest security standards.
+            </p>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7;">
+                My expertise spans from infrastructure design and security implementation to developer experience optimization, helping organizations achieve their digital transformation goals through robust, automated, and secure cloud platforms.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">🛡️ Security & Infrastructure Excellence</h2>
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-network-wired"></i>
             </div>
-            <div class="profile-content">
-                <h2 style="color: var(--text-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">🚀 Current Role & Mission</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.7;">
-                    As a <strong>Senior Platform Engineer</strong> based in Sweden, I architect and implement enterprise-scale cloud infrastructure using Microsoft Azure's Cloud Adoption Framework. I specialize in designing secure, scalable platforms that enable organizations to innovate while maintaining the highest security standards.
-                </p>
-                <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7;">
-                    My expertise spans from infrastructure design and security implementation to developer experience optimization, helping organizations achieve their digital transformation goals through robust, automated, and secure cloud platforms.
-                </p>
+            <h3>Enterprise Network Security</h3>
+            <p>Led complex migrations from Checkpoint to Azure Firewall, implemented Hub and Spoke topologies with comprehensive security controls, and designed Zero Trust architectures for enterprise environments.</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-shield-alt"></i>
             </div>
+            <h3>Advanced Threat Protection</h3>
+            <p>Configured DDOS and Bot protection using Cloudflare, Radware, and Imperva. Implemented Azure WAF, Sentinel, and Defender for Cloud for comprehensive threat detection and response.</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-globe"></i>
+            </div>
+            <h3>CDN & Edge Security</h3>
+            <p>Executed multi-phase CDN migrations from Verizon to Front Door to Cloudflare, optimizing global content delivery while maintaining security posture and performance standards.</p>
         </div>
     </div>
 </section>
@@ -67,35 +76,6 @@ title: "About Me"
             </div>
             <h3>Kubernetes & Containers</h3>
             <p>Implemented GitOps with FluxCD for AKS, managed containerization with Docker, ACI, AKS, App Services, and Container Apps. Expert in Helm Charts and Kustomizations.</p>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <h2 class="section-title">🛡️ Security & Infrastructure Excellence</h2>
-    <div class="cards-grid">
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-network-wired"></i>
-            </div>
-            <h3>Enterprise Network Security</h3>
-            <p>Led complex migrations from Checkpoint to Azure Firewall, implemented Hub and Spoke topologies with comprehensive security controls, and designed Zero Trust architectures. Automated management of 500+ firewall rules, NSG policies, and WAF configurations across multi-region deployments with intelligent traffic analysis and rule optimization.</p>
-        </div>
-        
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-shield-alt"></i>
-            </div>
-            <h3>Advanced Threat Protection</h3>
-            <p>Configured DDOS and Bot protection using Cloudflare, Radware, and Imperva. Implemented Azure WAF, Sentinel, and Defender for Cloud for comprehensive threat detection and response.</p>
-        </div>
-        
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-globe"></i>
-            </div>
-            <h3>CDN & Edge Security</h3>
-            <p>Executed multi-phase CDN migrations from Verizon to Front Door to Cloudflare, optimizing global content delivery for 10M+ requests/day. Implemented advanced DDOS protection, Bot management, WAF policies, and edge security controls while achieving 40% performance improvement and zero-downtime transitions.</p>
         </div>
     </div>
 </section>
@@ -153,8 +133,6 @@ title: "About Me"
                 <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Defender</span>
                 <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Cloudflare</span>
                 <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Imperva</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Radware</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure WAF</span>
             </div>
         </div>
 
@@ -195,19 +173,6 @@ title: "About Me"
         </div>
 
         <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
-            <h4 style="color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-network-wired"></i> Networking & Security
-            </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure Firewall</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">NSG</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure WAF</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Traffic Manager</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">VNet Peering</span>
-            </div>
-        </div>
-
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
             <h4 style="color: var(--accent-green); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-database"></i> Data & Services
             </h4>
@@ -230,16 +195,6 @@ title: "About Me"
             <p style="color: var(--text-secondary);">Microsoft Certified Associate</p>
         </div>
         <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🚀</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">DevOps Engineer Expert</h3>
-            <p style="color: var(--text-secondary);">Microsoft Certified Expert</p>
-        </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">💻</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Azure Developer Associate</h3>
-            <p style="color: var(--text-secondary);">Microsoft Certified Associate</p>
-        </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
             <div style="font-size: 2rem; margin-bottom: 1rem;">⚙️</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Kubernetes Administrator</h3>
             <p style="color: var(--text-secondary);">CKA Certified</p>
@@ -248,11 +203,6 @@ title: "About Me"
             <div style="font-size: 2rem; margin-bottom: 1rem;">🏗️</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Terraform Associate</h3>
             <p style="color: var(--text-secondary);">HashiCorp Certified</p>
-        </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🐧</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">RHCSA</h3>
-            <p style="color: var(--text-secondary);">Red Hat Certified</p>
         </div>
         <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
             <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
