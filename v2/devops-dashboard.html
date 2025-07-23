@@ -422,6 +422,10 @@
                     <i class="fas fa-arrow-left"></i>
                     Back to Tools
                 </a>
+                <button class="refresh-btn" onclick="openConfig()">
+                    <i class="fas fa-cog"></i>
+                    Configure
+                </button>
                 <button class="refresh-btn" onclick="refreshData()">
                     <i class="fas fa-sync-alt"></i>
                     Refresh
@@ -797,11 +801,134 @@
             }
         }
 
+        // Simple GitHub API integration (no authentication required for public repos)
+        class DevOpsAPI {
+            constructor() {
+                this.baseUrl = 'https://api.github.com';
+            }
+
+            // GitHub API - Public repositories only (no auth needed)
+            async getGitHubMetrics(owner, repo) {
+                try {
+                    const [repoData, releasesData] = await Promise.all([
+                        fetch(`${this.baseUrl}/repos/${owner}/${repo}`),
+                        fetch(`${this.baseUrl}/repos/${owner}/${repo}/releases?per_page=5`)
+                    ]);
+
+                    if (!repoData.ok || !releasesData.ok) {
+                        throw new Error('Failed to fetch data');
+                    }
+
+                    return {
+                        repo: await repoData.json(),
+                        releases: await releasesData.json()
+                    };
+                } catch (error) {
+                    console.error('GitHub API Error:', error);
+                    return this.getMockData();
+                }
+            }
+
+            // Mock data for demo/fallback
+            getMockData() {
+                return {
+                    repo: {
+                        name: 'Demo Repository',
+                        stargazers_count: Math.floor(Math.random() * 1000) + 100,
+                        forks_count: Math.floor(Math.random() * 100) + 20,
+                        watchers_count: Math.floor(Math.random() * 500) + 50,
+                        open_issues_count: Math.floor(Math.random() * 20) + 5,
+                        language: 'JavaScript',
+                        updated_at: new Date().toISOString()
+                    },
+                    releases: [
+                        { tag_name: 'v1.2.3', published_at: new Date().toISOString(), name: 'Latest Release' }
+                    ]
+                };
+            }
+        }
+
+        // Enhanced real-time updates with optional GitHub integration
+        const api = new DevOpsAPI();
+        
+        async function loadRealData() {
+            const githubRepo = localStorage.getItem('github_repo') || 'microsoft/vscode'; // Default to public repo
+            const [owner, repo] = githubRepo.split('/');
+
+            if (owner && repo) {
+                try {
+                    // Load real GitHub data (public only)
+                    const githubData = await api.getGitHubMetrics(owner, repo);
+                    updateGitHubMetrics(githubData);
+                } catch (error) {
+                    console.error('Error loading GitHub data:', error);
+                    // Continue with demo data
+                    updateMetrics();
+                }
+            } else {
+                // Use demo data
+                updateMetrics();
+            }
+        }
+
+        function updateGitHubMetrics(data) {
+            if (data.repo) {
+                // Update metrics with real GitHub data
+                document.querySelector('.status-value').textContent = data.repo.stargazers_count;
+                document.querySelectorAll('.status-value')[1].textContent = data.repo.forks_count;
+                document.querySelectorAll('.status-value')[2].textContent = data.repo.watchers_count;
+                document.querySelectorAll('.status-value')[3].textContent = data.repo.open_issues_count;
+                
+                // Add activity for latest release
+                if (data.releases && data.releases.length > 0) {
+                    const latestRelease = data.releases[0];
+                    addActivityItem({
+                        icon: 'fas fa-tag',
+                        iconClass: 'success',
+                        title: `Released ${latestRelease.tag_name}`,
+                        description: latestRelease.name || 'New release available',
+                        time: new Date(latestRelease.published_at).toLocaleDateString()
+                    });
+                }
+            }
+        }
+
+        // Simple configuration (no backend required)
+        function openConfig() {
+            const repo = prompt('Enter GitHub repository (owner/repo):', localStorage.getItem('github_repo') || 'microsoft/vscode');
+            if (repo) {
+                localStorage.setItem('github_repo', repo);
+                loadRealData();
+                
+                addActivityItem({
+                    icon: 'fas fa-cog',
+                    iconClass: 'success',
+                    title: 'Configuration Updated',
+                    description: `Now monitoring ${repo}`,
+                    time: 'Just now'
+                });
+            }
+        }
+
+        function closeConfig() {
+            // Simple implementation - no modal needed
+        }
+
+        function saveConfig() {
+            // Simple implementation - already saved in openConfig
+        }
+
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
             initCharts();
             
-            // Auto-refresh every 30 seconds
+            // Load real data first
+            loadRealData();
+            
+            // Auto-refresh every 5 minutes for real data
+            setInterval(loadRealData, 300000);
+            
+            // Update demo data every 30 seconds as fallback
             setInterval(updateMetrics, 30000);
         });
     </script>

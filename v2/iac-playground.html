@@ -3,18 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IaC Playground | Platform Engineering Tools</title>
+    <title>Advanced IaC Playground | Platform Engineering Tools</title>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
     
-    <style>
+    <!-- Monaco Editor (VS Code Editor) -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
+    
+    <!-- D3.js for Architecture Visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- Mermaid for Diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <header class="header">
+        <div class="header-content">
+            <h1>
+                <i class="fas fa-code-branch"></i>
+                Advanced IaC Playground
+            </h1>
+            <div class="header-controls">
+                <a href="/v2/" class="btn secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Tools
+                </a>
+                <button class="btn" onclick="saveCode()">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button class="btn success" onclick="validateCode()">
+                    <i class="fas fa-check-circle"></i>
+                    Validate
+                </button>
+                <button class="btn warning" onclick="scanSecurity()">
+                    <i class="fas fa-shield-alt"></i>
+                    Security Scan
+                </button>
+                <button class="btn" onclick="deployCode()">
+                    <i class="fas fa-rocket"></i>
+                    Deploy
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar with templates and tools -->
+        <div class="sidebar">
+            <h3 style="margin-bottom: 1rem; color: var(--accent-blue);">
+                <i class="fas fa-layer-group"></i>
+                Quick Templates
+            </h3>
+            
+            <div class="template-grid">
+                <!-- Azure VM with Private Endpoint -->
+                <div class="template-card" onclick="loadTemplate('azure-vm-secure')">
+                    <div class="template-icon" style="background: var(--accent-blue);">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="template-title">Secure Azure VM</div>
+                    <div class="template-description">VM with private endpoint, NSG, and managed identity</div>
+                </div>
+
+                <!-- Azure App Service with VNet -->
+                <div class="template-card" onclick="loadTemplate('azure-app-service-vnet')">
+                    <div class="template-icon" style="background: var(--accent-green);">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="template-title">App Service + VNet</div>
+                    <div class="template-description">Private App Service with VNet integration</div>
+                </div>
+
+                <!-- Azure Storage with Private Link -->
+                <div class="template-card" onclick="loadTemplate('azure-storage-private')">
+                    <div class="template-icon" style="background: var(--accent-purple);">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="template-title">Private Storage</div>
+                    <div class="template-description">Storage account with private endpoints</div>
+                </div>
+
+                <!-- AKS with Private Cluster -->
+                <div class="template-card" onclick="loadTemplate('azure-aks-private')">
+                    <div class="template-icon" style="background: var(--accent-yellow);">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <div class="template-title">Private AKS</div>
+                    <div class="template-description">Private AKS cluster with network policies</div>
+                </div>
+
+                <!-- Azure SQL with Private Endpoint -->
+                <div class="template-card" onclick="loadTemplate('azure-sql-private')">
+                    <div class="template-icon" style="background: var(--error);">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="template-title">Private Azure SQL</div>
+                    <div class="template-description">SQL Database with private endpoint</div>
+                </div>
+
+                <!-- Zero Trust Network -->
+                <div class="template-card" onclick="loadTemplate('azure-zero-trust')">
+                    <div class="template-icon" style="background: var(--accent-blue);">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="template-title">Zero Trust Network</div>
+                    <div class="template-description">Complete zero trust architecture</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Language</h4>
+                <select id="languageSelect" onchange="changeLanguage()" style="width: 100%; padding: 0.5rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary);">
+                    <option value="terraform">Terraform (HCL)</option>
+                    <option value="bicep">Azure Bicep</option>
+                    <option value="arm">ARM Template</option>
+                    <option value="yaml">Azure Pipelines YAML</option>
+                </select>
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Settings</h4>
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="autoValidate" checked onchange="toggleAutoValidate()">
+                    <span style="font-size: 0.9rem;">Auto-validate on change</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="autoVisualize" checked onchange="toggleAutoVisualize()">
+                    <span style="font-size: 0.9rem;">Auto-generate diagrams</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="securityScanning" checked onchange="toggleSecurityScanning()">
+                    <span style="font-size: 0.9rem;">Real-time security scan</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="btn-group">
+                <button class="btn secondary" onclick="newFile()">
+                    <i class="fas fa-file"></i>
+                    New
+                </button>
+                <button class="btn secondary" onclick="openFile()">
+                    <i class="fas fa-folder-open"></i>
+                    Open
+                </button>
+                <button class="btn secondary" onclick="downloadCode()">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+            </div>
+            <div class="btn-group">
+                <button class="btn secondary" onclick="formatCode()">
+                    <i class="fas fa-align-left"></i>
+                    Format
+                </button>
+                <button class="btn secondary" onclick="findReplace()">
+                    <i class="fas fa-search"></i>
+                    Find/Replace
+                </button>
+            </div>
+            <div style="margin-left: auto;">
+                <span id="editorStatus" style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Ready • <span id="lineCol">Ln 1, Col 1</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Main workspace -->
+        <div class="workspace">
+            <!-- Code editor panel -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fas fa-code"></i>
+                        Code Editor
+                    </div>
+                    <div class="panel-controls">
+                        <button class="panel-btn active" data-mode="terraform">Terraform</button>
+                        <button class="panel-btn" data-mode="bicep">Bicep</button>
+                        <button class="panel-btn" data-mode="arm">ARM</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <div id="editor"></div>
+                </div>
+                <div class="validation-results" id="validationResults">
+                    <div class="validation-item success">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Ready to write infrastructure code...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization panel -->
+            <div class="visualization-panel">
+                <div class="tabs">
+                    <div class="tab active" data-tab="architecture">
+                        <i class="fas fa-project-diagram"></i>
+                        Architecture
+                    </div>
+                    <div class="tab" data-tab="security">
+                        <i class="fas fa-shield-alt"></i>
+                        Security
+                    </div>
+                    <div class="tab" data-tab="costs">
+                        <i class="fas fa-dollar-sign"></i>
+                        Cost Estimate
+                    </div>
+                    <div class="tab" data-tab="docs">
+                        <i class="fas fa-book"></i>
+                        Documentation
+                    </div>
+                </div>
+
+                <!-- Architecture Visualization Tab -->
+                <div class="tab-content active" id="architecture">
+                    <div class="visualization-container">
+                        <div id="architecture-diagram" class="loading">
+                            <i class="fas fa-spinner"></i>
+                            Generating architecture diagram...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Scanning Tab -->
+                <div class="tab-content" id="security">
+                    <div class="visualization-container">
+                        <div id="security-results">
+                            <div class="security-scan-results">
+                                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Security Analysis</h4>
+                                <div class="security-item low">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <div>
+                                        <strong>Security Baseline</strong><br>
+                                        <small>No security issues detected. Load a template to see detailed analysis.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cost Estimation Tab -->
+                <div class="tab-content" id="costs">
+                    <div class="visualization-container">
+                        <div id="cost-estimation">
+                            <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Cost Estimation</h4>
+                            <p style="color: var(--text-secondary);">Load a template to see estimated monthly costs...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documentation Tab -->
+                <div class="tab-content" id="docs">
+                    <div class="visualization-container">
+                        <div id="documentation">
+                            <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Generated Documentation</h4>
+                            <p style="color: var(--text-secondary);">Documentation will be auto-generated based on your infrastructure code...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
         :root {
             --primary-bg: #0a0e27;
             --secondary-bg: #1a1f3a;
@@ -76,6 +332,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .header h1 {
@@ -90,6 +348,7 @@
             display: flex;
             gap: 1rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -98,6 +357,368 @@
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent-purple);
+            transform: translateY(-1px);
+        }
+
+        .btn.secondary {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn.success {
+            background: var(--success);
+        }
+
+        .btn.danger {
+            background: var(--error);
+        }
+
+        .btn.warning {
+            background: var(--warning);
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            height: calc(100vh - 80px);
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 1rem;
+        }
+
+        .sidebar {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            overflow-y: auto;
+            grid-row: 1 / -1;
+        }
+
+        .toolbar {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            min-height: 0;
+        }
+
+        .editor-panel, .visualization-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .panel-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .panel-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .panel-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .panel-btn:hover, .panel-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .editor-container {
+            flex: 1;
+            min-height: 0;
+            position: relative;
+        }
+
+        #editor {
+            height: 100%;
+            width: 100%;
+        }
+
+        .validation-results {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .validation-item {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .validation-item.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--error);
+            color: #fca5a5;
+        }
+
+        .validation-item.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--warning);
+            color: #fcd34d;
+        }
+
+        .validation-item.success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--success);
+            color: #86efac;
+        }
+
+        .validation-item.info {
+            background: rgba(0, 217, 255, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            color: #7dd3fc;
+        }
+
+        .visualization-container {
+            flex: 1;
+            padding: 1rem;
+            overflow: auto;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1rem;
+            height: calc(100% - 60px);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .template-card {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .template-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .template-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .template-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .template-description {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .security-scan-results {
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid;
+        }
+
+        .security-item.critical {
+            background: rgba(220, 38, 38, 0.1);
+            border-color: #dc2626;
+        }
+
+        .security-item.high {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--error);
+        }
+
+        .security-item.medium {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--warning);
+        }
+
+        .security-item.low {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: var(--success);
+        }
+
+        .mermaid {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        #architecture-svg {
+            width: 100%;
+            height: 100%;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: var(--text-secondary);
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto 1fr;
+            }
+
+            .sidebar {
+                grid-row: auto;
+                max-height: 300px;
+            }
+
+            .workspace {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0.5rem;
+                height: auto;
+                min-height: calc(100vh - 80px);
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .workspace {
+                grid-template-rows: auto auto;
+                min-height: 800px;
+            }
+
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -926,17 +1547,1036 @@ spec:
                 document.addEventListener('mousemove', (e) => {
                     if (isDragging) {
                         e.preventDefault();
-                        currentX = e.clientX - initialX;
-                        currentY = e.clientY - initialY;
-                        node.style.left = currentX + 'px';
-                        node.style.top = currentY + 'px';
+        // Global variables
+        let editor;
+        let currentLanguage = 'terraform';
+        let autoValidate = true;
+        let autoVisualize = true;
+        let securityScanning = true;
+
+        // Initialize Monaco Editor
+        function initEditor() {
+            require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' } });
+            require(['vs/editor/editor.main'], function () {
+                editor = monaco.editor.create(document.getElementById('editor'), {
+                    value: getDefaultTemplate('terraform'),
+                    language: 'hcl', // Terraform language
+                    theme: 'vs-dark',
+                    automaticLayout: true,
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    lineNumbers: 'on',
+                    wordWrap: 'on',
+                    scrollBeyondLastLine: false
+                });
+
+                // Listen for changes
+                editor.onDidChangeModelContent(() => {
+                    updateStatus();
+                    if (autoValidate) {
+                        debounce(validateCode, 1000)();
+                    }
+                    if (autoVisualize) {
+                        debounce(generateArchitectureDiagram, 1500)();
+                    }
+                    if (securityScanning) {
+                        debounce(scanSecurity, 2000)();
                     }
                 });
 
-                document.addEventListener('mouseup', () => {
-                    isDragging = false;
+                // Initial validation and visualization
+                validateCode();
+                generateArchitectureDiagram();
+                scanSecurity();
+            });
+        }
+
+        // Debounce function to prevent too many API calls
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Get default template for each language
+        function getDefaultTemplate(language) {
+            const templates = {
+                terraform: `# Azure Resource Group with Security Best Practices
+resource "azurerm_resource_group" "main" {
+  name     = "rg-secure-workload"
+  location = "East US"
+
+  tags = {
+    Environment = "Production"
+    Project     = "SecureInfra"
+  }
+}
+
+# Virtual Network with proper segmentation
+resource "azurerm_virtual_network" "main" {
+  name                = "vnet-secure"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  tags = azurerm_resource_group.main.tags
+}
+
+# Private subnet for workloads
+resource "azurerm_subnet" "private" {
+  name                 = "subnet-private"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = ["10.0.1.0/24"]
+}`,
+
+                bicep: `// Azure Resource Group with Security Best Practices
+param location string = resourceGroup().location
+param environment string = 'Production'
+
+// Virtual Network with proper segmentation
+resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
+  name: 'vnet-secure'
+  location: location
+  properties: {
+    addressSpace: {
+      addressPrefixes: [
+        '10.0.0.0/16'
+      ]
+    }
+    subnets: [
+      {
+        name: 'subnet-private'
+        properties: {
+          addressPrefix: '10.0.1.0/24'
+          privateEndpointNetworkPolicies: 'Disabled'
+        }
+      }
+    ]
+  }
+  tags: {
+    Environment: environment
+    Project: 'SecureInfra'
+  }
+}
+
+// Network Security Group with default deny
+resource nsg 'Microsoft.Network/networkSecurityGroups@2023-05-01' = {
+  name: 'nsg-secure'
+  location: location
+  properties: {
+    securityRules: [
+      {
+        name: 'DenyAllInbound'
+        properties: {
+          protocol: '*'
+          sourcePortRange: '*'
+          destinationPortRange: '*'
+          sourceAddressPrefix: '*'
+          destinationAddressPrefix: '*'
+          access: 'Deny'
+          priority: 4096
+          direction: 'Inbound'
+        }
+      }
+    ]
+  }
+}`,
+
+                arm: `{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "environment": {
+      "type": "string",
+      "defaultValue": "Production"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2023-05-01",
+      "name": "vnet-secure",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": ["10.0.0.0/16"]
+        },
+        "subnets": [
+          {
+            "name": "subnet-private",
+            "properties": {
+              "addressPrefix": "10.0.1.0/24",
+              "privateEndpointNetworkPolicies": "Disabled"
+            }
+          }
+        ]
+      },
+      "tags": {
+        "Environment": "[parameters('environment')]",
+        "Project": "SecureInfra"
+      }
+    }
+  ]
+}`
+            };
+            return templates[language] || templates.terraform;
+        }
+
+        // Template library with security best practices
+        const secureTemplates = {
+            'azure-vm-secure': {
+                terraform: `# Secure Azure VM with Private Endpoint
+resource "azurerm_resource_group" "main" {
+  name     = "rg-secure-vm"
+  location = "East US"
+}
+
+resource "azurerm_virtual_network" "main" {
+  name                = "vnet-secure"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_subnet" "vm" {
+  name                 = "subnet-vm"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+resource "azurerm_network_security_group" "vm" {
+  name                = "nsg-vm"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "10.0.0.0/16"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_user_assigned_identity" "vm" {
+  name                = "id-vm"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+}
+
+resource "azurerm_linux_virtual_machine" "main" {
+  name                = "vm-secure"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  size                = "Standard_B2s"
+  admin_username      = "adminuser"
+  disable_password_authentication = true
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.vm.id]
+  }
+
+  network_interface_ids = [
+    azurerm_network_interface.main.id,
+  ]
+
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+    disk_encryption_set_id = azurerm_disk_encryption_set.main.id
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2"
+    version   = "latest"
+  }
+}`,
+                bicep: `// Secure Azure VM with Managed Identity
+param location string = resourceGroup().location
+param vmSize string = 'Standard_B2s'
+param adminUsername string = 'adminuser'
+
+resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
+  name: 'vnet-secure'
+  location: location
+  properties: {
+    addressSpace: {
+      addressPrefixes: ['10.0.0.0/16']
+    }
+    subnets: [
+      {
+        name: 'subnet-vm'
+        properties: {
+          addressPrefix: '10.0.1.0/24'
+        }
+      }
+    ]
+  }
+}
+
+resource nsg 'Microsoft.Network/networkSecurityGroups@2023-05-01' = {
+  name: 'nsg-vm'
+  location: location
+  properties: {
+    securityRules: [
+      {
+        name: 'SSH'
+        properties: {
+          priority: 1001
+          direction: 'Inbound'
+          access: 'Allow'
+          protocol: 'Tcp'
+          sourcePortRange: '*'
+          destinationPortRange: '22'
+          sourceAddressPrefix: '10.0.0.0/16'
+          destinationAddressPrefix: '*'
+        }
+      }
+    ]
+  }
+}
+
+resource vmIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: 'id-vm'
+  location: location
+}
+
+resource vm 'Microsoft.Compute/virtualMachines@2023-07-01' = {
+  name: 'vm-secure'
+  location: location
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${vmIdentity.id}': {}
+    }
+  }
+  properties: {
+    hardwareProfile: {
+      vmSize: vmSize
+    }
+    osProfile: {
+      computerName: 'vm-secure'
+      adminUsername: adminUsername
+      linuxConfiguration: {
+        disablePasswordAuthentication: true
+      }
+    }
+    storageProfile: {
+      osDisk: {
+        createOption: 'FromImage'
+        managedDisk: {
+          storageAccountType: 'Premium_LRS'
+        }
+      }
+      imageReference: {
+        publisher: 'Canonical'
+        offer: '0001-com-ubuntu-server-focal'
+        sku: '20_04-lts-gen2'
+        version: 'latest'
+      }
+    }
+  }
+}`
+            },
+            'azure-storage-private': {
+                terraform: `# Azure Storage with Private Endpoint
+resource "azurerm_resource_group" "main" {
+  name     = "rg-storage-private"
+  location = "East US"
+}
+
+resource "azurerm_virtual_network" "main" {
+  name                = "vnet-storage"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_subnet" "storage" {
+  name                 = "subnet-storage"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+resource "azurerm_storage_account" "main" {
+  name                     = "stsecure${random_string.suffix.result}"
+  resource_group_name      = azurerm_resource_group.main.name
+  location                 = azurerm_resource_group.main.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  
+  # Security settings
+  public_network_access_enabled = false
+  allow_nested_items_to_be_public = false
+  
+  blob_properties {
+    versioning_enabled = true
+    delete_retention_policy {
+      days = 30
+    }
+  }
+  
+  tags = {
+    Environment = "Production"
+    Security    = "Private"
+  }
+}
+
+resource "random_string" "suffix" {
+  length  = 8
+  special = false
+  upper   = false
+}
+
+resource "azurerm_private_endpoint" "storage" {
+  name                = "pe-storage"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  subnet_id           = azurerm_subnet.storage.id
+
+  private_service_connection {
+    name                           = "psc-storage"
+    private_connection_resource_id = azurerm_storage_account.main.id
+    subresource_names              = ["blob"]
+    is_manual_connection           = false
+  }
+}`
+            },
+            'azure-aks-private': {
+                terraform: `# Private AKS Cluster with Network Policies
+resource "azurerm_resource_group" "main" {
+  name     = "rg-aks-private"
+  location = "East US"
+}
+
+resource "azurerm_virtual_network" "main" {
+  name                = "vnet-aks"
+  address_space       = ["10.0.0.0/8"]
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_subnet" "aks" {
+  name                 = "subnet-aks"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = ["10.240.0.0/16"]
+}
+
+resource "azurerm_user_assigned_identity" "aks" {
+  name                = "id-aks"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+}
+
+resource "azurerm_kubernetes_cluster" "main" {
+  name                = "aks-private"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  dns_prefix          = "aks-private"
+  
+  # Private cluster settings
+  private_cluster_enabled = true
+  private_dns_zone_id     = "System"
+  
+  default_node_pool {
+    name           = "default"
+    node_count     = 3
+    vm_size        = "Standard_D2s_v3"
+    vnet_subnet_id = azurerm_subnet.aks.id
+    
+    # Security settings
+    enable_auto_scaling = true
+    min_count          = 1
+    max_count          = 5
+    os_disk_type       = "Ephemeral"
+  }
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.aks.id]
+  }
+
+  network_profile {
+    network_plugin = "azure"
+    network_policy = "calico"
+    service_cidr   = "10.0.0.0/16"
+    dns_service_ip = "10.0.0.10"
+  }
+
+  tags = {
+    Environment = "Production"
+    Security    = "Private"
+  }
+}`
+            }
+        };
+
+        // Load template function
+        function loadTemplate(templateKey) {
+            const template = secureTemplates[templateKey];
+            if (template && template[currentLanguage]) {
+                editor.setValue(template[currentLanguage]);
+                
+                // Show success message
+                showNotification(`Loaded ${templateKey} template for ${currentLanguage}`, 'success');
+                
+                // Trigger validation and visualization
+                validateCode();
+                generateArchitectureDiagram();
+                scanSecurity();
+            }
+        }
+
+        // Real-time syntax validation (client-side only)
+        function validateCode() {
+            const code = editor.getValue();
+            const results = validateSyntax(code, currentLanguage);
+            displayValidationResults(results);
+        }
+
+        // Client-side syntax validation
+        function validateSyntax(code, language) {
+            const results = { errors: [], warnings: [], info: [] };
+            const lines = code.split('\n');
+
+            if (language === 'terraform') {
+                lines.forEach((line, index) => {
+                    const lineNum = index + 1;
+                    
+                    // Check for resource blocks
+                    if (line.includes('resource') && !line.match(/resource\s+"[^"]+"\s+"[^"]+"/)) {
+                        if (line.trim().startsWith('resource') && !line.includes('{')) {
+                            results.errors.push({
+                                line: lineNum,
+                                message: 'Invalid resource declaration syntax',
+                                severity: 'error'
+                            });
+                        }
+                    }
+                    
+                    // Security checks
+                    if (line.includes('public_network_access_enabled') && line.includes('true')) {
+                        results.warnings.push({
+                            line: lineNum,
+                            message: 'Consider disabling public network access for security',
+                            severity: 'warning'
+                        });
+                    }
+                    
+                    if (line.includes('disable_password_authentication') && line.includes('false')) {
+                        results.warnings.push({
+                            line: lineNum,
+                            message: 'Password authentication should be disabled for VMs',
+                            severity: 'warning'
+                        });
+                    }
+                    
+                    // Best practices
+                    if (line.includes('location') && line.includes('=') && !line.includes('azurerm_resource_group')) {
+                        results.info.push({
+                            line: lineNum,
+                            message: 'Consider using resource group location reference',
+                            severity: 'info'
+                        });
+                    }
+                });
+            } else if (language === 'bicep') {
+                lines.forEach((line, index) => {
+                    const lineNum = index + 1;
+                    
+                    // Check for resource declarations
+                    if (line.includes('resource') && !line.match(/resource\s+\w+\s+'[^']+'/)) {
+                        if (line.trim().startsWith('resource') && !line.includes('=')) {
+                            results.errors.push({
+                                line: lineNum,
+                                message: 'Invalid Bicep resource declaration syntax',
+                                severity: 'error'
+                            });
+                        }
+                    }
+                    
+                    // Security checks for Bicep
+                    if (line.includes('publicNetworkAccess') && line.includes('Enabled')) {
+                        results.warnings.push({
+                            line: lineNum,
+                            message: 'Consider disabling public network access',
+                            severity: 'warning'
+                        });
+                    }
+                });
+            }
+
+            return results;
+        }
+
+        // Display validation results
+        function displayValidationResults(results) {
+            const container = document.getElementById('validationResults');
+            container.innerHTML = '';
+
+            const allIssues = [...results.errors, ...results.warnings, ...results.info];
+            
+            if (allIssues.length === 0) {
+                container.innerHTML = `
+                    <div class="validation-item success">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No syntax issues found. Code looks good!</span>
+                    </div>
+                `;
+                return;
+            }
+
+            allIssues.forEach(issue => {
+                const item = document.createElement('div');
+                item.className = `validation-item ${issue.severity}`;
+                
+                const icon = issue.severity === 'error' ? 'fas fa-times-circle' :
+                           issue.severity === 'warning' ? 'fas fa-exclamation-triangle' :
+                           'fas fa-info-circle';
+                
+                item.innerHTML = `
+                    <i class="${icon}"></i>
+                    <span>Line ${issue.line}: ${issue.message}</span>
+                `;
+                
+                // Add click to jump to line
+                item.style.cursor = 'pointer';
+                item.onclick = () => {
+                    editor.setPosition({ lineNumber: issue.line, column: 1 });
+                    editor.focus();
+                };
+                
+                container.appendChild(item);
+            });
+        }
+
+        // Generate architecture diagram using Mermaid
+        function generateArchitectureDiagram() {
+            const code = editor.getValue();
+            const diagram = parseCodeToMermaid(code, currentLanguage);
+            
+            const container = document.getElementById('architecture-diagram');
+            container.innerHTML = `<div class="mermaid">${diagram}</div>`;
+            
+            // Re-render mermaid diagrams
+            if (typeof mermaid !== 'undefined') {
+                mermaid.init(undefined, container.querySelector('.mermaid'));
+            }
+        }
+
+        // Parse infrastructure code to Mermaid diagram
+        function parseCodeToMermaid(code, language) {
+            const resources = extractResources(code, language);
+            
+            if (resources.length === 0) {
+                return `graph TD
+                    A[Start coding to see architecture diagram]
+                    A --> B[Add resources to visualize relationships]
+                    B --> C[Real-time diagram generation]`;
+            }
+
+            let diagram = 'graph TD\n';
+            const connections = [];
+            
+            resources.forEach((resource, index) => {
+                const nodeId = `${resource.type}_${index}`;
+                const label = `${resource.name}\\n[${resource.type}]`;
+                diagram += `    ${nodeId}["${label}"]\n`;
+                
+                // Add styling based on resource type
+                if (resource.type.includes('security') || resource.type.includes('nsg')) {
+                    diagram += `    ${nodeId} --> ${nodeId}_style[Security Layer]\n`;
+                    diagram += `    classDef security fill:#ef4444,stroke:#fff,stroke-width:2px\n`;
+                    diagram += `    class ${nodeId} security\n`;
+                } else if (resource.type.includes('network') || resource.type.includes('vnet')) {
+                    diagram += `    classDef network fill:#00d9ff,stroke:#fff,stroke-width:2px\n`;
+                    diagram += `    class ${nodeId} network\n`;
+                } else if (resource.type.includes('compute') || resource.type.includes('vm')) {
+                    diagram += `    classDef compute fill:#10b981,stroke:#fff,stroke-width:2px\n`;
+                    diagram += `    class ${nodeId} compute\n`;
+                }
+            });
+
+            return diagram;
+        }
+
+        // Extract resources from code
+        function extractResources(code, language) {
+            const resources = [];
+            const lines = code.split('\n');
+
+            if (language === 'terraform') {
+                lines.forEach(line => {
+                    const resourceMatch = line.match(/resource\s+"([^"]+)"\s+"([^"]+)"/);
+                    if (resourceMatch) {
+                        resources.push({
+                            type: resourceMatch[1],
+                            name: resourceMatch[2]
+                        });
+                    }
+                });
+            } else if (language === 'bicep') {
+                lines.forEach(line => {
+                    const resourceMatch = line.match(/resource\s+(\w+)\s+'([^']+)'/);
+                    if (resourceMatch) {
+                        resources.push({
+                            type: resourceMatch[2],
+                            name: resourceMatch[1]
+                        });
+                    }
+                });
+            }
+
+            return resources;
+        }
+
+        // Security scanning
+        function scanSecurity() {
+            const code = editor.getValue();
+            const issues = performSecurityScan(code, currentLanguage);
+            displaySecurityResults(issues);
+        }
+
+        // Perform security analysis
+        function performSecurityScan(code, language) {
+            const issues = [];
+            const lines = code.split('\n');
+
+            const securityRules = [
+                {
+                    pattern: /public_network_access_enabled\s*=\s*true/,
+                    message: 'Public network access enabled - consider private endpoints',
+                    severity: 'high'
+                },
+                {
+                    pattern: /allow_nested_items_to_be_public\s*=\s*true/,
+                    message: 'Public blob access allowed - security risk',
+                    severity: 'high'
+                },
+                {
+                    pattern: /disable_password_authentication\s*=\s*false/,
+                    message: 'Password authentication enabled - use SSH keys',
+                    severity: 'medium'
+                },
+                {
+                    pattern: /private_cluster_enabled\s*=\s*false/,
+                    message: 'AKS cluster not private - expose attack surface',
+                    severity: 'high'
+                },
+                {
+                    pattern: /source_address_prefix\s*=\s*"\*"/,
+                    message: 'Security rule allows traffic from any source',
+                    severity: 'critical'
+                },
+                {
+                    pattern: /account_replication_type\s*=\s*"LRS"/,
+                    message: 'Consider geo-redundant storage for production',
+                    severity: 'low'
+                }
+            ];
+
+            lines.forEach((line, index) => {
+                securityRules.forEach(rule => {
+                    if (rule.pattern.test(line)) {
+                        issues.push({
+                            line: index + 1,
+                            message: rule.message,
+                            severity: rule.severity,
+                            rule: rule.pattern.source
+                        });
+                    }
                 });
             });
+
+            // Add positive findings
+            if (code.includes('private_endpoint')) {
+                issues.push({
+                    line: 0,
+                    message: 'Private endpoints configured - good security practice',
+                    severity: 'low',
+                    positive: true
+                });
+            }
+
+            if (code.includes('network_security_group')) {
+                issues.push({
+                    line: 0,
+                    message: 'Network security groups configured',
+                    severity: 'low',
+                    positive: true
+                });
+            }
+
+            return issues;
+        }
+
+        // Display security scan results
+        function displaySecurityResults(issues) {
+            const container = document.getElementById('security-results');
+            
+            let html = '<div class="security-scan-results">';
+            html += '<h4 style="margin-bottom: 1rem; color: var(--text-primary);">Security Analysis</h4>';
+
+            if (issues.length === 0) {
+                html += `
+                    <div class="security-item low">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <strong>No Security Issues Found</strong><br>
+                            <small>Your infrastructure configuration follows security best practices.</small>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const criticalIssues = issues.filter(i => i.severity === 'critical' && !i.positive);
+                const highIssues = issues.filter(i => i.severity === 'high' && !i.positive);
+                const mediumIssues = issues.filter(i => i.severity === 'medium' && !i.positive);
+                const lowIssues = issues.filter(i => i.severity === 'low' && !i.positive);
+                const positiveFindings = issues.filter(i => i.positive);
+
+                // Summary
+                html += `
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                        <div style="background: var(--error); padding: 0.5rem; border-radius: 4px; text-align: center;">
+                            <div style="font-weight: bold;">${criticalIssues.length}</div>
+                            <div style="font-size: 0.8rem;">Critical</div>
+                        </div>
+                        <div style="background: var(--warning); padding: 0.5rem; border-radius: 4px; text-align: center;">
+                            <div style="font-weight: bold;">${highIssues.length}</div>
+                            <div style="font-size: 0.8rem;">High</div>
+                        </div>
+                        <div style="background: var(--accent-yellow); padding: 0.5rem; border-radius: 4px; text-align: center;">
+                            <div style="font-weight: bold;">${mediumIssues.length}</div>
+                            <div style="font-size: 0.8rem;">Medium</div>
+                        </div>
+                        <div style="background: var(--success); padding: 0.5rem; border-radius: 4px; text-align: center;">
+                            <div style="font-weight: bold;">${positiveFindings.length}</div>
+                            <div style="font-size: 0.8rem;">Good</div>
+                        </div>
+                    </div>
+                `;
+
+                // List all issues
+                [...criticalIssues, ...highIssues, ...mediumIssues, ...lowIssues, ...positiveFindings].forEach(issue => {
+                    const icon = issue.positive ? 'fas fa-check-circle' :
+                               issue.severity === 'critical' ? 'fas fa-exclamation-triangle' :
+                               issue.severity === 'high' ? 'fas fa-times-circle' :
+                               'fas fa-info-circle';
+                    
+                    html += `
+                        <div class="security-item ${issue.severity}" style="cursor: pointer;" onclick="jumpToLine(${issue.line})">
+                            <i class="${icon}"></i>
+                            <div>
+                                <strong>${issue.severity.toUpperCase()}</strong>${issue.line > 0 ? ` (Line ${issue.line})` : ''}<br>
+                                <small>${issue.message}</small>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Utility functions
+        function jumpToLine(line) {
+            if (line > 0) {
+                editor.setPosition({ lineNumber: line, column: 1 });
+                editor.focus();
+            }
+        }
+
+        function changeLanguage() {
+            const select = document.getElementById('languageSelect');
+            currentLanguage = select.value;
+            
+            // Update editor language
+            const languageMap = {
+                'terraform': 'hcl',
+                'bicep': 'bicep',
+                'arm': 'json',
+                'yaml': 'yaml'
+            };
+            
+            if (editor) {
+                monaco.editor.setModelLanguage(editor.getModel(), languageMap[currentLanguage] || 'hcl');
+                editor.setValue(getDefaultTemplate(currentLanguage));
+            }
+            
+            // Update panel buttons
+            document.querySelectorAll('.panel-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.mode === currentLanguage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function updateStatus() {
+            const position = editor.getPosition();
+            document.getElementById('lineCol').textContent = `Ln ${position.lineNumber}, Col ${position.column}`;
+        }
+
+        function showNotification(message, type = 'info') {
+            // Simple notification - could be enhanced with a toast library
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--success)' : 'var(--accent-blue)'};
+                color: white;
+                padding: 1rem;
+                border-radius: 8px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Mermaid
+            mermaid.initialize({ 
+                startOnLoad: false,
+                theme: 'dark',
+                themeVariables: {
+                    primaryColor: '#00d9ff',
+                    primaryTextColor: '#ffffff',
+                    primaryBorderColor: '#8b5cf6',
+                    lineColor: '#ffffff',
+                    sectionBkgColor: '#1a1f3a',
+                    altSectionBkgColor: '#0a0e27',
+                    gridColor: '#ffffff',
+                    secondaryColor: '#8b5cf6',
+                    tertiaryColor: '#10b981'
+                }
+            });
+            
+            // Initialize editor
+            initEditor();
+            
+            // Setup tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTab(tab.dataset.tab);
+                });
+            });
+            
+            // Setup panel mode switching
+            document.querySelectorAll('.panel-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const mode = btn.dataset.mode;
+                    if (mode) {
+                        document.getElementById('languageSelect').value = mode;
+                        changeLanguage();
+                    }
+                });
+            });
+        });
+
+        // Toolbar functions
+        function newFile() {
+            if (editor) {
+                editor.setValue(getDefaultTemplate(currentLanguage));
+                showNotification('New file created', 'success');
+            }
+        }
+
+        function saveCode() {
+            const code = editor.getValue();
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `infrastructure.${currentLanguage === 'terraform' ? 'tf' : currentLanguage === 'bicep' ? 'bicep' : 'json'}`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification('Code saved successfully', 'success');
+        }
+
+        function downloadCode() {
+            saveCode(); // Same as save for now
+        }
+
+        function formatCode() {
+            if (editor) {
+                editor.getAction('editor.action.formatDocument').run();
+                showNotification('Code formatted', 'success');
+            }
+        }
+
+        function findReplace() {
+            if (editor) {
+                editor.getAction('actions.find').run();
+            }
+        }
+
+        function deployCode() {
+            showNotification('🚀 Deployment simulation started!\n\nThis would typically:\n• Validate syntax\n• Plan infrastructure changes\n• Deploy to cloud provider\n• Monitor deployment status', 'info');
+        }
+
+        function toggleAutoValidate() {
+            autoValidate = document.getElementById('autoValidate').checked;
+        }
+
+        function toggleAutoVisualize() {
+            autoVisualize = document.getElementById('autoVisualize').checked;
+        }
+
+        function toggleSecurityScanning() {
+            securityScanning = document.getElementById('securityScanning').checked;
         }
 
         // Initialize on load
