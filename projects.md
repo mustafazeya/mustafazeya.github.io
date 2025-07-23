@@ -427,41 +427,23 @@ title: "My Projects"
 </section>
 
 <section class="section">
-    <h2 class="section-title">🛠️ Platform Engineering Tools</h2>
+    <h2 class="section-title">🛠️ Network Engineering Tool</h2>
     <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; backdrop-filter: blur(20px);">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
+        <div style="display: flex; justify-content: center;">
+            <div style="display: flex; align-items: center; gap: 1rem; max-width: 400px;">
                 <div style="background: var(--gradient-1); border-radius: 12px; padding: 1rem; flex-shrink: 0;">
                     <i class="fas fa-network-wired" style="font-size: 1.5rem; color: white;"></i>
                 </div>
                 <div>
                     <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">IP Subnet Calculator</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Advanced CIDR calculation and network planning tool</p>
-                </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="background: var(--gradient-2); border-radius: 12px; padding: 1rem; flex-shrink: 0;">
-                    <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: white;"></i>
-                </div>
-                <div>
-                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">SSL/TLS Certificate Viewer</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Real-time certificate analysis and validation</p>
-                </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="background: var(--gradient-3); border-radius: 12px; padding: 1rem; flex-shrink: 0;">
-                    <i class="fas fa-code" style="font-size: 1.5rem; color: white;"></i>
-                </div>
-                <div>
-                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">IaC Playground</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Interactive Terraform & Bicep editor with validation</p>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Advanced CIDR calculation and network planning tool with real-time updates</p>
                 </div>
             </div>
         </div>
         <div style="text-align: center; margin-top: 2rem;">
             <a href="/tools/" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-tools"></i>
-                Explore Interactive Tools
+                <i class="fas fa-calculator"></i>
+                Open Calculator
             </a>
         </div>
     </div>

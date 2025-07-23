@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Platform Engineering Tools | Mustafa Zeya</title>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="pre        .tools-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }t" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -456,7 +462,8 @@
             }
             
             .tools-grid {
-                grid-template-columns: 1fr;
+                max-width: 100%;
+                padding: 0 1rem;
             }
             
             .stats {
@@ -551,7 +558,7 @@
             </div>
         </a>
         <h1>Platform Engineering Tools</h1>
-        <p>Essential Network & Infrastructure Utilities</p>
+        <p>Essential Network & Infrastructure Calculator</p>
     </div>
 
     <div class="container">
@@ -576,48 +583,7 @@
                     Open Calculator
                 </a>
             </div>
-
-            <div class="tool-card">
-                <div class="tool-icon ssl">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <h3 class="tool-title">SSL/TLS Certificate Viewer</h3>
-                <p class="tool-description">
-                    Analyze SSL certificates for any domain. Check expiration dates, 
-                    issuer information, TLS versions, and cipher suites.
-                </p>
-                <ul class="tool-features">
-                    <li>Certificate expiration monitoring</li>
-                    <li>Issuer and chain validation</li>
-                    <li>TLS version and cipher analysis</li>
-                    <li>SSL Labs integration</li>
-                </ul>
-                <a href="ssl-checker.html" class="tool-btn">
-                    <i class="fas fa-search"></i>
-                    Check Certificate
-                </a>
-            </div>
-
-            <div class="tool-card">
-                <div class="tool-icon iac">
-                    <i class="fas fa-code"></i>
-                </div>
-                <h3 class="tool-title">IaC Playground</h3>
-                <p class="tool-description">
-                    Interactive playground for Terraform and Azure Bicep. Validate syntax, 
-                    lint configurations, and convert between formats.
-                </p>
-                <ul class="tool-features">
-                    <li>Terraform HCL validation & linting</li>
-                    <li>Bicep to ARM template conversion</li>
-                    <li>Syntax highlighting & error detection</li>
-                    <li>Security and best practice checks</li>
-                </ul>
-                <a href="iac-playground.html" class="tool-btn">
-                    <i class="fas fa-play"></i>
-                    Launch Playground
-                </a>
-            </div>
+        </div>
         </div>
 
         <div class="stats">
