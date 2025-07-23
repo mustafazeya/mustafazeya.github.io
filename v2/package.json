@@ -1,0 +1,65 @@
+{
+  "name": "platform-engineering-api-server",
+  "version": "1.0.0",
+  "description": "Backend API server for Platform Engineering Tools dashboard",
+  "main": "backend-server.js",
+  "scripts": {
+    "start": "node backend-server.js",
+    "dev": "nodemon backend-server.js",
+    "test": "jest",
+    "lint": "eslint .",
+    "docker:build": "docker build -t platform-api .",
+    "docker:run": "docker run -p 3001:3001 platform-api"
+  },
+  "keywords": [
+    "platform-engineering",
+    "devops",
+    "cloud",
+    "aws",
+    "azure",
+    "terraform",
+    "monitoring"
+  ],
+  "author": "Mustafa Zeya",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "express-rate-limit": "^6.10.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "aws-sdk": "^2.1467.0",
+    "@azure/identity": "^3.3.2",
+    "@azure/arm-costmanagement": "^1.0.0",
+    "@azure/arm-resources": "^5.2.0",
+    "@azure/arm-monitor": "^8.0.0",
+    "@octokit/rest": "^20.0.1",
+    "node-fetch": "^3.3.2",
+    "ws": "^8.13.0",
+    "redis": "^4.6.8",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.6.4",
+    "supertest": "^6.3.3",
+    "eslint": "^8.47.0",
+    "@types/node": "^20.5.9"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mustafazeya/platform-engineering-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mustafazeya/platform-engineering-tools/issues"
+  },
+  "homepage": "https://github.com/mustafazeya/platform-engineering-tools#readme"
+}
