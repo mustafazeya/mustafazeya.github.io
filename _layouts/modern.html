@@ -302,6 +302,7 @@
             transition: all 0.3s ease;
             z-index: 1000;
             margin-top: 0.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .theme-dropdown.active {
@@ -563,7 +564,19 @@
             }
 
             .theme-dropdown {
-                right: -50px;
+                right: 0;
+                left: auto;
+                min-width: 140px;
+                transform-origin: top right;
+            }
+
+            .theme-dropdown.active {
+                transform: translateY(0);
+            }
+
+            .theme-option {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
             }
 
             /* Mobile logo adjustments */
@@ -604,6 +617,33 @@
             .profile-image {
                 width: 150px !important;
                 height: 150px !important;
+            }
+        }
+
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 0.5rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+            }
+            
+            .theme-dropdown {
+                right: 0;
+                min-width: 130px;
+                margin-right: 0;
+            }
+            
+            .theme-option {
+                padding: 0.5rem 0.7rem;
+                font-size: 0.8rem;
+                gap: 0.5rem;
+            }
+            
+            .theme-btn {
+                padding: 0.3rem 0.6rem;
             }
         }
 
