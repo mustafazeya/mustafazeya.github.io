@@ -43,43 +43,43 @@
             --border-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* Cyberpunk Theme */
-        [data-theme="cyberpunk"] {
-            --primary-bg: #0d001a;
-            --secondary-bg: #1a0033;
-            --accent-blue: #00ffff;
-            --accent-purple: #ff00ff;
-            --accent-green: #00ff41;
-            --text-primary: #ffffff;
-            --text-secondary: #b3b3b3;
-            --card-bg: rgba(26, 0, 51, 0.8);
-            --border-color: rgba(0, 255, 255, 0.2);
-        }
-
-        /* Matrix Theme */
-        [data-theme="matrix"] {
-            --primary-bg: #000000;
-            --secondary-bg: #001100;
-            --accent-blue: #00ff41;
-            --accent-purple: #00ff41;
-            --accent-green: #00ff41;
-            --text-primary: #00ff41;
-            --text-secondary: #008f11;
-            --card-bg: rgba(0, 17, 0, 0.8);
-            --border-color: rgba(0, 255, 65, 0.2);
-        }
-
-        /* Ocean Theme */
-        [data-theme="ocean"] {
-            --primary-bg: #0c1445;
-            --secondary-bg: #1e3a8a;
-            --accent-blue: #60a5fa;
-            --accent-purple: #a78bfa;
-            --accent-green: #34d399;
-            --text-primary: #f1f5f9;
+        /* Azure Theme */
+        [data-theme="azure"] {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-blue: #0ea5e9;
+            --accent-purple: #3b82f6;
+            --accent-green: #06b6d4;
+            --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
-            --card-bg: rgba(30, 58, 138, 0.8);
-            --border-color: rgba(96, 165, 250, 0.2);
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --border-color: rgba(14, 165, 233, 0.2);
+        }
+
+        /* Sunset Theme */
+        [data-theme="sunset"] {
+            --primary-bg: #1a0f0a;
+            --secondary-bg: #2d1b15;
+            --accent-blue: #f97316;
+            --accent-purple: #dc2626;
+            --accent-green: #eab308;
+            --text-primary: #fef7ed;
+            --text-secondary: #fed7aa;
+            --card-bg: rgba(45, 27, 21, 0.8);
+            --border-color: rgba(249, 115, 22, 0.2);
+        }
+
+        /* Monochrome Theme */
+        [data-theme="monochrome"] {
+            --primary-bg: #111111;
+            --secondary-bg: #1f1f1f;
+            --accent-blue: #ffffff;
+            --accent-purple: #e5e5e5;
+            --accent-green: #d4d4d4;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --card-bg: rgba(31, 31, 31, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -660,17 +660,17 @@
                             <i class="fas fa-sun"></i>
                             <span>Light</span>
                         </div>
-                        <div class="theme-option" data-theme="cyberpunk">
-                            <i class="fas fa-robot"></i>
-                            <span>Cyberpunk</span>
+                        <div class="theme-option" data-theme="azure">
+                            <i class="fas fa-cloud"></i>
+                            <span>Azure</span>
                         </div>
-                        <div class="theme-option" data-theme="matrix">
-                            <i class="fas fa-code"></i>
-                            <span>Matrix</span>
+                        <div class="theme-option" data-theme="sunset">
+                            <i class="fas fa-mountain-sun"></i>
+                            <span>Sunset</span>
                         </div>
-                        <div class="theme-option" data-theme="ocean">
-                            <i class="fas fa-water"></i>
-                            <span>Ocean</span>
+                        <div class="theme-option" data-theme="monochrome">
+                            <i class="fas fa-circle-half-stroke"></i>
+                            <span>Monochrome</span>
                         </div>
                     </div>
                 </li>
@@ -765,17 +765,17 @@
                 const themeNames = {
                     dark: 'Dark',
                     light: 'Light',
-                    cyberpunk: 'Cyberpunk',
-                    matrix: 'Matrix',
-                    ocean: 'Ocean'
+                    azure: 'Azure',
+                    sunset: 'Sunset',
+                    monochrome: 'Monochrome'
                 };
                 
                 const themeIcons = {
                     dark: 'fas fa-moon',
                     light: 'fas fa-sun',
-                    cyberpunk: 'fas fa-robot',
-                    matrix: 'fas fa-code',
-                    ocean: 'fas fa-water'
+                    azure: 'fas fa-cloud',
+                    sunset: 'fas fa-mountain-sun',
+                    monochrome: 'fas fa-circle-half-stroke'
                 };
 
                 const icon = this.themeToggle.querySelector('i');
