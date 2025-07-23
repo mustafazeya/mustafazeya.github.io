@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Platform Engineering Tools v2 | Mustafa Zeya</title>
+    <title>Platform Engineering Tools | Mustafa Zeya</title>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -210,6 +210,32 @@
         .theme-option.active {
             background: var(--accent-blue);
             color: white;
+        }
+
+        .back-nav {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+        }
+
+        .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(20px);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .back-btn:hover {
+            color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            transform: translateX(-2px);
         }
 
         .logo {
@@ -442,6 +468,33 @@
                 right: 1rem;
             }
 
+            nav {
+                position: absolute !important;
+                top: 1rem !important;
+                left: 1rem !important;
+            }
+
+            nav a {
+                font-size: 0.9rem !important;
+            }
+
+            nav span {
+                display: none;
+            }
+
+            nav i {
+                margin-right: 0 !important;
+            }
+
+            .back-nav {
+                top: 1rem;
+                left: 1rem;
+            }
+
+            .back-btn span {
+                display: none;
+            }
+
             .theme-dropdown {
                 right: 0;
                 left: auto;
@@ -486,12 +539,18 @@
                 </div>
             </div>
         </div>
+        <nav class="back-nav">
+            <a href="/" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Portfolio</span>
+            </a>
+        </nav>
         <a href="/" class="logo">
             <div class="logo-icon">
                 <span class="bracket">[</span><span class="initials">MZ</span><span class="bracket">]</span>
             </div>
         </a>
-        <h1>Platform Engineering Tools v2</h1>
+        <h1>Platform Engineering Tools</h1>
         <p>Essential Network & Infrastructure Utilities</p>
     </div>
 
