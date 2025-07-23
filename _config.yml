@@ -1,1 +1,7 @@
-theme: jekyll-theme-time-machine
+title: Mohammad Zeyaul Mustafa – DevSecOps Engineer
+description: Portfolio and professional site of a DevSecOps engineer
+theme: jekyll-theme-cayman
+author: Zeyaul Mustafa
+email: your.email@example.com
+baseurl: "" # for user.github.io
+url: "https://mustafazeya.online"
