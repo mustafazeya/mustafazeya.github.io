@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Cost Optimizer | Platform Engineering Tools</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-bg: #0a0e27;
+            --secondary-bg: #1a1f3a;
+            --accent-blue: #00d9ff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --card-bg: rgba(26, 31, 58, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(600px circle at 20% 30%, var(--accent-blue), transparent),
+                radial-gradient(800px circle at 80% 70%, var(--accent-purple), transparent);
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .header {
+            padding: 1rem 0;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent-purple);
+            transform: translateY(-1px);
+        }
+
+        .btn.secondary {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cost-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cost-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-blue);
+        }
+
+        .cost-card.savings::before {
+            background: var(--success);
+        }
+
+        .cost-card.warning::before {
+            background: var(--warning);
+        }
+
+        .cost-card.error::before {
+            background: var(--error);
+        }
+
+        .cost-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .cost-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cost-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .cost-change.positive {
+            color: var(--success);
+        }
+
+        .cost-change.negative {
+            color: var(--error);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+        }
+
+        .recommendations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .recommendation-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .recommendation-type {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .recommendation-savings {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recommendation-description {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .recommendation-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .recommendation-resource {
+            color: var(--accent-blue);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .recommendation-impact {
+            color: var(--text-secondary);
+        }
+
+        .provider-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .provider-tab {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .provider-tab.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .provider-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .cost-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .breakdown-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .breakdown-service {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .breakdown-cost {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .breakdown-percentage {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .calculator-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>
+                <i class="fas fa-dollar-sign"></i>
+                Cloud Cost Optimizer
+            </h1>
+            <div class="header-controls">
+                <button class="btn" onclick="analyzeCosts()">
+                    <i class="fas fa-search"></i>
+                    Analyze Costs
+                </button>
+                <a href="/v2/" class="btn secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Tools
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Provider Tabs -->
+        <div class="provider-tabs">
+            <div class="provider-tab active" onclick="switchProvider('azure')">
+                <i class="fab fa-microsoft"></i>
+                Azure
+            </div>
+            <div class="provider-tab" onclick="switchProvider('aws')">
+                <i class="fab fa-aws"></i>
+                AWS
+            </div>
+            <div class="provider-tab" onclick="switchProvider('gcp')">
+                <i class="fab fa-google"></i>
+                Google Cloud
+            </div>
+        </div>
+
+        <!-- Cost Overview -->
+        <div class="overview-grid">
+            <div class="cost-card">
+                <div class="cost-value">$4,287</div>
+                <div class="cost-label">Current Monthly Cost</div>
+                <div class="cost-change negative">
+                    <i class="fas fa-arrow-up"></i>
+                    12% vs last month
+                </div>
+            </div>
+            <div class="cost-card savings">
+                <div class="cost-value">$1,245</div>
+                <div class="cost-label">Potential Monthly Savings</div>
+                <div class="cost-change positive">
+                    <i class="fas fa-arrow-down"></i>
+                    29% cost reduction
+                </div>
+            </div>
+            <div class="cost-card warning">
+                <div class="cost-value">87%</div>
+                <div class="cost-label">Resource Utilization</div>
+                <div class="cost-change">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Over-provisioned
+                </div>
+            </div>
+            <div class="cost-card">
+                <div class="cost-value">$51,444</div>
+                <div class="cost-label">Annual Projection</div>
+                <div class="cost-change negative">
+                    <i class="fas fa-trending-up"></i>
+                    Based on current trend
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Breakdown by Service -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-chart-pie"></i>
+                    Cost Breakdown by Service
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="cost-breakdown">
+                    <div class="breakdown-item">
+                        <div class="breakdown-service">Compute (VMs)</div>
+                        <div class="breakdown-cost">$1,890</div>
+                        <div class="breakdown-percentage">44% of total</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-service">Storage</div>
+                        <div class="breakdown-cost">$785</div>
+                        <div class="breakdown-percentage">18% of total</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-service">Networking</div>
+                        <div class="breakdown-cost">$623</div>
+                        <div class="breakdown-percentage">15% of total</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-service">Database</div>
+                        <div class="breakdown-cost">$567</div>
+                        <div class="breakdown-percentage">13% of total</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="breakdown-service">Other Services</div>
+                        <div class="breakdown-cost">$422</div>
+                        <div class="breakdown-percentage">10% of total</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Cost Trends Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        Cost Trends (Last 6 Months)
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="chart-container">
+                        <canvas id="costTrendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optimization Recommendations -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-lightbulb"></i>
+                        Optimization Recommendations
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="recommendations-list">
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div class="recommendation-type">
+                                    <i class="fas fa-server" style="color: var(--accent-purple);"></i>
+                                    Right-size VMs
+                                </div>
+                                <div class="recommendation-savings">Save $450/mo</div>
+                            </div>
+                            <div class="recommendation-description">
+                                3 virtual machines are over-provisioned based on CPU/memory utilization patterns
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="recommendation-resource">vm-web-01, vm-web-02, vm-api-01</div>
+                                <div class="recommendation-impact">High Impact</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div class="recommendation-type">
+                                    <i class="fas fa-database" style="color: var(--accent-green);"></i>
+                                    Storage Optimization
+                                </div>
+                                <div class="recommendation-savings">Save $325/mo</div>
+                            </div>
+                            <div class="recommendation-description">
+                                Move infrequently accessed data to cheaper storage tiers
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="recommendation-resource">storage-logs, storage-backups</div>
+                                <div class="recommendation-impact">Medium Impact</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div class="recommendation-type">
+                                    <i class="fas fa-clock" style="color: var(--accent-blue);"></i>
+                                    Reserved Instances
+                                </div>
+                                <div class="recommendation-savings">Save $280/mo</div>
+                            </div>
+                            <div class="recommendation-description">
+                                Purchase reserved instances for predictable workloads
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="recommendation-resource">Production VMs</div>
+                                <div class="recommendation-impact">High Impact</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div class="recommendation-type">
+                                    <i class="fas fa-times-circle" style="color: var(--accent-red);"></i>
+                                    Unused Resources
+                                </div>
+                                <div class="recommendation-savings">Save $190/mo</div>
+                            </div>
+                            <div class="recommendation-description">
+                                Remove orphaned disks and unused load balancers
+                            </div>
+                            <div class="recommendation-details">
+                                <div class="recommendation-resource">4 orphaned disks, 2 LBs</div>
+                                <div class="recommendation-impact">Medium Impact</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Calculator -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-calculator"></i>
+                    Resource Cost Calculator
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label class="form-label">Resource Type</label>
+                        <select class="form-input" id="resourceType">
+                            <option value="vm">Virtual Machine</option>
+                            <option value="storage">Storage Account</option>
+                            <option value="database">SQL Database</option>
+                            <option value="function">Function App</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Size/SKU</label>
+                        <select class="form-input" id="resourceSize">
+                            <option value="small">Small (B1s, 1 vCPU, 1GB RAM)</option>
+                            <option value="medium">Medium (B2s, 2 vCPU, 4GB RAM)</option>
+                            <option value="large">Large (B4ms, 4 vCPU, 16GB RAM)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Region</label>
+                        <select class="form-input" id="region">
+                            <option value="eastus">East US</option>
+                            <option value="westus">West US</option>
+                            <option value="westeurope">West Europe</option>
+                            <option value="southeastasia">Southeast Asia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hours per Month</label>
+                        <input type="number" class="form-input" id="hoursPerMonth" value="730" min="1" max="730">
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-top: 1rem;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-blue);">
+                        Estimated Monthly Cost: <span id="estimatedCost">$31.39</span>
+                    </div>
+                    <div style="color: var(--text-secondary); margin-top: 0.5rem;">
+                        * Pricing is approximate and may vary
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentProvider = 'azure';
+
+        function initCharts() {
+            const ctx = document.getElementById('costTrendsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Actual Cost',
+                            data: [3200, 3450, 3890, 4120, 4287, 4287],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Optimized Cost',
+                            data: [2800, 2950, 3100, 3200, 3042, 3042],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Budget',
+                            data: [3500, 3500, 3500, 3500, 3500, 3500],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#a1a1aa',
+                                usePointStyle: true
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#a1a1aa',
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#a1a1aa'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function switchProvider(provider) {
+            currentProvider = provider;
+            
+            // Update active tab
+            document.querySelectorAll('.provider-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.closest('.provider-tab').classList.add('active');
+            
+            // Update data based on provider
+            updateProviderData(provider);
+        }
+
+        function updateProviderData(provider) {
+            const providerData = {
+                azure: {
+                    cost: '$4,287',
+                    savings: '$1,245',
+                    utilization: '87%'
+                },
+                aws: {
+                    cost: '$3,892',
+                    savings: '$987',
+                    utilization: '82%'
+                },
+                gcp: {
+                    cost: '$3,654',
+                    savings: '$756',
+                    utilization: '78%'
+                }
+            };
+
+            const data = providerData[provider];
+            if (data) {
+                document.querySelector('.cost-card:nth-child(1) .cost-value').textContent = data.cost;
+                document.querySelector('.cost-card:nth-child(2) .cost-value').textContent = data.savings;
+                document.querySelector('.cost-card:nth-child(3) .cost-value').textContent = data.utilization;
+            }
+        }
+
+        function analyzeCosts() {
+            alert('🔍 Cost Analysis Initiated!\n\nAnalyzing:\n• Resource utilization patterns\n• Spending trends\n• Optimization opportunities\n• Right-sizing recommendations\n\nThis would typically connect to your cloud provider APIs to fetch real usage data and generate personalized recommendations.');
+        }
+
+        function updateCostEstimate() {
+            const resourceType = document.getElementById('resourceType').value;
+            const resourceSize = document.getElementById('resourceSize').value;
+            const region = document.getElementById('region').value;
+            const hours = document.getElementById('hoursPerMonth').value;
+
+            // Sample pricing (simplified)
+            const pricing = {
+                vm: {
+                    small: { eastus: 0.0496, westus: 0.0496, westeurope: 0.0496, southeastasia: 0.0520 },
+                    medium: { eastus: 0.0992, westus: 0.0992, westeurope: 0.0992, southeastasia: 0.1040 },
+                    large: { eastus: 0.1984, westus: 0.1984, westeurope: 0.1984, southeastasia: 0.2080 }
+                }
+            };
+
+            let hourlyRate = 0.0496; // Default
+            if (pricing[resourceType] && pricing[resourceType][resourceSize] && pricing[resourceType][resourceSize][region]) {
+                hourlyRate = pricing[resourceType][resourceSize][region];
+            }
+
+            const monthlyCost = hourlyRate * hours;
+            document.getElementById('estimatedCost').textContent = '$' + monthlyCost.toFixed(2);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            
+            // Add event listeners for calculator
+            document.getElementById('resourceType').addEventListener('change', updateCostEstimate);
+            document.getElementById('resourceSize').addEventListener('change', updateCostEstimate);
+            document.getElementById('region').addEventListener('change', updateCostEstimate);
+            document.getElementById('hoursPerMonth').addEventListener('input', updateCostEstimate);
+        });
+    </script>
+</body>
+</html>

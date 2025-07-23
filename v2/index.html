@@ -1,7 +1,459 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Engineering Tools | Mustafa Zeya</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-bg: #0a0e27;
+            --secondary-bg: #1a1f3a;
+            --accent-blue: #00d9ff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --card-bg: rgba(26, 31, 58, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --gradient-2: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
+            --gradient-3: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(600px circle at 20% 30%, var(--accent-blue), transparent),
+                radial-gradient(800px circle at 80% 70%, var(--accent-purple), transparent),
+                radial-gradient(600px circle at 40% 90%, var(--accent-green), transparent);
+            opacity: 0.03;
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        .header {
+            padding: 2rem 0;
+            text-align: center;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            background: var(--gradient-1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-right: 1rem;
+            box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
+        }
+
+        .bracket {
+            color: var(--accent-blue);
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .initials {
+            color: white;
+            font-weight: 600;
+            font-size: 20px;
+            margin: 0 6px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tool-card:nth-child(2)::before {
+            background: var(--gradient-2);
+        }
+
+        .tool-card:nth-child(3)::before {
+            background: var(--gradient-3);
+        }
+
+        .tool-card:nth-child(4)::before {
+            background: var(--gradient-1);
+        }
+
+        .tool-card:nth-child(5)::before {
+            background: var(--gradient-2);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-blue);
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+        }
+
+        .tool-card:nth-child(2) .tool-icon {
+            background: var(--gradient-2);
+        }
+
+        .tool-card:nth-child(3) .tool-icon {
+            background: var(--gradient-3);
+        }
+
+        .tool-card:nth-child(4) .tool-icon {
+            background: var(--gradient-1);
+        }
+
+        .tool-card:nth-child(5) .tool-icon {
+            background: var(--gradient-2);
+        }
+
+        .tool-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .tool-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .tool-features li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-features li::before {
+            content: '✓';
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .tool-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient-1);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .tool-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
+        }
+
+        .coming-soon {
+            background: var(--text-secondary);
+            color: var(--primary-bg);
+            pointer-events: none;
+        }
+
+        .back-to-main {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .back-to-main:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .back-to-main {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages v2.</p>
+    <a href="/" class="back-to-main">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Portfolio</span>
+    </a>
+
+    <header class="header">
+        <a href="/v2/" class="logo">
+            <div class="logo-icon">
+                <span class="bracket">[</span>
+                <span class="initials">MZ</span>
+                <span class="bracket">]</span>
+            </div>
+        </a>
+        <h1>Platform Engineering Tools</h1>
+        <p>Interactive tools and dashboards for DevOps, Infrastructure, and Security Management</p>
+    </header>
+
+    <div class="container">
+        <div class="tools-grid">
+            <!-- DevOps Dashboard -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>DevOps Dashboard</h3>
+                <p>Real-time monitoring of CI/CD pipelines, infrastructure status, and deployment metrics with live GitHub Actions integration.</p>
+                <ul class="tool-features">
+                    <li>Live GitHub Actions workflows</li>
+                    <li>Infrastructure health monitoring</li>
+                    <li>Performance metrics visualization</li>
+                    <li>Security compliance tracking</li>
+                </ul>
+                <a href="devops-dashboard.html" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Launch Dashboard
+                </a>
+            </div>
+
+            <!-- IaC Playground -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <h3>IaC Playground</h3>
+                <p>Interactive Infrastructure as Code editor with syntax highlighting, validation, and visual architecture mapping.</p>
+                <ul class="tool-features">
+                    <li>Terraform & Bicep editor</li>
+                    <li>Real-time syntax validation</li>
+                    <li>Architecture visualization</li>
+                    <li>Security scanning</li>
+                </ul>
+                <a href="iac-playground.html" class="tool-btn">
+                    <i class="fas fa-code"></i>
+                    Open Playground
+                </a>
+            </div>
+
+            <!-- Cloud Cost Optimizer -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3>Cloud Cost Optimizer</h3>
+                <p>Analyze cloud spending patterns, get optimization recommendations, and calculate potential savings across providers.</p>
+                <ul class="tool-features">
+                    <li>Multi-cloud cost analysis</li>
+                    <li>Right-sizing recommendations</li>
+                    <li>Reserved instance optimizer</li>
+                    <li>Savings calculator</li>
+                </ul>
+                <a href="cost-optimizer.html" class="tool-btn">
+                    <i class="fas fa-calculator"></i>
+                    Analyze Costs
+                </a>
+            </div>
+
+            <!-- Security Compliance Tracker -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Security Compliance Tracker</h3>
+                <p>Track compliance across frameworks like SOC2, ISO27001, and custom policies with automated security assessments.</p>
+                <ul class="tool-features">
+                    <li>Multiple compliance frameworks</li>
+                    <li>Automated security scanning</li>
+                    <li>Risk assessment matrix</li>
+                    <li>Remediation workflows</li>
+                </ul>
+                <a href="security-tracker.html" class="tool-btn">
+                    <i class="fas fa-search"></i>
+                    Security Scan
+                </a>
+            </div>
+
+            <!-- Documentation Hub -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>Documentation Hub</h3>
+                <p>Interactive documentation system with runbook generators, ADR tracking, and searchable knowledge base.</p>
+                <ul class="tool-features">
+                    <li>Runbook generator</li>
+                    <li>Architecture Decision Records</li>
+                    <li>Incident response playbooks</li>
+                    <li>Searchable knowledge base</li>
+                </ul>
+                <a href="documentation-hub.html" class="tool-btn">
+                    <i class="fas fa-book-open"></i>
+                    Browse Docs
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive animations
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add loading animation for tool buttons
+        document.querySelectorAll('.tool-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 1000);
+            });
+        });
+    </script>
 </body>
 </html>

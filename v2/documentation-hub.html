@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Hub | Platform Engineering Tools</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-bg: #0a0e27;
+            --secondary-bg: #1a1f3a;
+            --accent-blue: #00d9ff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --card-bg: rgba(26, 31, 58, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(600px circle at 20% 30%, var(--accent-blue), transparent),
+                radial-gradient(800px circle at 80% 70%, var(--accent-purple), transparent);
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .header {
+            padding: 1rem 0;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border-radius: 20px;
+            width: 300px;
+            font-family: inherit;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent-purple);
+            transform: translateY(-1px);
+        }
+
+        .btn.secondary {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-list {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            color: var(--accent-blue);
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .main-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .content-header {
+            padding: 2rem;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .content-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .content-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .doc-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .doc-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .doc-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--accent-blue);
+        }
+
+        .doc-card:nth-child(2) .doc-icon {
+            background: var(--accent-purple);
+        }
+
+        .doc-card:nth-child(3) .doc-icon {
+            background: var(--accent-green);
+        }
+
+        .doc-card:nth-child(4) .doc-icon {
+            background: var(--accent-yellow);
+            color: black;
+        }
+
+        .doc-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .doc-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .doc-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .recent-docs {
+            margin-top: 2rem;
+        }
+
+        .recent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recent-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .recent-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .recent-content {
+            flex: 1;
+        }
+
+        .recent-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .recent-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .recent-time {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .generator-form {
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.2);
+        }
+
+        .generated-output {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .knowledge-search {
+            margin-bottom: 2rem;
+        }
+
+        .search-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .search-result {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-result:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-blue);
+        }
+
+        .result-title {
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-snippet {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .result-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .result-tag {
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .search-input {
+                width: 250px;
+            }
+
+            .doc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>
+                <i class="fas fa-book"></i>
+                Documentation Hub
+            </h1>
+            <div class="header-controls">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search documentation..." id="globalSearch">
+                </div>
+                <a href="/v2/" class="btn secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Tools
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">
+                    <i class="fas fa-list"></i>
+                    Documentation Types
+                </div>
+                <ul class="sidebar-list">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link active" onclick="showContent('overview')">Overview</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" onclick="showContent('runbooks')">Runbooks</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" onclick="showContent('adr')">Architecture Decisions</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" onclick="showContent('playbooks')">Incident Playbooks</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" onclick="showContent('knowledge')">Knowledge Base</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">
+                    <i class="fas fa-tools"></i>
+                    Quick Actions
+                </div>
+                <ul class="sidebar-list">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" onclick="showContent('generator')">Generate Runbook</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" onclick="showContent('adr-create')">Create ADR</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" onclick="showContent('playbook-create')">New Playbook</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">
+                    <i class="fas fa-tag"></i>
+                    Categories
+                </div>
+                <ul class="sidebar-list">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Infrastructure</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Security</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Deployments</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Monitoring</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Troubleshooting</a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h2 class="content-title" id="contentTitle">Documentation Overview</h2>
+                <p class="content-subtitle" id="contentSubtitle">Centralized documentation for platform engineering and operations</p>
+            </div>
+
+            <div class="content-body" id="contentBody">
+                <!-- Overview Content -->
+                <div id="overview-content">
+                    <div class="doc-grid">
+                        <div class="doc-card" onclick="showContent('runbooks')">
+                            <div class="doc-icon">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                            <div class="doc-title">Operational Runbooks</div>
+                            <div class="doc-description">Step-by-step procedures for common operational tasks and system maintenance.</div>
+                            <div class="doc-meta">
+                                <span>24 documents</span>
+                                <span>Updated 2 days ago</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" onclick="showContent('adr')">
+                            <div class="doc-icon">
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <div class="doc-title">Architecture Decisions</div>
+                            <div class="doc-description">Records of architectural decisions made during system design and evolution.</div>
+                            <div class="doc-meta">
+                                <span>18 records</span>
+                                <span>Updated 1 week ago</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" onclick="showContent('playbooks')">
+                            <div class="doc-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="doc-title">Incident Playbooks</div>
+                            <div class="doc-description">Emergency response procedures for incident management and resolution.</div>
+                            <div class="doc-meta">
+                                <span>12 playbooks</span>
+                                <span>Updated 3 days ago</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" onclick="showContent('knowledge')">
+                            <div class="doc-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="doc-title">Knowledge Base</div>
+                            <div class="doc-description">Searchable repository of technical knowledge, solutions, and best practices.</div>
+                            <div class="doc-meta">
+                                <span>156 articles</span>
+                                <span>Updated daily</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-docs">
+                        <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Recently Updated</h3>
+                        <div class="recent-list">
+                            <div class="recent-item">
+                                <div class="recent-icon">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                                <div class="recent-content">
+                                    <div class="recent-title">Database Backup and Recovery</div>
+                                    <div class="recent-description">Updated procedures for automated database backups</div>
+                                </div>
+                                <div class="recent-time">2 hours ago</div>
+                            </div>
+
+                            <div class="recent-item">
+                                <div class="recent-icon" style="background: var(--accent-purple);">
+                                    <i class="fas fa-sitemap"></i>
+                                </div>
+                                <div class="recent-content">
+                                    <div class="recent-title">ADR-015: Microservices Communication</div>
+                                    <div class="recent-description">Decision to adopt gRPC for inter-service communication</div>
+                                </div>
+                                <div class="recent-time">1 day ago</div>
+                            </div>
+
+                            <div class="recent-item">
+                                <div class="recent-icon" style="background: var(--accent-green);">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="recent-content">
+                                    <div class="recent-title">High CPU Usage Incident Response</div>
+                                    <div class="recent-description">Response playbook for server performance issues</div>
+                                </div>
+                                <div class="recent-time">3 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showContent(contentType) {
+            // Update active sidebar link
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const contentBody = document.getElementById('contentBody');
+            const contentTitle = document.getElementById('contentTitle');
+            const contentSubtitle = document.getElementById('contentSubtitle');
+
+            switch(contentType) {
+                case 'overview':
+                    contentTitle.textContent = 'Documentation Overview';
+                    contentSubtitle.textContent = 'Centralized documentation for platform engineering and operations';
+                    contentBody.innerHTML = document.getElementById('overview-content').outerHTML;
+                    break;
+
+                case 'runbooks':
+                    contentTitle.textContent = 'Operational Runbooks';
+                    contentSubtitle.textContent = 'Step-by-step procedures for system operations';
+                    contentBody.innerHTML = `
+                        <div class="doc-grid">
+                            <div class="doc-card">
+                                <div class="doc-icon"><i class="fas fa-database"></i></div>
+                                <div class="doc-title">Database Maintenance</div>
+                                <div class="doc-description">Weekly maintenance procedures for PostgreSQL databases</div>
+                                <div class="doc-meta"><span>Infrastructure</span><span>Updated 2 days ago</span></div>
+                            </div>
+                            <div class="doc-card">
+                                <div class="doc-icon"><i class="fas fa-rocket"></i></div>
+                                <div class="doc-title">Application Deployment</div>
+                                <div class="doc-description">Complete deployment workflow for microservices</div>
+                                <div class="doc-meta"><span>Deployments</span><span>Updated 1 week ago</span></div>
+                            </div>
+                            <div class="doc-card">
+                                <div class="doc-icon"><i class="fas fa-server"></i></div>
+                                <div class="doc-title">Server Provisioning</div>
+                                <div class="doc-description">Automated server setup and configuration procedures</div>
+                                <div class="doc-meta"><span>Infrastructure</span><span>Updated 3 days ago</span></div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'generator':
+                    contentTitle.textContent = 'Runbook Generator';
+                    contentSubtitle.textContent = 'Generate operational runbooks automatically';
+                    contentBody.innerHTML = `
+                        <div class="generator-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Runbook Title</label>
+                                    <input type="text" class="form-input" placeholder="e.g., Database Backup Procedure" id="runbookTitle">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" id="runbookCategory">
+                                        <option>Infrastructure</option>
+                                        <option>Security</option>
+                                        <option>Deployments</option>
+                                        <option>Monitoring</option>
+                                        <option>Troubleshooting</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">System/Service</label>
+                                    <input type="text" class="form-input" placeholder="e.g., PostgreSQL, Kubernetes, API Gateway" id="runbookSystem">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Frequency</label>
+                                    <select class="form-select" id="runbookFrequency">
+                                        <option>Daily</option>
+                                        <option>Weekly</option>
+                                        <option>Monthly</option>
+                                        <option>As Needed</option>
+                                        <option>Emergency</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-textarea" placeholder="Describe the purpose and context of this runbook..." id="runbookDescription"></textarea>
+                            </div>
+                            <button class="btn" onclick="generateRunbook()">
+                                <i class="fas fa-cog"></i>
+                                Generate Runbook
+                            </button>
+                            <div class="generated-output" id="generatedRunbook" style="display: none;"></div>
+                        </div>
+                    `;
+                    break;
+
+                case 'knowledge':
+                    contentTitle.textContent = 'Knowledge Base';
+                    contentSubtitle.textContent = 'Search technical knowledge and solutions';
+                    contentBody.innerHTML = `
+                        <div class="knowledge-search">
+                            <div class="search-box" style="margin-bottom: 2rem;">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="search-input" placeholder="Search knowledge base..." id="knowledgeSearch" style="width: 100%;" onkeyup="searchKnowledge()">
+                            </div>
+                            <div class="search-results" id="searchResults">
+                                <div class="search-result">
+                                    <div class="result-title">Kubernetes Pod Restart Troubleshooting</div>
+                                    <div class="result-snippet">Common causes and solutions for pods that are continuously restarting. Includes memory limits, liveness probes, and configuration issues...</div>
+                                    <div class="result-tags">
+                                        <span class="result-tag">Kubernetes</span>
+                                        <span class="result-tag">Troubleshooting</span>
+                                        <span class="result-tag">Containers</span>
+                                    </div>
+                                </div>
+                                <div class="search-result">
+                                    <div class="result-title">Database Connection Pool Optimization</div>
+                                    <div class="result-snippet">Best practices for configuring connection pools in high-traffic applications. Covers pool sizing, timeout settings, and monitoring...</div>
+                                    <div class="result-tags">
+                                        <span class="result-tag">Database</span>
+                                        <span class="result-tag">Performance</span>
+                                        <span class="result-tag">Optimization</span>
+                                    </div>
+                                </div>
+                                <div class="search-result">
+                                    <div class="result-title">SSL Certificate Renewal Automation</div>
+                                    <div class="result-snippet">Automated certificate renewal using Let's Encrypt and cert-manager. Includes setup instructions and monitoring alerts...</div>
+                                    <div class="result-tags">
+                                        <span class="result-tag">Security</span>
+                                        <span class="result-tag">SSL</span>
+                                        <span class="result-tag">Automation</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                default:
+                    contentTitle.textContent = 'Coming Soon';
+                    contentSubtitle.textContent = 'This section is under development';
+                    contentBody.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">This feature will be available soon!</p>';
+            }
+        }
+
+        function generateRunbook() {
+            const title = document.getElementById('runbookTitle').value || 'Sample Runbook';
+            const category = document.getElementById('runbookCategory').value;
+            const system = document.getElementById('runbookSystem').value || 'System';
+            const frequency = document.getElementById('runbookFrequency').value;
+            const description = document.getElementById('runbookDescription').value || 'Sample description';
+
+            const runbook = `# ${title}
+
+## Overview
+${description}
+
+**Category:** ${category}
+**System/Service:** ${system}
+**Frequency:** ${frequency}
+**Last Updated:** ${new Date().toLocaleDateString()}
+
+## Prerequisites
+- [ ] Access to production environment
+- [ ] Required permissions and credentials
+- [ ] Backup verification completed
+- [ ] Maintenance window scheduled (if applicable)
+
+## Steps
+
+### 1. Pre-execution Checks
+\`\`\`bash
+# Verify system status
+kubectl get pods -n production
+systemctl status ${system.toLowerCase()}
+\`\`\`
+
+### 2. Main Procedure
+\`\`\`bash
+# Example commands for ${system}
+# Replace with actual procedure steps
+echo "Starting ${title.toLowerCase()}"
+\`\`\`
+
+### 3. Verification
+\`\`\`bash
+# Verify successful completion
+# Check logs and system status
+\`\`\`
+
+### 4. Post-execution
+- [ ] Verify all services are running normally
+- [ ] Update monitoring dashboards
+- [ ] Document any issues encountered
+- [ ] Notify team of completion
+
+## Rollback Procedure
+In case of issues during execution:
+
+1. Stop the current process
+2. Restore from backup (if applicable)
+3. Verify system functionality
+4. Document the incident
+
+## Contact Information
+- **Primary Contact:** Platform Engineering Team
+- **Escalation:** Engineering Manager
+- **Emergency:** On-call Engineer
+
+## Related Documentation
+- [System Architecture Overview]
+- [Monitoring Dashboards]
+- [Incident Response Playbook]
+
+---
+*Generated automatically by Documentation Hub*`;
+
+            const output = document.getElementById('generatedRunbook');
+            output.textContent = runbook;
+            output.style.display = 'block';
+        }
+
+        function searchKnowledge() {
+            const query = document.getElementById('knowledgeSearch').value.toLowerCase();
+            const results = document.getElementById('searchResults');
+            
+            if (query.length < 3) return;
+
+            // Simulate search results
+            const sampleResults = [
+                {
+                    title: `${query.charAt(0).toUpperCase() + query.slice(1)} Configuration Guide`,
+                    snippet: `Comprehensive guide for configuring ${query} in production environments. Includes best practices, security considerations, and performance tuning...`,
+                    tags: ['Configuration', 'Production', 'Best Practices']
+                },
+                {
+                    title: `Troubleshooting ${query.charAt(0).toUpperCase() + query.slice(1)} Issues`,
+                    snippet: `Common problems and solutions related to ${query}. Step-by-step troubleshooting procedures and diagnostic commands...`,
+                    tags: ['Troubleshooting', 'Debug', 'Issues']
+                }
+            ];
+
+            results.innerHTML = sampleResults.map(result => `
+                <div class="search-result">
+                    <div class="result-title">${result.title}</div>
+                    <div class="result-snippet">${result.snippet}</div>
+                    <div class="result-tags">
+                        ${result.tags.map(tag => `<span class="result-tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize with overview content
+        document.addEventListener('DOMContentLoaded', () => {
+            showContent('overview');
+        });
+    </script>
+</body>
+</html>

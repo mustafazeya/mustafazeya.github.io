@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IaC Playground | Platform Engineering Tools</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-bg: #0a0e27;
+            --secondary-bg: #1a1f3a;
+            --accent-blue: #00d9ff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --card-bg: rgba(26, 31, 58, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(600px circle at 20% 30%, var(--accent-blue), transparent),
+                radial-gradient(800px circle at 80% 70%, var(--accent-purple), transparent);
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .header {
+            padding: 1rem 0;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--accent-purple);
+            transform: translateY(-1px);
+        }
+
+        .btn.secondary {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn.success {
+            background: var(--success);
+        }
+
+        .btn.warning {
+            background: var(--warning);
+        }
+
+        .playground-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            height: calc(100vh - 100px);
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .editor-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .panel-header {
+            padding: 1rem;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .language-selector {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .editor-content {
+            flex: 1;
+            position: relative;
+        }
+
+        .CodeMirror {
+            height: 100% !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 14px !important;
+            background: transparent !important;
+        }
+
+        .visualization-panel {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1rem;
+            background: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .architecture-canvas {
+            width: 100%;
+            height: 300px;
+            background: var(--primary-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-node {
+            position: absolute;
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: move;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 120px;
+            text-align: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .resource-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+        }
+
+        .resource-node.compute {
+            background: var(--accent-purple);
+        }
+
+        .resource-node.storage {
+            background: var(--accent-green);
+        }
+
+        .resource-node.network {
+            background: var(--accent-yellow);
+            color: black;
+        }
+
+        .resource-connection {
+            position: absolute;
+            border-top: 2px dashed var(--border-color);
+            pointer-events: none;
+        }
+
+        .validation-results {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .validation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .validation-item:last-child {
+            border-bottom: none;
+        }
+
+        .validation-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .validation-icon.success {
+            background: var(--success);
+        }
+
+        .validation-icon.warning {
+            background: var(--warning);
+        }
+
+        .validation-icon.error {
+            background: var(--error);
+        }
+
+        .validation-content {
+            flex: 1;
+        }
+
+        .validation-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .validation-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cost-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .cost-label {
+            color: var(--text-secondary);
+        }
+
+        .cost-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+
+        .template-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .template-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-blue);
+        }
+
+        .template-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .template-description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .playground-container {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+
+            .visualization-panel {
+                width: 100%;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .header-controls {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>
+                <i class="fas fa-cubes"></i>
+                IaC Playground
+            </h1>
+            <div class="header-controls">
+                <button class="btn" onclick="validateCode()">
+                    <i class="fas fa-check-circle"></i>
+                    Validate
+                </button>
+                <button class="btn success" onclick="deployCode()">
+                    <i class="fas fa-rocket"></i>
+                    Deploy (Demo)
+                </button>
+                <a href="/v2/" class="btn secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Tools
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="playground-container">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fas fa-code"></i>
+                    Infrastructure Code Editor
+                </div>
+                <select class="language-selector" id="languageSelector" onchange="changeLanguage()">
+                    <option value="terraform">Terraform (HCL)</option>
+                    <option value="bicep">Azure Bicep</option>
+                    <option value="yaml">YAML (Kubernetes)</option>
+                </select>
+            </div>
+            <div class="editor-content">
+                <textarea id="codeEditor"></textarea>
+            </div>
+        </div>
+
+        <div class="visualization-panel">
+            <!-- Architecture Visualization -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-project-diagram"></i>
+                        Architecture Visualization
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="architecture-canvas" id="architectureCanvas">
+                        <div class="resource-node compute" style="top: 50px; left: 50px;">
+                            <i class="fas fa-server"></i>
+                            VM Instance
+                        </div>
+                        <div class="resource-node storage" style="top: 150px; left: 200px;">
+                            <i class="fas fa-database"></i>
+                            Storage Account
+                        </div>
+                        <div class="resource-node network" style="top: 100px; left: 250px;">
+                            <i class="fas fa-network-wired"></i>
+                            Virtual Network
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Validation Results -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-shield-alt"></i>
+                        Validation Results
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="validation-results" id="validationResults">
+                        <div class="validation-item">
+                            <div class="validation-icon success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="validation-content">
+                                <div class="validation-title">Syntax Valid</div>
+                                <div class="validation-description">All syntax checks passed</div>
+                            </div>
+                        </div>
+                        <div class="validation-item">
+                            <div class="validation-icon warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="validation-content">
+                                <div class="validation-title">Security Warning</div>
+                                <div class="validation-description">Public access enabled on storage</div>
+                            </div>
+                        </div>
+                        <div class="validation-item">
+                            <div class="validation-icon success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="validation-content">
+                                <div class="validation-title">Best Practices</div>
+                                <div class="validation-description">Following Azure naming conventions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Estimation -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-calculator"></i>
+                        Cost Estimation
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="cost-item">
+                        <span class="cost-label">Compute (VM B2s)</span>
+                        <span class="cost-value">$31.39/month</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-label">Storage (100GB)</span>
+                        <span class="cost-value">$2.40/month</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-label">Network</span>
+                        <span class="cost-value">$5.50/month</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-label">Total Estimated Cost</span>
+                        <span class="cost-value" style="color: var(--accent-blue);">$39.29/month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Templates -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-layer-group"></i>
+                        Quick Templates
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="templates-grid">
+                        <div class="template-item" onclick="loadTemplate('webapp')">
+                            <div class="template-name">Web App + Database</div>
+                            <div class="template-description">App Service with SQL Database</div>
+                        </div>
+                        <div class="template-item" onclick="loadTemplate('kubernetes')">
+                            <div class="template-name">Kubernetes Cluster</div>
+                            <div class="template-description">AKS with monitoring</div>
+                        </div>
+                        <div class="template-item" onclick="loadTemplate('storage')">
+                            <div class="template-name">Storage Solution</div>
+                            <div class="template-description">Blob storage with CDN</div>
+                        </div>
+                        <div class="template-item" onclick="loadTemplate('network')">
+                            <div class="template-name">Network Infrastructure</div>
+                            <div class="template-description">VNet with subnets and NSGs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editor;
+        const templates = {
+            terraform: `# Azure Resource Group
+resource "azurerm_resource_group" "example" {
+  name     = "rg-example-prod"
+  location = "East US"
+
+  tags = {
+    Environment = "Production"
+    Project     = "Example"
+  }
+}
+
+# Virtual Network
+resource "azurerm_virtual_network" "example" {
+  name                = "vnet-example-prod"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+}
+
+# Subnet
+resource "azurerm_subnet" "example" {
+  name                 = "subnet-web"
+  resource_group_name  = azurerm_resource_group.example.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+# Network Security Group
+resource "azurerm_network_security_group" "example" {
+  name                = "nsg-web-prod"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+
+  security_rule {
+    name                       = "HTTP"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}`,
+            bicep: `// Azure Bicep Template
+param location string = resourceGroup().location
+param projectName string = 'example'
+param environment string = 'prod'
+
+// Resource naming
+var resourceGroupName = 'rg-\${projectName}-\${environment}'
+var vnetName = 'vnet-\${projectName}-\${environment}'
+var subnetName = 'subnet-web'
+var nsgName = 'nsg-web-\${environment}'
+
+// Virtual Network
+resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
+  name: vnetName
+  location: location
+  properties: {
+    addressSpace: {
+      addressPrefixes: [
+        '10.0.0.0/16'
+      ]
+    }
+    subnets: [
+      {
+        name: subnetName
+        properties: {
+          addressPrefix: '10.0.1.0/24'
+          networkSecurityGroup: {
+            id: nsg.id
+          }
+        }
+      }
+    ]
+  }
+  tags: {
+    Environment: environment
+    Project: projectName
+  }
+}
+
+// Network Security Group
+resource nsg 'Microsoft.Network/networkSecurityGroups@2021-02-01' = {
+  name: nsgName
+  location: location
+  properties: {
+    securityRules: [
+      {
+        name: 'AllowHTTP'
+        properties: {
+          protocol: 'Tcp'
+          sourcePortRange: '*'
+          destinationPortRange: '80'
+          sourceAddressPrefix: '*'
+          destinationAddressPrefix: '*'
+          access: 'Allow'
+          priority: 1001
+          direction: 'Inbound'
+        }
+      }
+    ]
+  }
+  tags: {
+    Environment: environment
+    Project: projectName
+  }
+}
+
+// Outputs
+output vnetId string = vnet.id
+output subnetId string = vnet.properties.subnets[0].id`,
+            yaml: `# Kubernetes Deployment Example
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  labels:
+    app: web-app
+    environment: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: web-app
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app-service
+spec:
+  selector:
+    app: web-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - example.com
+    secretName: web-app-tls
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-app-service
+            port:
+              number: 80`
+        };
+
+        const quickTemplates = {
+            webapp: {
+                terraform: `# Web App with SQL Database
+resource "azurerm_app_service_plan" "example" {
+  name                = "asp-example-prod"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  sku {
+    tier = "Standard"
+    size = "S1"
+  }
+}
+
+resource "azurerm_app_service" "example" {
+  name                = "app-example-prod"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  app_service_plan_id = azurerm_app_service_plan.example.id
+}
+
+resource "azurerm_sql_server" "example" {
+  name                         = "sql-example-prod"
+  resource_group_name          = azurerm_resource_group.example.name
+  location                     = azurerm_resource_group.example.location
+  version                      = "12.0"
+  administrator_login          = "sqladmin"
+  administrator_login_password = "P@ssw0rd123!"
+}`,
+                bicep: `resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
+  name: 'asp-example-prod'
+  location: location
+  sku: {
+    name: 'S1'
+    tier: 'Standard'
+  }
+}
+
+resource webApp 'Microsoft.Web/sites@2021-02-01' = {
+  name: 'app-example-prod'
+  location: location
+  properties: {
+    serverFarmId: appServicePlan.id
+  }
+}`
+            },
+            kubernetes: {
+                yaml: `apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice
+  namespace: production
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: microservice
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:latest
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"`
+            }
+        };
+
+        function initEditor() {
+            editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+                lineNumbers: true,
+                mode: 'javascript',
+                theme: 'material-darker',
+                indentUnit: 2,
+                lineWrapping: true,
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+            });
+
+            // Set initial content
+            editor.setValue(templates.terraform);
+        }
+
+        function changeLanguage() {
+            const language = document.getElementById('languageSelector').value;
+            editor.setValue(templates[language]);
+            
+            // Update editor mode
+            const modes = {
+                terraform: 'javascript',
+                bicep: 'javascript',
+                yaml: 'yaml'
+            };
+            editor.setOption('mode', modes[language] || 'javascript');
+        }
+
+        function validateCode() {
+            const validationResults = document.getElementById('validationResults');
+            validationResults.innerHTML = '<div style="text-align: center; color: var(--accent-blue);"><i class="fas fa-spinner fa-spin"></i> Validating...</div>';
+            
+            setTimeout(() => {
+                const results = [
+                    { type: 'success', title: 'Syntax Valid', desc: 'All syntax checks passed' },
+                    { type: 'success', title: 'Dependencies OK', desc: 'All resource dependencies resolved' },
+                    { type: 'warning', title: 'Security Warning', desc: 'Consider using private endpoints' },
+                    { type: 'success', title: 'Best Practices', desc: 'Following naming conventions' },
+                    { type: 'warning', title: 'Cost Warning', desc: 'Resource size may be oversized' }
+                ];
+
+                validationResults.innerHTML = results.map(result => `
+                    <div class="validation-item">
+                        <div class="validation-icon ${result.type}">
+                            <i class="fas fa-${result.type === 'success' ? 'check' : 'exclamation-triangle'}"></i>
+                        </div>
+                        <div class="validation-content">
+                            <div class="validation-title">${result.title}</div>
+                            <div class="validation-description">${result.desc}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }, 2000);
+        }
+
+        function deployCode() {
+            alert('🚀 Demo deployment initiated!\n\nIn a real environment, this would:\n• Validate the infrastructure code\n• Plan the deployment\n• Apply changes to your cloud environment\n• Monitor deployment progress\n\nThis is a demonstration of the deployment workflow.');
+        }
+
+        function loadTemplate(templateName) {
+            const language = document.getElementById('languageSelector').value;
+            if (quickTemplates[templateName] && quickTemplates[templateName][language]) {
+                editor.setValue(quickTemplates[templateName][language]);
+            } else {
+                alert(`Template "${templateName}" not available for ${language}`);
+            }
+        }
+
+        // Make resource nodes draggable
+        function makeDraggable() {
+            const nodes = document.querySelectorAll('.resource-node');
+            nodes.forEach(node => {
+                let isDragging = false;
+                let currentX;
+                let currentY;
+                let initialX;
+                let initialY;
+
+                node.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    initialX = e.clientX - node.offsetLeft;
+                    initialY = e.clientY - node.offsetTop;
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (isDragging) {
+                        e.preventDefault();
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                        node.style.left = currentX + 'px';
+                        node.style.top = currentY + 'px';
+                    }
+                });
+
+                document.addEventListener('mouseup', () => {
+                    isDragging = false;
+                });
+            });
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initEditor();
+            makeDraggable();
+        });
+    </script>
+</body>
+</html>
