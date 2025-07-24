@@ -7,21 +7,21 @@ title: "Platform Engineering Tools"
     <div class="container">
         <div class="hero">
             <h1 class="hero-title">Platform Engineering Tools</h1>
-            <p class="hero-subtitle">Advanced Network & Infrastructure Calculator with Subnet Splitting</p>
+            <p class="hero-subtitle">Network and infrastructure tools for platform engineers</p>
         </div>
 
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-number">1</div>
-                <div class="stat-label">Active Tool</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">5</div>
-                <div class="stat-label">Split Methods</div>
+                <div class="stat-label">Tool Available</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">100%</div>
-                <div class="stat-label">Accuracy</div>
+                <div class="stat-label">Client-Side</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Dependencies</div>
             </div>
         </div>
 
