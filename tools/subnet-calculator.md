@@ -4,13 +4,14 @@ title: "IP Subnet Calculator"
 ---
 
 <div class="container">
-    <div class="tool-header">
-        <h1 class="tool-title">IP Subnet Calculator</h1>
-        <p class="tool-subtitle">
-            Calculate network details from CIDR notation. Get network addresses, 
-            usable IP ranges, and host information instantly.
-        </p>
-    </div>
+    <div class="subnet-calculator-content">
+        <div class="tool-header">
+            <h1 class="tool-title">IP Subnet Calculator</h1>
+            <p class="tool-subtitle">
+                Calculate network details from CIDR notation. Get network addresses, 
+                usable IP ranges, and host information instantly.
+            </p>
+        </div>
 
     <div class="main-content">
         <div class="input-section">
@@ -172,14 +173,15 @@ title: "IP Subnet Calculator"
             </h3>
             <div class="subnets-grid" id="subnets-grid"></div>
         </div>
+        </div>
     </div>
 </div>
 
 <style>
-    .container {
+    .subnet-calculator-content {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 3rem 2rem;
+        padding: 3rem 0;
     }
 
     .tool-header {
@@ -470,8 +472,8 @@ title: "IP Subnet Calculator"
             gap: 2rem;
         }
         
-        .container {
-            padding: 2rem 1rem;
+        .subnet-calculator-content {
+            padding: 2rem 0;
         }
         
         .tool-title {
