@@ -1,0 +1,227 @@
+---
+layout: modern
+title: Blog
+---
+
+<div class="blog-index">
+    <div class="container">
+        <div class="hero">
+            <h1 class="hero-title">Technical Blog</h1>
+            <p class="hero-subtitle">Insights on Azure, Terraform, DevOps, and Platform Engineering</p>
+        </div>
+
+        <div class="blog-grid">
+            {% for post in site.posts %}
+            <article class="blog-card">
+                <div class="blog-card-content">
+                    <div class="blog-meta">
+                        <span class="blog-date">
+                            <i class="fas fa-calendar"></i>
+                            {{ post.date | date: "%B %d, %Y" }}
+                        </span>
+                        {% if post.categories %}
+                        <span class="blog-category">{{ post.categories | first | capitalize }}</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="blog-title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h2>
+                    {% if post.excerpt %}
+                    <p class="blog-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+                    {% endif %}
+                    {% if post.tags %}
+                    <div class="blog-tags">
+                        {% for tag in post.tags limit: 3 %}
+                        <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <a href="{{ post.url | relative_url }}" class="read-more">
+                        Read More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .blog-index {
+        padding: 2rem 0;
+        min-height: calc(100vh - 80px);
+    }
+
+    .hero {
+        text-align: center;
+        margin-bottom: 4rem;
+        padding: 2rem 0;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .blog-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .blog-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-blue);
+        box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+    }
+
+    .blog-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    .blog-date {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .blog-category {
+        background: var(--accent-blue);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .blog-title {
+        margin-bottom: 1rem;
+    }
+
+    .blog-title a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+
+    .blog-title a:hover {
+        color: var(--accent-blue);
+    }
+
+    .blog-excerpt {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .blog-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tag {
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--accent-purple);
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .read-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--accent-blue);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .read-more:hover {
+        gap: 0.75rem;
+        color: var(--accent-purple);
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .blog-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .blog-card {
+            padding: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .blog-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .blog-index {
+            padding: 1rem 0;
+        }
+
+        .hero {
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .blog-card {
+            padding: 1rem;
+        }
+
+        .blog-grid {
+            gap: 1rem;
+        }
+    }
+</style>

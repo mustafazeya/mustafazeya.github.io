@@ -1333,6 +1333,9 @@
                 // Set initial theme
                 this.setTheme(this.currentTheme);
                 
+                // Update button text immediately
+                this.updateThemeButton(this.currentTheme);
+                
                 // Toggle dropdown
                 this.themeToggle.addEventListener('click', (e) => {
                     e.stopPropagation();

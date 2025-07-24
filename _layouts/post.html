@@ -1,0 +1,292 @@
+---
+layout: modern
+---
+
+<div class="blog-post">
+    <div class="container">
+        <header class="post-header">
+            <div class="post-meta">
+                <span class="post-date">
+                    <i class="fas fa-calendar"></i>
+                    {{ page.date | date: "%B %d, %Y" }}
+                </span>
+                <span class="post-category">{{ page.category }}</span>
+                <span class="post-reading-time">
+                    <i class="fas fa-clock"></i>
+                    {% assign words = content | number_of_words %}
+                    {% if words < 360 %}
+                        1 min read
+                    {% else %}
+                        {{ words | divided_by: 180 }} min read
+                    {% endif %}
+                </span>
+            </div>
+            <h1 class="post-title">{{ page.title }}</h1>
+            {% if page.excerpt %}
+            <p class="post-excerpt">{{ page.excerpt }}</p>
+            {% endif %}
+            {% if page.tags %}
+            <div class="post-tags">
+                {% for tag in page.tags %}
+                <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </header>
+
+        <article class="post-content">
+            {{ content }}
+        </article>
+
+        <footer class="post-footer">
+            <div class="post-navigation">
+                {% if page.previous.url %}
+                <a href="{{ page.previous.url }}" class="nav-link prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>{{ page.previous.title }}</span>
+                </a>
+                {% endif %}
+                
+                <a href="/blog/" class="nav-link">
+                    <i class="fas fa-list"></i>
+                    <span>All Posts</span>
+                </a>
+                
+                {% if page.next.url %}
+                <a href="{{ page.next.url }}" class="nav-link next">
+                    <span>{{ page.next.title }}</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                {% endif %}
+            </div>
+        </footer>
+    </div>
+</div>
+
+<style>
+    .blog-post {
+        margin-top: 100px;
+        padding: 2rem 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .post-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .post-meta {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    .post-category {
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.8rem;
+    }
+
+    .post-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .post-excerpt {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .post-tags {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--accent-purple);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .post-content {
+        line-height: 1.7;
+        margin-bottom: 3rem;
+    }
+
+    .post-content h2 {
+        color: var(--accent-blue);
+        font-size: 1.75rem;
+        margin: 2.5rem 0 1rem 0;
+        font-weight: 600;
+    }
+
+    .post-content h3 {
+        color: var(--accent-purple);
+        font-size: 1.4rem;
+        margin: 2rem 0 0.75rem 0;
+        font-weight: 600;
+    }
+
+    .post-content p {
+        margin-bottom: 1.25rem;
+        color: var(--text-secondary);
+    }
+
+    .post-content ul, .post-content ol {
+        margin: 1rem 0 1.5rem 2rem;
+        color: var(--text-secondary);
+    }
+
+    .post-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    .post-content strong {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    .post-content em {
+        color: var(--accent-green);
+        font-style: normal;
+        font-weight: 500;
+    }
+
+    .post-content pre {
+        background: var(--secondary-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .post-content code {
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--accent-purple);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9em;
+    }
+
+    .post-content pre code {
+        background: none;
+        color: var(--text-primary);
+        padding: 0;
+    }
+
+    .post-content blockquote {
+        background: rgba(0, 217, 255, 0.1);
+        border-left: 4px solid var(--accent-blue);
+        padding: 1rem 1.5rem;
+        margin: 2rem 0;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .post-content blockquote p {
+        margin: 0;
+        color: var(--text-primary);
+        font-style: italic;
+    }
+
+    .post-footer {
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .post-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--accent-blue);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        max-width: 200px;
+    }
+
+    .nav-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 217, 255, 0.15);
+    }
+
+    .nav-link span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @media (max-width: 768px) {
+        .blog-post {
+            margin-top: 80px;
+        }
+
+        .container {
+            padding: 0 1rem;
+        }
+
+        .post-title {
+            font-size: 2rem;
+        }
+
+        .post-meta {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .post-navigation {
+            flex-direction: column;
+        }
+
+        .nav-link {
+            max-width: 100%;
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
