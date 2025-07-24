@@ -316,7 +316,7 @@
             visibility: hidden;
             transform: translateY(-10px);
             transition: all 0.3s ease;
-            z-index: 1000;
+            z-index: 1002; /* Higher than mobile menu */
             margin-top: 0.5rem;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
@@ -688,6 +688,7 @@
             .theme-switcher {
                 flex-shrink: 0;
                 position: relative;
+                z-index: 1003; /* Above mobile menu and backdrop */
             }
             
             .theme-btn {
@@ -704,9 +705,17 @@
                 left: auto;
                 min-width: 140px;
                 transform-origin: top right;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+                z-index: 1004; /* Highest z-index for mobile */
+                position: absolute;
             }
 
             .theme-dropdown.active {
+                opacity: 1;
+                visibility: visible;
                 transform: translateY(0);
             }
 
@@ -886,6 +895,27 @@
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="theme-dropdown" id="themeDropdown">
+                    <div class="theme-option" data-theme="dark">
+                        <i class="fas fa-moon"></i>
+                        <span>Dark</span>
+                    </div>
+                    <div class="theme-option" data-theme="light">
+                        <i class="fas fa-sun"></i>
+                        <span>Light</span>
+                    </div>
+                    <div class="theme-option" data-theme="azure">
+                        <i class="fas fa-cloud"></i>
+                        <span>Azure</span>
+                    </div>
+                    <div class="theme-option" data-theme="sunset">
+                        <i class="fas fa-sunset"></i>
+                        <span>Sunset</span>
+                    </div>
+                    <div class="theme-option" data-theme="monochrome">
+                        <i class="fas fa-circle"></i>
+                        <span>Mono</span>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -951,7 +981,11 @@
                 this.mobileMenuToggle = document.getElementById('mobileMenuToggle');
                 this.navLinks = document.getElementById('navLinks');
                 this.backdrop = document.getElementById('mobileMenuBackdrop');
-                this.init();
+                
+                // Only initialize if elements exist
+                if (this.mobileMenuToggle && this.navLinks && this.backdrop) {
+                    this.init();
+                }
             }
 
             init() {
@@ -963,6 +997,11 @@
                 // Close menu when clicking on backdrop
                 this.backdrop.addEventListener('click', () => {
                     this.closeMenu();
+                    // Also close theme dropdown
+                    const themeDropdown = document.getElementById('themeDropdown');
+                    if (themeDropdown) {
+                        themeDropdown.classList.remove('active');
+                    }
                 });
 
                 // Close menu when clicking on a link
@@ -985,6 +1024,12 @@
                 this.navLinks.classList.toggle('active');
                 this.backdrop.classList.toggle('active');
                 document.body.classList.toggle('mobile-menu-open');
+                
+                // Close theme dropdown when mobile menu opens
+                const themeDropdown = document.getElementById('themeDropdown');
+                if (themeDropdown) {
+                    themeDropdown.classList.remove('active');
+                }
             }
 
             closeMenu() {
