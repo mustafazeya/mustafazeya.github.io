@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Network Security Groups: Advanced Configuration | Mustafa Zeya</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Theme Variables */
+        :root {
+            /* Dark Theme (Default) */
+            --primary-bg: #0a0e27;
+            --secondary-bg: #1a1f3a;
+            --accent-blue: #00d9ff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --card-bg: rgba(26, 31, 58, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --input-focus: rgba(0, 217, 255, 0.3);
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --primary-bg: #f8fafc;
+            --secondary-bg: #ffffff;
+            --accent-blue: #0ea5e9;
+            --accent-purple: #7c3aed;
+            --accent-green: #059669;
+            --accent-red: #dc2626;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --input-bg: rgba(0, 0, 0, 0.02);
+            --input-border: rgba(0, 0, 0, 0.1);
+            --input-focus: rgba(14, 165, 233, 0.3);
+        }
+
+        /* Azure Theme */
+        [data-theme="azure"] {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-blue: #0ea5e9;
+            --accent-purple: #3b82f6;
+            --accent-green: #06b6d4;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --border-color: rgba(14, 165, 233, 0.2);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        }
+
+        /* Sunset Theme */
+        [data-theme="sunset"] {
+            --primary-bg: #1a0f0a;
+            --secondary-bg: #2d1b15;
+            --accent-blue: #f97316;
+            --accent-purple: #dc2626;
+            --accent-green: #eab308;
+            --text-primary: #fef7ed;
+            --text-secondary: #fed7aa;
+            --card-bg: rgba(45, 27, 21, 0.8);
+            --border-color: rgba(249, 115, 22, 0.2);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        }
+
+        /* Monochrome Theme */
+        [data-theme="monochrome"] {
+            --primary-bg: #111111;
+            --secondary-bg: #1f1f1f;
+            --accent-blue: #ffffff;
+            --accent-purple: #e5e5e5;
+            --accent-green: #d4d4d4;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --card-bg: rgba(31, 31, 31, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-1: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .logo-icon:hover::before {
+            left: 100%;
+        }
+
+        .bracket {
+            color: var(--accent-green);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .initials {
+            margin: 0 6px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links i {
+            margin-right: 0.5rem;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            min-width: 150px;
+        }
+
+        .theme-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .theme-option:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .theme-option.active {
+            background: var(--accent-purple);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .blog-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .blog-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .blog-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .blog-content h2 {
+            color: var(--accent-blue);
+            font-size: 1.75rem;
+            margin: 2rem 0 1rem 0;
+            font-weight: 600;
+        }
+
+        .blog-content h3 {
+            color: var(--accent-purple);
+            font-size: 1.4rem;
+            margin: 1.5rem 0 0.75rem 0;
+            font-weight: 600;
+        }
+
+        .blog-content p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .blog-content ul, .blog-content ol {
+            margin: 1rem 0 1.5rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .blog-content em {
+            color: var(--accent-green);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-title {
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-blue);
+            transform: translateY(-1px);
+        }
+
+        .code-content {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+
+        /* Warning/Info Boxes */
+        .info-box {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .info-box::before {
+            content: '💡';
+            font-size: 1.5rem;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .info-box-content {
+            margin-left: 2.5rem;
+            color: var(--text-secondary);
+        }
+
+        .info-box h4 {
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .warning-box::before {
+            content: '⚠️';
+        }
+
+        .warning-box h4 {
+            color: var(--accent-red);
+        }
+
+        /* Navigation Footer */
+        .blog-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 217, 255, 0.15);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .main-content {
+                margin-top: 80px;
+                padding: 1rem;
+            }
+
+            .blog-title {
+                font-size: 2.2rem;
+            }
+
+            .blog-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .blog-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .blog-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-container" onclick="window.location.href='/'">
+                    <div class="logo-icon">
+                        <div class="bracket">[</div>
+                        <div class="initials">MZ</div>
+                        <div class="bracket">]</div>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/about"><i class="fas fa-user"></i> About</a></li>
+                <li><a href="/projects"><i class="fas fa-code"></i> Projects</a></li>
+                <li><a href="/tools/"><i class="fas fa-tools"></i> Tools</a></li>
+                <li><a href="/blogs/" class="active"><i class="fas fa-blog"></i> Blog</a></li>
+                <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li class="theme-switcher">
+                    <button class="theme-btn" id="themeToggle">
+                        <i class="fas fa-palette"></i>
+                        <span>Theme</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="dark">
+                            <i class="fas fa-moon"></i>
+                            <span>Dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="light">
+                            <i class="fas fa-sun"></i>
+                            <span>Light</span>
+                        </div>
+                        <div class="theme-option" data-theme="azure">
+                            <i class="fas fa-cloud"></i>
+                            <span>Azure</span>
+                        </div>
+                        <div class="theme-option" data-theme="sunset">
+                            <i class="fas fa-mountain-sun"></i>
+                            <span>Sunset</span>
+                        </div>
+                        <div class="theme-option" data-theme="monochrome">
+                            <i class="fas fa-circle-half-stroke"></i>
+                            <span>Monochrome</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="blog-header">
+            <h1 class="blog-title">Azure Network Security Groups: Advanced Configuration</h1>
+            <div class="blog-meta">
+                <span><i class="fas fa-calendar"></i> October 30, 2024</span>
+                <span><i class="fas fa-clock"></i> 12 min read</span>
+                <span><i class="fas fa-user"></i> Mustafa Zeya</span>
+            </div>
+            <div class="blog-tags">
+                <span class="tag">Azure</span>
+                <span class="tag">Networking</span>
+                <span class="tag">Security</span>
+                <span class="tag">NSG</span>
+            </div>
+        </div>
+
+        <div class="blog-content">
+            <p>Azure Network Security Groups (NSGs) are fundamental building blocks for network security in Azure. They act as virtual firewalls that control inbound and outbound traffic to Azure resources. While basic NSG configuration is straightforward, mastering advanced patterns can significantly enhance your cloud security posture.</p>
+
+            <h2>Understanding NSG Rule Prioritization</h2>
+            <p>NSG rules are processed based on priority, with <strong>lower numbers having higher priority</strong>. Azure processes rules from priority 100 to 4096, and the first matching rule determines the action.</p>
+
+            <div class="info-box">
+                <div class="info-box-content">
+                    <h4>Pro Tip</h4>
+                    <p>Always leave gaps between rule priorities (e.g., 100, 200, 300) to allow for future rule insertions without renumbering existing rules.</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Example: Strategic Rule Prioritization</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content"># High Priority - Explicit Deny for Known Bad IPs
+Priority 100: Deny 192.168.1.100 → Any
+
+# Medium Priority - Allow Specific Services
+Priority 200: Allow 10.0.0.0/24 → Port 443 (HTTPS)
+Priority 300: Allow 10.0.0.0/24 → Port 80 (HTTP)
+
+# Lower Priority - General Rules
+Priority 1000: Allow VirtualNetwork → Port 22 (SSH)
+Priority 2000: Deny Any → Any (Explicit Deny All)</div>
+            </div>
+
+            <h2>Application Security Groups (ASGs)</h2>
+            <p>Application Security Groups provide a powerful abstraction layer that allows you to group virtual machines logically and define network security policies based on application tiers rather than explicit IP addresses.</p>
+
+            <h3>Benefits of ASGs</h3>
+            <ul>
+                <li><strong>Dynamic Membership:</strong> VMs can be added/removed from ASGs without updating NSG rules</li>
+                <li><strong>Logical Grouping:</strong> Group by application function rather than network topology</li>
+                <li><strong>Simplified Management:</strong> Reduce the number of NSG rules needed</li>
+                <li><strong>Better Scalability:</strong> Rules scale with application growth</li>
+            </ul>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Terraform: Creating Application Security Groups</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content">resource "azurerm_application_security_group" "web_tier" {
+  name                = "asg-web-tier"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  tags = {
+    Environment = "Production"
+    Tier        = "Web"
+  }
+}
+
+resource "azurerm_application_security_group" "app_tier" {
+  name                = "asg-app-tier"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  tags = {
+    Environment = "Production"
+    Tier        = "Application"
+  }
+}
+
+resource "azurerm_application_security_group" "db_tier" {
+  name                = "asg-db-tier"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  tags = {
+    Environment = "Production"
+    Tier        = "Database"
+  }
+}</div>
+            </div>
+
+            <h3>NSG Rules with ASGs</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Terraform: NSG Rules Using ASGs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content">resource "azurerm_network_security_rule" "web_to_app" {
+  name                         = "AllowWebToApp"
+  priority                     = 200
+  direction                    = "Outbound"
+  access                       = "Allow"
+  protocol                     = "Tcp"
+  source_port_range           = "*"
+  destination_port_ranges     = ["8080", "8443"]
+  source_application_security_group_ids      = [azurerm_application_security_group.web_tier.id]
+  destination_application_security_group_ids = [azurerm_application_security_group.app_tier.id]
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.main.name
+}
+
+resource "azurerm_network_security_rule" "app_to_db" {
+  name                         = "AllowAppToDb"
+  priority                     = 300
+  direction                    = "Outbound"
+  access                       = "Allow"
+  protocol                     = "Tcp"
+  source_port_range           = "*"
+  destination_port_ranges     = ["1433", "5432"]
+  source_application_security_group_ids      = [azurerm_application_security_group.app_tier.id]
+  destination_application_security_group_ids = [azurerm_application_security_group.db_tier.id]
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.main.name
+}</div>
+            </div>
+
+            <h2>Advanced Traffic Filtering Techniques</h2>
+
+            <h3>Service Tags for Azure Services</h3>
+            <p>Azure service tags represent groups of IP address prefixes for specific Azure services. They simplify NSG rules by eliminating the need to hardcode IP ranges.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Common Service Tags</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content"># Storage Account Access
+Source: VirtualNetwork
+Destination: Storage
+Ports: 443 (HTTPS)
+
+# Azure SQL Database
+Source: VirtualNetwork  
+Destination: Sql
+Ports: 1433
+
+# Azure Key Vault
+Source: VirtualNetwork
+Destination: AzureKeyVault
+Ports: 443
+
+# Azure Monitor
+Source: VirtualNetwork
+Destination: AzureMonitor
+Ports: 443</div>
+            </div>
+
+            <h3>Augmented Security Rules</h3>
+            <p>Augmented security rules allow multiple values in source and destination fields, reducing the number of individual rules needed.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Terraform: Augmented Security Rules</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content">resource "azurerm_network_security_rule" "allow_management_ports" {
+  name                        = "AllowManagementPorts"
+  priority                    = 150
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range          = "*"
+  destination_port_ranges    = ["22", "3389", "5985", "5986"]
+  source_address_prefixes    = ["10.0.1.0/24", "10.0.2.0/24"]
+  destination_address_prefix = "VirtualNetwork"
+  resource_group_name        = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.main.name
+}</div>
+            </div>
+
+            <h2>NSG Flow Logs and Monitoring</h2>
+            <p>NSG Flow Logs provide detailed information about IP traffic flowing through NSGs, essential for security monitoring and compliance.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Terraform: Enabling NSG Flow Logs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content">resource "azurerm_network_watcher_flow_log" "main" {
+  network_watcher_name = azurerm_network_watcher.main.name
+  resource_group_name  = azurerm_resource_group.main.name
+
+  network_security_group_id = azurerm_network_security_group.main.id
+  storage_account_id        = azurerm_storage_account.flow_logs.id
+  enabled                   = true
+
+  retention_policy {
+    enabled = true
+    days    = 90
+  }
+
+  traffic_analytics {
+    enabled               = true
+    workspace_id          = azurerm_log_analytics_workspace.main.workspace_id
+    workspace_region      = azurerm_log_analytics_workspace.main.location
+    workspace_resource_id = azurerm_log_analytics_workspace.main.id
+    interval_in_minutes   = 10
+  }
+
+  tags = {
+    Environment = "Production"
+    Purpose     = "SecurityMonitoring"
+  }
+}</div>
+            </div>
+
+            <h2>Best Practices for NSG Management</h2>
+
+            <h3>1. Principle of Least Privilege</h3>
+            <ul>
+                <li>Start with deny-all rules and explicitly allow required traffic</li>
+                <li>Use specific port ranges instead of wildcards when possible</li>
+                <li>Regularly review and remove unused rules</li>
+            </ul>
+
+            <h3>2. Consistent Naming Conventions</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Naming Convention Example</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content"># Format: [Action][Source][Destination][Protocol][Port]
+Allow_Internet_WebTier_TCP_443
+Deny_Any_DBTier_TCP_1433  
+Allow_AppTier_Storage_HTTPS_443</div>
+            </div>
+
+            <h3>3. Documentation and Tagging</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Terraform: Comprehensive NSG with Tags</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content">resource "azurerm_network_security_group" "web_tier" {
+  name                = "nsg-web-tier-prod"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  tags = {
+    Environment     = "Production"
+    Tier           = "Web"
+    Owner          = "Platform-Team"
+    CostCenter     = "IT-Security"
+    Compliance     = "PCI-DSS"
+    LastReviewed   = "2024-10-30"
+    ReviewDue      = "2025-01-30"
+  }
+}</div>
+            </div>
+
+            <div class="warning-box">
+                <div class="info-box-content">
+                    <h4>Security Consideration</h4>
+                    <p>Always test NSG changes in a non-production environment first. Incorrect rules can block legitimate traffic or create security vulnerabilities.</p>
+                </div>
+            </div>
+
+            <h2>Troubleshooting NSG Issues</h2>
+
+            <h3>Common Issues and Solutions</h3>
+            <ul>
+                <li><strong>Connectivity Problems:</strong> Use Azure Network Watcher's IP Flow Verify to test rule evaluation</li>
+                <li><strong>Rule Conflicts:</strong> Check rule priorities and ensure correct precedence</li>
+                <li><strong>Service Tag Updates:</strong> Monitor Azure service tag changes that might affect rules</li>
+                <li><strong>ASG Membership:</strong> Verify VMs are correctly assigned to Application Security Groups</li>
+            </ul>
+
+            <h3>Diagnostic Tools</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Azure CLI: NSG Troubleshooting Commands</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content"># Test IP flow through NSG
+az network watcher test-ip-flow \
+  --vm MyVM \
+  --direction Inbound \
+  --protocol TCP \
+  --local 10.0.0.4:22 \
+  --remote 10.0.0.5:3389
+
+# View effective security rules
+az network nic list-effective-nsg \
+  --name MyNIC \
+  --resource-group MyRG
+
+# Get NSG flow logs
+az network watcher flow-log show \
+  --resource-group MyRG \
+  --name MyFlowLog</div>
+            </div>
+
+            <h2>Conclusion</h2>
+            <p>Azure Network Security Groups provide powerful capabilities for network security when configured correctly. By leveraging Application Security Groups, service tags, and advanced rule configurations, you can create scalable and maintainable security policies that grow with your infrastructure.</p>
+
+            <p>Remember to always follow the principle of least privilege, maintain proper documentation, and regularly review your NSG configurations to ensure optimal security posture.</p>
+        </div>
+
+        <div class="blog-navigation">
+            <a href="/blogs/terraform-state-management-azure.html" class="nav-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Previous: Terraform State Management</span>
+            </a>
+            <a href="/blogs/" class="nav-link">
+                <i class="fas fa-list"></i>
+                <span>All Articles</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const options = document.querySelectorAll('.theme-option');
+            options.forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-theme') === theme) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            updateThemeButton(theme);
+            
+            // Close dropdown
+            document.getElementById('themeDropdown').classList.remove('show');
+        }
+
+        // Theme Toggle Dropdown
+        document.getElementById('themeToggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('themeDropdown');
+            dropdown.classList.toggle('show');
+        });
+
+        // Theme Selection
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const theme = this.getAttribute('data-theme');
+                setTheme(theme);
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            document.getElementById('themeDropdown').classList.remove('show');
+        });
+
+        // Copy Code Function
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block').querySelector('.code-content');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(function() {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'var(--accent-green)';
+                
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.style.background = 'var(--accent-purple)';
+                }, 2000);
+            });
+        }
+
+        // Smooth Scrolling for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(10, 14, 39, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(10, 14, 39, 0.95)';
+            }
+        });
+
+        // Initialize theme on page load
+        initializeTheme();
+    </script>
+</body>
+</html>
