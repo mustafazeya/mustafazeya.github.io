@@ -108,14 +108,8 @@ title: "IP Subnet Calculator"
                         
                         <div class="split-method" id="mask-method">
                             <label for="targetMask">Target Subnet Mask</label>
-                            <select id="targetMask">
-                                <option value="25">/25 (128 hosts)</option>
-                                <option value="26" selected>/26 (64 hosts)</option>
-                                <option value="27">/27 (32 hosts)</option>
-                                <option value="28">/28 (16 hosts)</option>
-                                <option value="29">/29 (8 hosts)</option>
-                                <option value="30">/30 (4 hosts)</option>
-                            </select>
+                            <input type="number" id="targetMask" min="8" max="30" value="26" step="1">
+                            <small>Enter target subnet mask (8-30)</small>
                             <button id="splitByMaskBtn" class="btn btn-secondary">
                                 <i class="fas fa-cut"></i>
                                 Split Network
@@ -133,6 +127,12 @@ title: "IP Subnet Calculator"
 </div>
 
 <style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
     .subnet-calculator {
         padding: 2rem 0;
         min-height: calc(100vh - 80px);
@@ -354,6 +354,13 @@ title: "IP Subnet Calculator"
         box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
     }
 
+    .split-method small {
+        display: block;
+        margin-top: 0.5rem;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+    }
+
     .subnets-results {
         margin-top: 2rem;
         display: grid;
@@ -426,6 +433,10 @@ title: "IP Subnet Calculator"
 
     /* Mobile responsiveness */
     @media (max-width: 768px) {
+        .container {
+            padding: 0 1rem;
+        }
+
         .subnet-calculator {
             padding: 1rem 0;
         }
@@ -462,6 +473,10 @@ title: "IP Subnet Calculator"
     }
 
     @media (max-width: 480px) {
+        .container {
+            padding: 0 0.75rem;
+        }
+
         .main-content {
             gap: 2rem;
         }
@@ -650,6 +665,25 @@ title: "IP Subnet Calculator"
         });
     }
 
+    function updateMaskConstraints(network) {
+        const targetMaskInput = document.getElementById('targetMask');
+        const currentCidr = network.cidr;
+        
+        // Target mask must be greater than current network mask
+        targetMaskInput.min = currentCidr + 1;
+        targetMaskInput.max = 30;
+        
+        // Update the value if it's invalid
+        const currentValue = parseInt(targetMaskInput.value);
+        if (currentValue <= currentCidr) {
+            targetMaskInput.value = currentCidr + 1;
+        }
+        
+        // Update the helper text
+        const small = targetMaskInput.nextElementSibling;
+        small.textContent = `Enter target subnet mask (${currentCidr + 1}-30)`;
+    }
+
     // Event listeners
     document.addEventListener('DOMContentLoaded', () => {
         let currentNetwork = null;
@@ -674,6 +708,7 @@ title: "IP Subnet Calculator"
                 const input = document.getElementById('networkInput').value.trim();
                 currentNetwork = calculateNetwork(input);
                 displayResults(currentNetwork);
+                updateMaskConstraints(currentNetwork);
             } catch (error) {
                 alert('Error: ' + error.message);
             }
@@ -717,6 +752,14 @@ title: "IP Subnet Calculator"
             }
             try {
                 const targetCidr = parseInt(document.getElementById('targetMask').value);
+                if (targetCidr <= currentNetwork.cidr) {
+                    alert(`Target mask must be greater than /${currentNetwork.cidr}. Please enter a value between /${currentNetwork.cidr + 1} and /30.`);
+                    return;
+                }
+                if (targetCidr > 30) {
+                    alert('Target mask cannot be greater than /30');
+                    return;
+                }
                 const subnets = splitByMask(currentNetwork, targetCidr);
                 displaySubnets(subnets);
             } catch (error) {
