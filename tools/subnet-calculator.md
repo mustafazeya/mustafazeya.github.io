@@ -11,7 +11,7 @@ title: "IP Subnet Calculator"
     </p>
 </div>
 
-<div class="main-content">
+<div class="calculator-grid">
     <div class="input-section">
         <h2 class="section-title">
             <i class="fas fa-keyboard"></i>
@@ -197,7 +197,7 @@ title: "IP Subnet Calculator"
         margin: 0 auto;
     }
 
-    .main-content {
+    .calculator-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 3rem;
@@ -458,7 +458,7 @@ title: "IP Subnet Calculator"
     }
 
     @media (max-width: 768px) {
-        .main-content {
+        .calculator-grid {
             grid-template-columns: 1fr;
             gap: 2rem;
         }
