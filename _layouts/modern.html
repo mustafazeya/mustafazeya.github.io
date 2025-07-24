@@ -303,7 +303,7 @@
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
         }
 
-        .theme-dropdown {
+        .theme-switcher .theme-dropdown {
             position: absolute;
             top: 100%;
             right: 0;
@@ -312,8 +312,9 @@
             border-radius: 8px;
             backdrop-filter: blur(20px);
             min-width: 150px;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            display: block;
             transform: translateY(-10px);
             transition: all 0.3s ease;
             z-index: 1002; /* Higher than mobile menu */
@@ -321,9 +322,10 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .theme-dropdown.active {
-            opacity: 1;
-            visibility: visible;
+        .theme-switcher .theme-dropdown.active {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
             transform: translateY(0);
         }
 
@@ -335,6 +337,11 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Ensure theme options are only visible within the dropdown */
+        .theme-switcher .theme-dropdown:not(.active) .theme-option {
+            display: none !important;
         }
 
         .theme-option:last-child {
@@ -700,22 +707,24 @@
                 display: none;
             }
 
-            .theme-dropdown {
+            .theme-switcher .theme-dropdown {
                 right: 0;
                 left: auto;
                 min-width: 140px;
                 transform-origin: top right;
-                opacity: 0;
-                visibility: hidden;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                display: block;
                 transform: translateY(-10px);
                 transition: all 0.3s ease;
                 z-index: 1004; /* Highest z-index for mobile */
                 position: absolute;
             }
 
-            .theme-dropdown.active {
-                opacity: 1;
-                visibility: visible;
+            .theme-switcher .theme-dropdown.active {
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
                 transform: translateY(0);
             }
 
@@ -856,6 +865,27 @@
 
         a:hover {
             color: var(--accent-purple);
+        }
+        /* OVERRIDE: Absolutely ensure theme dropdown is hidden when not active */
+        .theme-dropdown:not(.active) {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+        
+        .theme-dropdown:not(.active) * {
+            display: none !important;
+        }
+        
+        /* Only show when explicitly active */
+        .theme-dropdown.active {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        .theme-dropdown.active .theme-option {
+            display: flex !important;
         }
     </style>
 </head>
