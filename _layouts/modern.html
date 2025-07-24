@@ -235,6 +235,11 @@
             list-style: none;
         }
 
+        /* Hide mobile menu button on desktop */
+        .mobile-menu-toggle {
+            display: none;
+        }
+
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
@@ -558,20 +563,125 @@
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 1rem;
+                position: relative;
             }
             
+            /* Hamburger Menu Button */
+            .mobile-menu-toggle {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 40px;
+                height: 40px;
+                background: var(--card-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                z-index: 1001;
+            }
+            
+            .mobile-menu-toggle:hover {
+                border-color: var(--accent-blue);
+                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+            }
+            
+            .hamburger-line {
+                width: 20px;
+                height: 2px;
+                background: var(--text-primary);
+                margin: 2px 0;
+                transition: all 0.3s ease;
+                border-radius: 2px;
+            }
+            
+            .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            /* Mobile menu backdrop */
+            .mobile-menu-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+            
+            .mobile-menu-backdrop.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            /* Prevent body scroll when menu is open */
+            body.mobile-menu-open {
+                overflow: hidden;
+            }
+            
+            /* Mobile Navigation Menu */
             .nav-links {
-                gap: 1rem;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-                max-width: calc(100vw - 200px); /* Reserve space for theme switcher */
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: var(--card-bg);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border-color);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             }
             
-            .nav-links::-webkit-scrollbar {
-                display: none;
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-links a {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+            
+            .nav-links a:hover {
+                background: rgba(59, 130, 246, 0.1);
+                padding-left: 2.5rem;
+            }
+            
+            .nav-links a i {
+                font-size: 1.1rem;
+                width: 20px;
+                text-align: center;
             }
 
             /* Mobile theme switcher */
@@ -648,19 +758,22 @@
 
         /* Medium mobile devices - handle navigation overflow */
         @media (max-width: 640px) {
-            .nav-links {
-                gap: 0.5rem;
-                max-width: calc(100vw - 160px); /* Even more space for theme switcher */
-            }
-            
             .nav-links a {
-                font-size: 0.85rem;
-                padding: 0.4rem 0.6rem;
+                font-size: 0.95rem;
+                padding: 0.9rem 1.5rem;
             }
             
             .nav-links a i {
-                font-size: 0.9rem;
-                margin-right: 0.4rem;
+                font-size: 1rem;
+            }
+            
+            .mobile-menu-toggle {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .hamburger-line {
+                width: 18px;
             }
         }
 
@@ -670,29 +783,23 @@
                 padding: 0 0.5rem;
             }
             
-            .nav-links {
-                gap: 0.25rem;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-            }
-            
-            .nav-links::-webkit-scrollbar {
-                display: none;
-            }
-            
             .nav-links a {
-                white-space: nowrap;
-                font-size: 0.75rem;
-                padding: 0.3rem 0.5rem;
-                min-width: fit-content;
+                font-size: 0.9rem;
+                padding: 0.8rem 1rem;
             }
             
             .nav-links a i {
-                font-size: 0.8rem;
-                margin-right: 0.25rem;
+                font-size: 0.95rem;
+            }
+            
+            .mobile-menu-toggle {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .hamburger-line {
+                width: 16px;
+                height: 1.5px;
             }
             
             .theme-switcher {
@@ -755,20 +862,36 @@
                     </div>
                 </a>
             </div>
-            <ul class="nav-links">
+            
+            <!-- Mobile menu toggle button -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
                 <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="{{ '/about' | relative_url }}" {% if page.url contains 'about' %}class="active"{% endif %}><i class="fas fa-user"></i> About</a></li>
                 <li><a href="{{ '/projects' | relative_url }}" {% if page.url contains 'projects' %}class="active"{% endif %}><i class="fas fa-code"></i> Projects</a></li>
                 <li><a href="{{ '/tools/' | relative_url }}" {% if page.url contains 'tools' %}class="active"{% endif %}><i class="fas fa-tools"></i> Tools</a></li>
                 <li><a href="{{ '/blog/' | relative_url }}" {% if page.url contains 'blog' or page.layout == 'post' %}class="active"{% endif %}><i class="fas fa-blog"></i> Blog</a></li>
                 <li><a href="{{ '/contact' | relative_url }}" {% if page.url contains 'contact' %}class="active"{% endif %}><i class="fas fa-envelope"></i> Contact</a></li>
-                <li class="theme-switcher">
-                    <button class="theme-btn" id="themeToggle">
-                        <i class="fas fa-palette"></i>
-                        <span>Theme</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="theme-dropdown" id="themeDropdown">
+            </ul>
+            
+            <div class="theme-switcher">
+                <button class="theme-btn" id="themeToggle">
+                    <i class="fas fa-palette"></i>
+                    <span>Theme</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="theme-dropdown" id="themeDropdown">
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile menu backdrop -->
+    <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
                         <div class="theme-option" data-theme="dark">
                             <i class="fas fa-moon"></i>
                             <span>Dark</span>
@@ -821,6 +944,56 @@
                 navbar.style.background = 'rgba(10, 14, 39, 0.95)';
             }
         });
+
+        // Mobile Menu Functionality
+        class MobileMenu {
+            constructor() {
+                this.mobileMenuToggle = document.getElementById('mobileMenuToggle');
+                this.navLinks = document.getElementById('navLinks');
+                this.backdrop = document.getElementById('mobileMenuBackdrop');
+                this.init();
+            }
+
+            init() {
+                // Toggle mobile menu
+                this.mobileMenuToggle.addEventListener('click', () => {
+                    this.toggleMenu();
+                });
+
+                // Close menu when clicking on backdrop
+                this.backdrop.addEventListener('click', () => {
+                    this.closeMenu();
+                });
+
+                // Close menu when clicking on a link
+                this.navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        this.closeMenu();
+                    });
+                });
+
+                // Close menu when screen size changes to desktop
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        this.closeMenu();
+                    }
+                });
+            }
+
+            toggleMenu() {
+                this.mobileMenuToggle.classList.toggle('active');
+                this.navLinks.classList.toggle('active');
+                this.backdrop.classList.toggle('active');
+                document.body.classList.toggle('mobile-menu-open');
+            }
+
+            closeMenu() {
+                this.mobileMenuToggle.classList.remove('active');
+                this.navLinks.classList.remove('active');
+                this.backdrop.classList.remove('active');
+                document.body.classList.remove('mobile-menu-open');
+            }
+        }
 
         // Theme Switcher Functionality
         class ThemeSwitcher {
@@ -908,6 +1081,7 @@
 
         // Initialize theme switcher when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            new MobileMenu();
             new ThemeSwitcher();
         });
     </script>
