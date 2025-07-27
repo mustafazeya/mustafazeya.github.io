@@ -47,7 +47,7 @@ title: "Contact Me"
             </div>
             <div>
                 <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">LinkedIn</h3>
-                <a href="https://linkedin.com/in/mohammad-zeyaul-mustafa" target="_blank" style="color: var(--accent-blue); font-weight: 500;">Connect with me</a>
+                <a href="https://www.linkedin.com/in/mustafazeya/" target="_blank" style="color: var(--accent-blue); font-weight: 500;">Connect with me</a>
             </div>
         </div>
 
@@ -115,4 +115,3 @@ title: "Contact Me"
         </div>
     </div>
 </section>
-- 💼 LinkedIn: [linkedin.com/in/mustafazeya](https://linkedin.com/in/mustafazeya)
