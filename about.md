@@ -11,26 +11,23 @@ title: "About Me"
 <section class="section">
     <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
         <!-- Profile Section with Image -->
-        <div class="profile-section" style="display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 3rem; backdrop-filter: blur(20px);">
-            <div class="profile-image-container" style="text-align: center;">
+        <div class="profile-section card-container" style="display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center;">
+            <div class="profile-image-container text-center">
                 <div style="position: relative; display: inline-block;">
                     <img src="/assets/images/profile.jpg" alt="Zeyaul Mustafa - Senior Platform Engineer" 
-                         class="profile-image"
-                         style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-blue); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); transition: transform 0.3s ease;"
-                         onmouseover="this.style.transform='scale(1.05)'" 
-                         onmouseout="this.style.transform='scale(1)'">
-                    <div style="position: absolute; bottom: 10px; right: 10px; background: var(--accent-green); color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 3px solid white;">
+                         class="profile-image">
+                    <div class="badge-check">
                         <i class="fas fa-check" style="font-size: 0.8rem;"></i>
                     </div>
                 </div>
-                <div style="margin-top: 1rem;">
+                <div class="mt-2">
                     <h3 style="color: var(--text-primary); margin: 0.5rem 0; font-size: 1.2rem;">Zeyaul Mustafa</h3>
                     <p style="color: var(--accent-blue); margin: 0; font-weight: 600;">Senior Platform Engineer</p>
                     <p style="color: var(--text-secondary); margin: 0.5rem 0; font-size: 0.9rem;">📍 Sweden</p>
                 </div>
             </div>
             <div class="profile-content">
-                <h2 style="color: var(--text-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">🚀 Current Role & Mission</h2>
+                <h2 class="section-heading mb-3">🚀 Current Role & Mission</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.7;">
                     As a <strong>Senior Platform Engineer</strong> based in Sweden, I architect and implement enterprise-scale cloud infrastructure using Microsoft Azure's Cloud Adoption Framework. I specialize in designing secure, scalable platforms that enable organizations to innovate while maintaining the highest security standards.
                 </p>
@@ -131,9 +128,9 @@ title: "About Me"
 
 <section class="section">
     <h2 class="section-title">🔧 Technical Arsenal</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+    <div class="grid-auto-200">
         
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
+        <div class="card-container-sm">
             <h4 style="color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-cloud"></i> Cloud Platforms
             </h4>
@@ -144,7 +141,7 @@ title: "About Me"
             </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
+        <div style="class="card-container-sm"">
             <h4 style="color: var(--accent-purple); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-shield-alt"></i> Security Tools
             </h4>
@@ -158,7 +155,7 @@ title: "About Me"
             </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
+        <div style="class="card-container-sm"">
             <h4 style="color: var(--accent-green); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-code"></i> IaC & Automation
             </h4>
@@ -170,7 +167,7 @@ title: "About Me"
             </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
+        <div style="class="card-container-sm"">
             <h4 style="color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-infinity"></i> DevOps & CI/CD
             </h4>
@@ -182,7 +179,7 @@ title: "About Me"
             </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
+        <div style="class="card-container-sm"">
             <h4 style="color: var(--accent-purple); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-chart-bar"></i> Observability
             </h4>
@@ -194,7 +191,7 @@ title: "About Me"
             </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
+        <div style="class="card-container-sm"">
             <h4 style="color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-network-wired"></i> Networking & Security
             </h4>
@@ -207,7 +204,7 @@ title: "About Me"
             </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem;">
+        <div style="class="card-container-sm"">
             <h4 style="color: var(--accent-green); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-database"></i> Data & Services
             </h4>
@@ -223,38 +220,38 @@ title: "About Me"
 
 <section class="section">
     <h2 class="section-title">🎯 Certifications & Standards</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+    <div class="grid-auto-250">
+        <div class="card-container-md text-center">
             <div style="font-size: 2rem; margin-bottom: 1rem;">🛡️</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Azure Security Engineer</h3>
             <p style="color: var(--text-secondary);">Microsoft Certified Associate</p>
         </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div style="class="card-container-md text-center"">
             <div style="font-size: 2rem; margin-bottom: 1rem;">🚀</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">DevOps Engineer Expert</h3>
             <p style="color: var(--text-secondary);">Microsoft Certified Expert</p>
         </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div style="class="card-container-md text-center"">
             <div style="font-size: 2rem; margin-bottom: 1rem;">💻</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Azure Developer Associate</h3>
             <p style="color: var(--text-secondary);">Microsoft Certified Associate</p>
         </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div style="class="card-container-md text-center"">
             <div style="font-size: 2rem; margin-bottom: 1rem;">⚙️</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Kubernetes Administrator</h3>
             <p style="color: var(--text-secondary);">CKA Certified</p>
         </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div style="class="card-container-md text-center"">
             <div style="font-size: 2rem; margin-bottom: 1rem;">🏗️</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Terraform Associate</h3>
             <p style="color: var(--text-secondary);">HashiCorp Certified</p>
         </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div style="class="card-container-md text-center"">
             <div style="font-size: 2rem; margin-bottom: 1rem;">🐧</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">RHCSA</h3>
             <p style="color: var(--text-secondary);">Red Hat Certified</p>
         </div>
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div style="class="card-container-md text-center"">
             <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
             <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">ITIL Certified</h3>
             <p style="color: var(--text-secondary);">Agile Enthusiast</p>
@@ -263,8 +260,8 @@ title: "About Me"
 </section>
 
 <section class="section">
-    <div style="text-align: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 3rem; backdrop-filter: blur(20px);">
-        <h2 style="color: var(--text-primary); margin-bottom: 1rem;">💡 Leadership Philosophy</h2>
+    <div class="cta-section">
+        <h2 class="section-heading mb-2">💡 Leadership Philosophy</h2>
         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.2rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;">
             "I believe in building secure, scalable platforms that empower teams to innovate fearlessly. My focus is on creating robust foundations that enable rapid, secure deployment while fostering a culture of shared knowledge and continuous improvement."
         </p>

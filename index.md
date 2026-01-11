@@ -77,8 +77,8 @@ title: "Senior Platform Engineer - Portfolio"
 </section>
 
 <section class="section">
-    <div style="text-align: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 3rem; backdrop-filter: blur(20px);">
-        <h2 style="color: var(--text-primary); margin-bottom: 1rem;">Ready for complex automation challenges?</h2>
+    <div class="cta-section">
+        <h2 class="section-heading">Ready for complex automation challenges?</h2>
         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Let's build intelligent, self-healing infrastructure that scales</p>
         <a href="/contact" class="btn btn-primary">
             <i class="fas fa-envelope"></i>

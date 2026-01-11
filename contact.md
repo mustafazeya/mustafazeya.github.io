@@ -10,8 +10,8 @@ title: "Contact Me"
 
 <section class="section">
     <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 800px; margin: 0 auto;">
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 2.5rem; backdrop-filter: blur(20px); text-align: center;">
-            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">💬 Get In Touch</h2>
+        <div class="card-container text-center">
+            <h2 class="section-heading mb-3">💬 Get In Touch</h2>
             <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.7;">
                 Feel free to reach out for collaboration, consulting, or just a tech chat. I'm always excited to discuss DevSecOps, cloud security, and innovative solutions.
             </p>
@@ -64,10 +64,10 @@ title: "Contact Me"
 </section>
 
 <section class="section">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+    <div class="grid-auto-250">
+        <div class="card-container-md text-center">
             <div style="font-size: 2.5rem; margin-bottom: 1rem;">🤝</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Collaboration</h3>
+            <h3 class="section-heading mb-2">Collaboration</h3>
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Open source projects, security research, or innovative DevSecOps solutions</p>
             <a href="mailto:zeyaul9@gmail.com?subject=Collaboration Opportunity" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-handshake"></i>
@@ -75,9 +75,9 @@ title: "Contact Me"
             </a>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div class="card-container-md text-center">
             <div style="font-size: 2.5rem; margin-bottom: 1rem;">💼</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Consulting</h3>
+            <h3 class="section-heading mb-2">Consulting</h3>
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Cloud security assessments, DevSecOps implementation, or architecture reviews</p>
             <a href="mailto:zeyaul9@gmail.com?subject=Consulting Inquiry" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-briefcase"></i>
@@ -85,9 +85,9 @@ title: "Contact Me"
             </a>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; backdrop-filter: blur(20px); text-align: center;">
+        <div class="card-container-md text-center">
             <div style="font-size: 2.5rem; margin-bottom: 1rem;">☕</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Tech Chat</h3>
+            <h3 class="section-heading mb-2">Tech Chat</h3>
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Kubernetes, security tools, cloud architectures, or latest industry trends</p>
             <a href="mailto:zeyaul9@gmail.com?subject=Tech Chat" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
                 <i class="fas fa-comments"></i>
