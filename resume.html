@@ -1,0 +1,531 @@
+---
+layout: null
+title: "Mohammad Zeyaul Mustafa - Resume"
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammad Zeyaul Mustafa - Resume</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.3;
+            color: #333;
+            background: #f5f5f5;
+            font-size: 11px;
+        }
+
+        .resume {
+            max-width: 8.5in;
+            margin: 20px auto;
+            padding: 0.5in;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            min-height: 11in;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #333;
+        }
+
+        .name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .about-contact {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .about-section h3 {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .about-text {
+            font-size: 10px;
+            line-height: 1.4;
+            text-align: justify;
+        }
+
+        .contact-section h3 {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .contact-item {
+            font-size: 9px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-item i {
+            width: 12px;
+            margin-right: 6px;
+            color: #666;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .experience-item {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+
+        .job-header {
+            margin-bottom: 5px;
+        }
+
+        .job-title {
+            font-weight: bold;
+            font-size: 11px;
+            color: #333;
+        }
+
+        .job-date {
+            font-size: 10px;
+            color: #888;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .job-description {
+            font-size: 9px;
+            line-height: 1.3;
+        }
+
+        .job-description li {
+            margin-bottom: 3px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 18px;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .skill-item {
+            font-size: 9px;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .cert-item {
+            font-size: 9px;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .cert-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .education-item {
+            margin-bottom: 10px;
+        }
+
+        .degree {
+            font-weight: bold;
+            font-size: 10px;
+            color: #333;
+        }
+
+        .school {
+            font-size: 9px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            z-index: 1000;
+        }
+
+        @media print {
+            body {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                font-size: 11px;
+                font-family: 'Times New Roman', serif;
+                color: #000;
+                line-height: 1.4;
+            }
+            
+            .resume {
+                margin: 0;
+                padding: 0.5in;
+                max-width: none;
+                width: 100%;
+                box-shadow: none;
+                background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                border: 1px solid #e9ecef;
+            }
+            
+            .print-btn {
+                display: none;
+            }
+            
+            .header {
+                text-align: center;
+                margin-bottom: 20px;
+                padding: 15px;
+                background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
+                color: white;
+                border-radius: 5px;
+            }
+            
+            .name {
+                font-size: 18px;
+                font-weight: bold;
+                color: white;
+                margin-bottom: 5px;
+                letter-spacing: 1px;
+            }
+            
+            .title {
+                font-size: 12px;
+                color: #e9ecef;
+                margin-bottom: 10px;
+                letter-spacing: 0;
+            }
+            
+            .about-contact {
+                display: block;
+                margin-bottom: 15px;
+                background: rgba(44, 90, 160, 0.05);
+                padding: 10px;
+                border-radius: 5px;
+            }
+            
+            .about-section, .contact-section {
+                margin-bottom: 10px;
+            }
+            
+            .about-section h3, .contact-section h3 {
+                font-size: 11px;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 5px;
+                color: #2c5aa0;
+            }
+            
+            .about-text {
+                font-size: 10px;
+                line-height: 1.3;
+                text-align: left;
+                color: #333;
+            }
+            
+            .contact-item {
+                font-size: 10px;
+                margin-bottom: 2px;
+                display: block;
+                color: #333;
+            }
+            
+            .contact-item i {
+                display: none;
+            }
+            
+            .main-grid {
+                display: block;
+            }
+            
+            .section-title {
+                font-size: 11px;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 8px;
+                color: white;
+                background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
+                padding: 5px 10px;
+                border-radius: 3px;
+            }
+            
+            .sidebar-title {
+                font-size: 10px;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 5px;
+                color: #2c5aa0;
+                border-bottom: 1px solid #2c5aa0;
+                padding-bottom: 2px;
+            }
+            
+            .job-title {
+                font-weight: bold;
+                font-size: 10px;
+                color: #2c5aa0;
+            }
+            
+            .job-date {
+                font-size: 9px;
+                color: #666;
+                font-style: italic;
+                margin-bottom: 3px;
+            }
+            
+            .job-description {
+                font-size: 9px;
+                line-height: 1.2;
+                color: #333;
+            }
+            
+            .skill-item, .cert-item {
+                font-size: 9px;
+                margin-bottom: 1px;
+                line-height: 1.2;
+                color: #333;
+            }
+            
+            .degree {
+                font-weight: bold;
+                font-size: 9px;
+                color: #2c5aa0;
+            }
+            
+            .school {
+                font-size: 8px;
+                color: #666;
+                margin-bottom: 1px;
+            }
+            
+            .section {
+                break-inside: avoid;
+                margin-bottom: 10px;
+                background: rgba(255, 255, 255, 0.7);
+                padding: 10px;
+                border-radius: 5px;
+                border-left: 3px solid #2c5aa0;
+            }
+            
+            .experience-item {
+                break-inside: avoid;
+                margin-bottom: 8px;
+                background: rgba(248, 249, 250, 0.5);
+                padding: 8px;
+                border-radius: 3px;
+            }
+            
+            .sidebar-section {
+                margin-bottom: 10px;
+                background: rgba(44, 90, 160, 0.05);
+                padding: 8px;
+                border-radius: 5px;
+            }
+        }
+
+        @page {
+            size: letter;
+            margin: 0.4in;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">
+        <i class="fas fa-print"></i> Print PDF
+    </button>
+    
+    <div class="resume">
+        <div class="header">
+            <div class="name">Mohammad Zeyaul Mustafa</div>
+            <div class="title">S e n i o r &nbsp; P l a t f o r m &nbsp; E n g i n e e r</div>
+        </div>
+
+        <div class="about-contact">
+            <div class="about-section">
+                <h3>a b o u t &nbsp; m e</h3>
+                <div class="about-text">
+                    DevOps | GitOps | CloudOps | Azure Solution Specialist | IAC(Terraform,Pulumi,Bicep) | Containerization Techniques AKS, ACI, Docker | Middleware technologies Expert
+                </div>
+            </div>
+            <div class="contact-section">
+                <h3>c o n t a c t</h3>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i> Zeyaul9@gmail.com
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i> Stockholm, Sweden
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i> Linkedin.com/in/mustafazeya
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="main-content">
+                <div class="section">
+                    <div class="section-title">p r o f e s s i o n a l &nbsp; e x p e r i e n c e</div>
+                    
+                    <div class="experience-item">
+                        <div class="job-header">
+                            <div class="job-date">2023 - Present</div>
+                            <div class="job-title">Senior Platform Engineer / Scandinavian Airlines (SAS) / Stockholm,SE</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Architecting cloud solutions for Greenfield applications and improvements in the existing setups</li>
+                            <li>Driving Cloud and security best practices across IT of the organization</li>
+                            <li>Helping teams with IAC setup using terraform</li>
+                            <li>Automating repetitive Cloud and DevOps related tasks</li>
+                            <li>Designed Landing zones for the Cloud and maintain it with best practices</li>
+                            <li>Maintaining CDN, WAF, Firewall, reverse proxies etc</li>
+                            <li>Provisioning and maintenance of Developer tools like Github, Azure DevOps, Backstage, Miro, Jira, VPN, Slack, etc</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header">
+                            <div class="job-date">2017 - 2023</div>
+                            <div class="job-title">DevOps Engineer / Tata Consultancy Services Ltd / Stockholm,SE</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Microsoft Azure Architecture design implementation using Cloud Adoption Framework(Enterprise scale Landing Zones). Created End to end infrastructure using HUB and Spoke topology with inbuilt Security and exposure of organization service on internet</li>
+                            <li>Implementation of Azure native security tools such as Azure sentinel and Defender for Cloud</li>
+                            <li>Implementation and improvements in moving the organization towards Zero trust architecture</li>
+                            <li>Transformation and migration of application and databases from IAAS on cloud to PAAS services and Kubernetes</li>
+                            <li>Azure cloud migration of Applications from On-premise(Azure Migrate Technology /Manual Setup)</li>
+                            <li>Helped build a tech community within organization to share best practices, Tech stack templates, builders library. Implemented a centralized developer portal for Organization using Backstage Open source tool</li>
+                            <li>Good knowledge and experience of Containerization technologies and platforms like docker, Azure Container Instance, Azure Kubernetes Services, Azure App service, Azure container Apps</li>
+                            <li>Knowledge and experience of Kubernetes deployment using Helm Charts, Kustomizations, vanilla manifest files through CD</li>
+                            <li>GitOps implementation using FluxCD for Azure Kubernetes services</li>
+                            <li>Good Knowledge and experience of DevOps Tools like Azure DevOps, Jenkins, Github, Gitlab, Argo CD, Ansible, etc</li>
+                            <li>Setup a centralized monitoring platform using Prometheus and Grafana. Setup Azure monitor and application insights for some team as native monitoring solution</li>
+                            <li>Setup centralized logging solution using ELK stack, Azure log Analytics and helped team setup promtail, Loki, Grafana setup for new and enhanced monitoring solution</li>
+                            <li>Good knowledge and experience of Infrastructure provisioning and configuration using Terraform, Pulumi, Bicep, ARM template, Ansible etc</li>
+                            <li>Knowledge and decent experience of frontend development using HTML, CSS, JavaScript</li>
+                            <li>Backend development using Django framework, Python and Node.js</li>
+                            <li>Good knowledge and experience of Shell, Python, PowerShell scripting</li>
+                            <li>Middleware technologies such as IIS, Apache, Apache Tomcat, IBM WebSphere, Oracle WebLogic expert. Setup, upgrade, deployment and maintenance of application hosted over these technologies</li>
+                            <li>Nexpose based Vulnerabilities mitigation for Servers OS and Tech stacks</li>
+                            <li>Excellent experience of server administration and automations of thousands of servers</li>
+                            <li>Experience of Project tools like Jira, Azure Board, GitHub Project etc</li>
+                            <li>Experience of ServiceNow ITSM tool</li>
+                            <li>ITIL certified and Agile enthusiast</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">E D U C A T I O N</div>
+                    <div class="education-item">
+                        <div class="degree">Bachelor of Technology</div>
+                        <div class="school">Jamia Millia Islamia (2017)</div>
+                        <div class="school">Electronics and Communications Engineering</div>
+                        <div class="school">New Delhi, IN</div>
+                    </div>
+                    <div class="education-item">
+                        <div class="degree">Senior Secondary School</div>
+                        <div class="school">Aligarh Muslim University (2013)</div>
+                        <div class="school">Aligarh, IN</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">S K I L L S</div>
+                    <div class="skill-item">• Cloud Infrastructure Setup using Enterprise scale Landing Zones</div>
+                    <div class="skill-item">• Zero trust design implementation</div>
+                    <div class="skill-item">• Containerization Techniques Kubernetes and Docker</div>
+                    <div class="skill-item">• DevOps technologies Azure DevOps, GitHub, Jenkins</div>
+                    <div class="skill-item">• Azure Cloud Migration and Administration</div>
+                    <div class="skill-item">• Infrastructure as Code Terraform, Ansible, Pulumi, Bicep</div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">C E R T I F I C A T I O N</div>
+                    <div class="cert-item">
+                        <div class="cert-title">MICROSOFT CERTIFIED: DEVOPS ENGINEER EXPERT</div>
+                    </div>
+                    <div class="cert-item">
+                        <div class="cert-title">MICROSOFT CERTIFIED: AZURE SECURITY ENGINEER ASSOCIATE</div>
+                    </div>
+                    <div class="cert-item">
+                        <div class="cert-title">MICROSOFT CERTIFIED: AZURE DEVELOPER ASSOCIATE</div>
+                    </div>
+                    <div class="cert-item">
+                        <div class="cert-title">MICROSOFT CERTIFIED: AZURE ADMINISTRATOR ASSOCIATE</div>
+                    </div>
+                    <div class="cert-item">
+                        <div class="cert-title">MICROSOFT CERTIFIED: AZURE FUNDAMENTALS</div>
+                    </div>
+                    <div class="cert-item">
+                        <div class="cert-title">REDHAT CERTIFIED SYSTEM ADMINISTRATOR (RHCSA)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

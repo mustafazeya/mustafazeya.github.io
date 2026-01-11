@@ -1,279 +1,197 @@
 ---
 layout: modern
-title: "About Me"
+title: "About Mohammad Zeyaul Mustafa — Azure Platform Engineer & DevOps Expert"
+description: "Learn about Mohammad Zeyaul Mustafa's 9+ years journey as Senior Platform Engineer specializing in Azure Enterprise architecture, Landing Zones, DevOps automation, and cloud transformation. Expert in Terraform, Kubernetes, and Zero Trust security."
 ---
 
 <section class="hero">
-    <h1>Senior Platform Engineer</h1>
-    <p>Architecting secure, scalable cloud infrastructure at enterprise scale</p>
+    <h1>About Me</h1>
+    <p>Senior Platform Engineer & Cloud Architect specializing in Azure enterprise solutions</p>
 </section>
 
 <section class="section">
     <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
-        <!-- Profile Section with Image -->
         <div class="profile-section card-container" style="display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center;">
             <div class="profile-image-container text-center">
                 <div style="position: relative; display: inline-block;">
-                    <img src="/assets/images/profile.jpg" alt="Zeyaul Mustafa - Senior Platform Engineer" 
+                    <img src="/assets/images/profile.jpg" alt="Mohammad Zeyaul Mustafa - Senior Platform Engineer" 
                          class="profile-image">
                     <div class="badge-check">
                         <i class="fas fa-check" style="font-size: 0.8rem;"></i>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <h3 style="color: var(--text-primary); margin: 0.5rem 0; font-size: 1.2rem;">Zeyaul Mustafa</h3>
+                    <h3 style="color: var(--text-primary); margin: 0.5rem 0; font-size: 1.2rem;">Mohammad Zeyaul Mustafa</h3>
                     <p style="color: var(--accent-blue); margin: 0; font-weight: 600;">Senior Platform Engineer</p>
-                    <p style="color: var(--text-secondary); margin: 0.5rem 0; font-size: 0.9rem;">📍 Sweden</p>
+                    <p style="color: var(--text-secondary); margin: 0.5rem 0; font-size: 0.9rem;">Sweden</p>
                 </div>
             </div>
             <div class="profile-content">
-                <h2 class="section-heading mb-3">🚀 Current Role & Mission</h2>
+                <h2 class="section-heading mb-3">Professional Summary</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.7;">
-                    As a <strong>Senior Platform Engineer</strong> based in Sweden, I architect and implement enterprise-scale cloud infrastructure using Microsoft Azure's Cloud Adoption Framework. I specialize in designing secure, scalable platforms that enable organizations to innovate while maintaining the highest security standards.
+                    Senior Platform Engineer and Cloud Architect with 9+ years of experience specializing in Azure enterprise migrations and infrastructure modernization. Expert in designing Azure Enterprise architecture with Azure Landing Zone concepts, implementing hub-spoke network topologies, and applying DevOps best practices as part of a Center of Excellence.
                 </p>
                 <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7;">
-                    My expertise spans from infrastructure design and security implementation to developer experience optimization, helping organizations achieve their digital transformation goals through robust, automated, and secure cloud platforms.
+                    Deep expertise in Infrastructure as Code using Terraform, Azure DevOps, GitHub Actions, and building Internal Developer Platforms with Backstage. Focused on enterprise-scale Azure architectures, cost optimization, automation, and delivering secure, scalable cloud solutions following Cloud Adoption Framework (CAF) principles.
                 </p>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="{{ '/resume/' | relative_url }}" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-file-alt"></i>
+                        View Resume
+                    </a>
+                    <a href="{{ '/resume/' | relative_url }}" class="btn btn-secondary" onclick="downloadResumePDF(event)">
+                        <i class="fas fa-download"></i>
+                        Download PDF
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <section class="section">
-    <h2 class="section-title">🏗️ Cloud Architecture & Automation</h2>
-    <div class="cards-grid">
-        <div class="card">
-            <div class="card-icon">
-                <i class="fab fa-microsoft"></i>
+    <h2 class="section-title">Professional Journey</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <div class="timeline-content">
+                <h3>Senior Platform Engineer</h3>
+                <p>Designing enterprise solutions and leading cloud transformation initiatives with 9+ years experience</p>
             </div>
-            <h3>Azure Enterprise Scale</h3>
-            <p>Designed and implemented Enterprise Scale Landing Zones using CAF principles, creating end-to-end infrastructure with built-in security, governance, and compliance through Azure Policies.</p>
         </div>
-        
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-cube"></i>
+        <div class="timeline-item">
+            <div class="timeline-year">2021</div>
+            <div class="timeline-content">
+                <h3>Azure Cloud Specialist</h3>
+                <p>Specialized in Azure architectures, landing zones, and enterprise-scale cloud solutions</p>
             </div>
-            <h3>Infrastructure as Code</h3>
-            <p>Expert in Terraform, Bicep, ARM templates, and Pulumi for provisioning compute, network, security, and identity resources. Automated infrastructure deployments across multiple environments.</p>
         </div>
-        
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-dharmachakra"></i>
+        <div class="timeline-item">
+            <div class="timeline-year">2017</div>
+            <div class="timeline-content">
+                <h3>DevOps Engineer</h3>
+                <p>Cloud migrations, CI/CD pipelines, and Infrastructure as Code with Terraform and Azure DevOps</p>
             </div>
-            <h3>Kubernetes & Containers</h3>
-            <p>Implemented GitOps with FluxCD for AKS, managed containerization with Docker, ACI, AKS, App Services, and Container Apps. Expert in Helm Charts and Kustomizations.</p>
         </div>
     </div>
-</section>
-
-<section class="section">
-    <h2 class="section-title">🛡️ Security & Infrastructure Excellence</h2>
+    
     <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Enterprise Cloud Migrations</h3>
+            <p>Led large-scale migrations from on-premise to Azure. Executed lift-and-shift, VM to PaaS modernization, and containerization strategies for complex enterprise workloads.</p>
+        </div>
+        
         <div class="card">
             <div class="card-icon">
                 <i class="fas fa-network-wired"></i>
             </div>
-            <h3>Enterprise Network Security</h3>
-            <p>Led complex migrations from Checkpoint to Azure Firewall, implemented Hub and Spoke topologies with comprehensive security controls, and designed Zero Trust architectures. Automated management of 500+ firewall rules, NSG policies, and WAF configurations across multi-region deployments with intelligent traffic analysis and rule optimization.</p>
+            <h3>Azure Enterprise Architecture & Landing Zones</h3>
+            <p>Designed and implemented Azure Enterprise architecture using Landing Zone concepts with hub-spoke network topologies. Architected enterprise-scale solutions following Cloud Adoption Framework (CAF) principles for centralized shared services, connectivity, and security controls across multiple workloads.</p>
         </div>
         
         <div class="card">
             <div class="card-icon">
                 <i class="fas fa-shield-alt"></i>
             </div>
-            <h3>Advanced Threat Protection</h3>
-            <p>Configured DDOS and Bot protection using Cloudflare, Radware, and Imperva. Implemented Azure WAF, Sentinel, and Defender for Cloud for comprehensive threat detection and response.</p>
-        </div>
-        
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-globe"></i>
-            </div>
-            <h3>CDN & Edge Security</h3>
-            <p>Executed multi-phase CDN migrations from Verizon to Front Door to Cloudflare, optimizing global content delivery for 10M+ requests/day. Implemented advanced DDOS protection, Bot management, WAF policies, and edge security controls while achieving 40% performance improvement and zero-downtime transitions.</p>
+            <h3>Security & Automation</h3>
+            <p>Implemented comprehensive security with Network Security Groups, Azure Firewall, Azure Policies, RBAC, and Azure Defender with automated policy enforcement and CI/CD pipelines.</p>
         </div>
     </div>
 </section>
 
 <section class="section">
-    <h2 class="section-title">📊 Observability & Developer Experience</h2>
-    <div class="cards-grid">
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <h3>Monitoring & Observability</h3>
-            <p>Built centralized monitoring platforms using Prometheus, Grafana, ELK stack, and Azure Monitor. Implemented comprehensive logging solutions with Promtail, Loki, and Application Insights.</p>
-        </div>
-        
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-users"></i>
-            </div>
-            <h3>Developer Portal & Community</h3>
-            <p>Implemented Backstage-based centralized developer portal, built internal tech communities for knowledge sharing, and created standardized tech stack templates and builders library.</p>
-        </div>
-        
-        <div class="card">
-            <div class="card-icon">
-                <i class="fas fa-rocket"></i>
-            </div>
-            <h3>Cloud Migration & Modernization</h3>
-            <p>Led application and database migrations from IaaS to PaaS and Kubernetes, executed on-premise to Azure migrations using Azure Migrate, and transformed legacy architectures.</p>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <h2 class="section-title">🔧 Technical Arsenal</h2>
+    <h2 class="section-title">Core Skills</h2>
     <div class="grid-auto-200">
-        
         <div class="card-container-sm">
             <h4 style="color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-cloud"></i> Cloud Platforms
+                <i class="fas fa-cloud"></i> Cloud Platform
             </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure CAF</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Landing Zones</span>
+            <div class="tag-container">
+                <span class="tech-tag">Azure</span>
+                <span class="tech-tag">Landing Zones</span>
+                <span class="tech-tag">CAF</span>
             </div>
         </div>
 
-        <div style="class="card-container-sm"">
+        <div class="card-container-sm">
             <h4 style="color: var(--accent-purple); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-shield-alt"></i> Security Tools
+                <i class="fas fa-code"></i> Infrastructure as Code
             </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure Sentinel</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Defender</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Cloudflare</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Imperva</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Radware</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure WAF</span>
+            <div class="tag-container">
+                <span class="tech-tag-purple">Terraform</span>
+                <span class="tech-tag-purple">Bicep</span>
+                <span class="tech-tag-purple">ARM</span>
             </div>
         </div>
 
-        <div style="class="card-container-sm"">
+        <div class="card-container-sm">
             <h4 style="color: var(--accent-green); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-code"></i> IaC & Automation
+                <i class="fas fa-shield-alt"></i> Security
             </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Terraform</span>
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Bicep</span>
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">ARM</span>
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Ansible</span>
+            <div class="tag-container">
+                <span class="tech-tag-green">Azure Firewall</span>
+                <span class="tech-tag-green">Zero Trust</span>
+                <span class="tech-tag-green">RBAC</span>
             </div>
         </div>
 
-        <div style="class="card-container-sm"">
+        <div class="card-container-sm">
             <h4 style="color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-infinity"></i> DevOps & CI/CD
+                <i class="fas fa-dharmachakra"></i> Containers
             </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure DevOps</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">GitHub Actions</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">FluxCD</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">ArgoCD</span>
-            </div>
-        </div>
-
-        <div style="class="card-container-sm"">
-            <h4 style="color: var(--accent-purple); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-chart-bar"></i> Observability
-            </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Prometheus</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Grafana</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">ELK Stack</span>
-                <span style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Loki</span>
-            </div>
-        </div>
-
-        <div style="class="card-container-sm"">
-            <h4 style="color: var(--accent-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-network-wired"></i> Networking & Security
-            </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure Firewall</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">NSG</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Azure WAF</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Traffic Manager</span>
-                <span style="background: rgba(0, 217, 255, 0.1); color: var(--accent-blue); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">VNet Peering</span>
-            </div>
-        </div>
-
-        <div style="class="card-container-sm"">
-            <h4 style="color: var(--accent-green); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-database"></i> Data & Services
-            </h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Cosmos DB</span>
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">PostgreSQL</span>
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">App Services</span>
-                <span style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;">Functions</span>
+            <div class="tag-container">
+                <span class="tech-tag">Kubernetes</span>
+                <span class="tech-tag">Docker</span>
+                <span class="tech-tag">AKS</span>
             </div>
         </div>
     </div>
 </section>
 
 <section class="section">
-    <h2 class="section-title">🎯 Certifications & Standards</h2>
+    <h2 class="section-title">Certifications</h2>
     <div class="grid-auto-250">
         <div class="card-container-md text-center">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🛡️</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Azure Security Engineer</h3>
-            <p style="color: var(--text-secondary);">Microsoft Certified Associate</p>
+            <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-blue);">
+                <i class="fab fa-microsoft"></i>
+            </div>
+            <h3 class="section-heading mb-2">Microsoft Certified</h3>
+            <p style="color: var(--text-secondary);">Azure Solutions Architect Expert</p>
         </div>
-        <div style="class="card-container-md text-center"">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🚀</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">DevOps Engineer Expert</h3>
-            <p style="color: var(--text-secondary);">Microsoft Certified Expert</p>
+
+        <div class="card-container-md text-center">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-purple);">
+                <i class="fab fa-microsoft"></i>
+            </div>
+            <h3 class="section-heading mb-2">Microsoft Certified</h3>
+            <p style="color: var(--text-secondary);">Azure Administrator Associate</p>
         </div>
-        <div style="class="card-container-md text-center"">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">💻</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Azure Developer Associate</h3>
-            <p style="color: var(--text-secondary);">Microsoft Certified Associate</p>
-        </div>
-        <div style="class="card-container-md text-center"">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">⚙️</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Kubernetes Administrator</h3>
-            <p style="color: var(--text-secondary);">CKA Certified</p>
-        </div>
-        <div style="class="card-container-md text-center"">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🏗️</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Terraform Associate</h3>
-            <p style="color: var(--text-secondary);">HashiCorp Certified</p>
-        </div>
-        <div style="class="card-container-md text-center"">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🐧</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">RHCSA</h3>
-            <p style="color: var(--text-secondary);">Red Hat Certified</p>
-        </div>
-        <div style="class="card-container-md text-center"">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
-            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">ITIL Certified</h3>
-            <p style="color: var(--text-secondary);">Agile Enthusiast</p>
+
+        <div class="card-container-md text-center">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-green);">
+                <i class="fab fa-microsoft"></i>
+            </div>
+            <h3 class="section-heading mb-2">Microsoft Certified</h3>
+            <p style="color: var(--text-secondary);">DevOps Engineer Expert</p>
         </div>
     </div>
 </section>
 
-<section class="section">
-    <div class="cta-section">
-        <h2 class="section-heading mb-2">💡 Leadership Philosophy</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.2rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-            "I believe in building secure, scalable platforms that empower teams to innovate fearlessly. My focus is on creating robust foundations that enable rapid, secure deployment while fostering a culture of shared knowledge and continuous improvement."
-        </p>
-        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <a href="/projects" class="btn btn-primary">
-                <i class="fas fa-rocket"></i>
-                View My Projects
-            </a>
-            <a href="/contact" class="btn btn-secondary">
-                <i class="fas fa-handshake"></i>
-                Let's Collaborate
-            </a>
-        </div>
-    </div>
-</section>
+<script>
+function downloadResumePDF(event) {
+    event.preventDefault();
+    const resumeWindow = window.open('{{ "/resume/" | relative_url }}', '_blank');
+    resumeWindow.onload = function() {
+        setTimeout(() => {
+            resumeWindow.print();
+        }, 1000);
+    };
+}
+</script>
+
+
+

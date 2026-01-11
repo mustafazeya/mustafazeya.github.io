@@ -3,132 +3,130 @@ layout: modern
 title: "IP Subnet Calculator"
 ---
 
-<div class="tool-header">
-    <h1 class="tool-title">IP Subnet Calculator</h1>
-    <p class="tool-subtitle">
-        Calculate network details from CIDR notation. Get network addresses, 
-        usable IP ranges, and host information instantly.
-    </p>
-</div>
+<section class="hero">
+    <h1>IP Subnet Calculator</h1>
+    <p>Calculate network details from CIDR notation and split networks into smaller subnets</p>
+</section>
 
-<div class="calculator-grid">
-    <div class="input-section">
-        <h2 class="section-title">
-            <i class="fas fa-keyboard"></i>
-            Input
-        </h2>
-        
-        <div class="input-group">
-            <label class="input-label" for="cidr-input">CIDR Block</label>
-            <input 
-                type="text" 
-                id="cidr-input" 
-                class="input-field" 
-                placeholder="192.168.1.0/24"
-                autocomplete="off"
-            >
-            <div class="input-hint">
-                Enter an IP address with subnet mask in CIDR notation (e.g., 192.168.1.0/24)
+<section class="section">
+    <div class="cards-grid">
+        <div class="card">
+            <h2 class="section-title">
+                <i class="fas fa-keyboard"></i>
+                Input
+            </h2>
+            
+            <div class="input-group">
+                <label class="input-label" for="cidr-input">CIDR Block</label>
+                <input 
+                    type="text" 
+                    id="cidr-input" 
+                    class="input-field" 
+                    placeholder="192.168.1.0/24"
+                    autocomplete="off"
+                >
+                <div class="input-hint">
+                    Enter an IP address with subnet mask in CIDR notation (e.g., 192.168.1.0/24)
+                </div>
+            </div>
+
+            <div class="examples">
+                <strong>Examples:</strong><br>
+                <span class="example-btn" onclick="setExample('192.168.1.0/24')">192.168.1.0/24</span>
+                <span class="example-btn" onclick="setExample('10.0.0.0/16')">10.0.0.0/16</span>
+                <span class="example-btn" onclick="setExample('172.16.0.0/20')">172.16.0.0/20</span>
+                <span class="example-btn" onclick="setExample('192.168.0.0/22')">192.168.0.0/22</span>
+                <span class="example-btn" onclick="setExample('10.1.0.0/18')">10.1.0.0/18</span>
+            </div>
+
+            <div class="error-message" id="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="error-text"></span>
             </div>
         </div>
+        
+        <div class="card">
+            <h2 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Results
+            </h2>
+            
+            <div class="result-grid" id="results">
+                <div class="result-item">
+                    <div class="result-label">Network Address</div>
+                    <div class="result-value" id="network-address">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('network-address', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
 
-        <div class="examples">
-            <strong>Examples:</strong><br>
-            <span class="example-btn" onclick="setExample('192.168.1.0/24')">192.168.1.0/24</span>
-            <span class="example-btn" onclick="setExample('10.0.0.0/16')">10.0.0.0/16</span>
-            <span class="example-btn" onclick="setExample('172.16.0.0/20')">172.16.0.0/20</span>
-            <span class="example-btn" onclick="setExample('192.168.0.0/22')">192.168.0.0/22</span>
-            <span class="example-btn" onclick="setExample('10.1.0.0/18')">10.1.0.0/18</span>
-        </div>
+                <div class="result-item">
+                    <div class="result-label">Subnet Mask</div>
+                    <div class="result-value" id="subnet-mask">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('subnet-mask', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
 
-        <div class="error-message" id="error-message">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span id="error-text"></span>
+                <div class="result-item">
+                    <div class="result-label">First Usable IP</div>
+                    <div class="result-value" id="first-ip">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('first-ip', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Last Usable IP</div>
+                    <div class="result-value" id="last-ip">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('last-ip', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Broadcast Address</div>
+                    <div class="result-value" id="broadcast-address">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('broadcast-address', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Total Hosts</div>
+                    <div class="result-value" id="total-hosts">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('total-hosts', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Usable Hosts</div>
+                    <div class="result-value" id="usable-hosts">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('usable-hosts', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-label">Wildcard Mask</div>
+                    <div class="result-value" id="wildcard-mask">-</div>
+                    <button class="copy-btn" onclick="copyToClipboard('wildcard-mask', this)">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="subnet-info" id="subnet-info" style="display: none;">
+                <h4><i class="fas fa-info-circle"></i> Subnet Information</h4>
+                <div id="subnet-class">-</div>
+                <div id="subnet-type">-</div>
+            </div>
         </div>
     </div>
+</section>
 
-    <div class="output-section">
-        <h2 class="section-title">
-            <i class="fas fa-chart-bar"></i>
-            Results
-        </h2>
-        
-        <div class="result-grid" id="results">
-            <div class="result-item">
-                <div class="result-label">Network Address</div>
-                <div class="result-value" id="network-address">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('network-address', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-
-            <div class="result-item">
-                <div class="result-label">Subnet Mask</div>
-                <div class="result-value" id="subnet-mask">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('subnet-mask', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-
-            <div class="result-item">
-                <div class="result-label">First Usable IP</div>
-                <div class="result-value" id="first-ip">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('first-ip', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-
-            <div class="result-item">
-                <div class="result-label">Last Usable IP</div>
-                <div class="result-value" id="last-ip">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('last-ip', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-
-            <div class="result-item">
-                <div class="result-label">Broadcast Address</div>
-                <div class="result-value" id="broadcast-address">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('broadcast-address', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-
-            <div class="result-item">
-                <div class="result-label">Total Hosts</div>
-                <div class="result-value" id="total-hosts">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('total-hosts', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-
-            <div class="result-item">
-                <div class="result-label">Usable Hosts</div>
-                <div class="result-value" id="usable-hosts">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('usable-hosts', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-
-            <div class="result-item">
-                <div class="result-label">Wildcard Mask</div>
-                <div class="result-value" id="wildcard-mask">-</div>
-                <button class="copy-btn" onclick="copyToClipboard('wildcard-mask', this)">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-        </div>
-
-        <div class="subnet-info" id="subnet-info" style="display: none;">
-            <h4><i class="fas fa-info-circle"></i> Subnet Information</h4>
-            <div id="subnet-class">-</div>
-            <div id="subnet-type">-</div>
-        </div>
-    </div>
-</div>
-
-<!-- Subnet Splitter Section -->
-<div class="subnet-splitter" id="subnet-splitter" style="display: none;">
+<section class="section" id="subnet-splitter" style="display: none;">
     <h2 class="section-title">
         <i class="fas fa-cut"></i>
         Subnet Splitter
@@ -171,152 +169,9 @@ title: "IP Subnet Calculator"
         </h3>
         <div class="subnets-grid" id="subnets-grid"></div>
     </div>
-</div>
+</section>
 
 <style>
-    .tool-header {
-        text-align: center;
-        margin-bottom: 3rem;
-        padding: 3rem 0 0 0;
-    }
-
-    .tool-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 1rem;
-    }
-
-    .tool-subtitle {
-        font-size: 1.2rem;
-        color: var(--text-secondary);
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .calculator-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-        align-items: start;
-    }
-
-    .subnet-splitter {
-        grid-column: 1 / -1;
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        padding: 2rem;
-        backdrop-filter: blur(20px);
-        margin-top: 2rem;
-    }
-
-    .splitter-controls {
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        gap: 1rem;
-        align-items: end;
-        margin-bottom: 2rem;
-    }
-
-    .split-button {
-        padding: 1rem 1.5rem;
-        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-        border: none;
-        border-radius: 8px;
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 1rem;
-    }
-
-    .split-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
-    }
-
-    .split-button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .subnets-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1rem;
-        max-height: 400px;
-        overflow-y: auto;
-    }
-
-    .subnet-card {
-        background: rgba(0, 217, 255, 0.05);
-        border: 1px solid rgba(0, 217, 255, 0.2);
-        border-radius: 8px;
-        padding: 1rem;
-    }
-
-    .subnet-card h4 {
-        margin: 0 0 0.5rem 0;
-        color: var(--accent-blue);
-        font-size: 0.9rem;
-    }
-
-    .subnet-detail {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0.3rem 0;
-        font-size: 0.85rem;
-        font-family: 'JetBrains Mono', monospace;
-    }
-
-    .subnet-detail .label {
-        color: var(--text-secondary);
-    }
-
-    .subnet-detail .value {
-        color: var(--text-primary);
-    }
-
-    .subnet-detail .copy-mini {
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        cursor: pointer;
-        padding: 0.2rem;
-        color: var(--accent-blue);
-    }
-
-    .subnet-detail:hover .copy-mini {
-        opacity: 1;
-    }
-
-    .input-section, .output-section {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        padding: 2rem;
-        backdrop-filter: blur(20px);
-    }
-
-    .section-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-    }
-
-    .section-title i {
-        margin-right: 0.5rem;
-        color: var(--accent-blue);
-    }
-
     .input-group {
         margin-bottom: 2rem;
     }
@@ -457,20 +312,89 @@ title: "IP Subnet Calculator"
         margin-bottom: 1rem;
     }
 
+    .splitter-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 1rem;
+        align-items: end;
+        margin-bottom: 2rem;
+    }
+
+    .split-button {
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .split-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
+    }
+
+    .split-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .subnets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .subnet-card {
+        background: rgba(0, 217, 255, 0.05);
+        border: 1px solid rgba(0, 217, 255, 0.2);
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .subnet-card h4 {
+        margin: 0 0 0.5rem 0;
+        color: var(--accent-blue);
+        font-size: 0.9rem;
+    }
+
+    .subnet-detail {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0.3rem 0;
+        font-size: 0.85rem;
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    .subnet-detail .label {
+        color: var(--text-secondary);
+    }
+
+    .subnet-detail .value {
+        color: var(--text-primary);
+    }
+
+    .subnet-detail .copy-mini {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+        padding: 0.2rem;
+        color: var(--accent-blue);
+    }
+
+    .subnet-detail:hover .copy-mini {
+        opacity: 1;
+    }
+
     @media (max-width: 768px) {
-        .calculator-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        
-        .tool-header {
-            padding: 2rem 0 0 0;
-        }
-        
-        .tool-title {
-            font-size: 2rem;
-        }
-        
         .splitter-controls {
             grid-template-columns: 1fr;
             gap: 1rem;

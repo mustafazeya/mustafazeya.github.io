@@ -1,22 +1,12 @@
 ---
 layout: modern
 title: "Contact Me"
+description: "Get in touch with Mohammad Zeyaul Mustafa for Azure cloud architecture, platform engineering, and DevOps consulting. Based in Sweden, available for enterprise projects."
 ---
 
 <section class="hero">
     <h1>Let's Connect</h1>
-    <p>Ready to build something amazing together?</p>
-</section>
-
-<section class="section">
-    <div style="display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 800px; margin: 0 auto;">
-        <div class="card-container text-center">
-            <h2 class="section-heading mb-3">💬 Get In Touch</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.7;">
-                Feel free to reach out for collaboration, consulting, or just a tech chat. I'm always excited to discuss DevSecOps, cloud security, and innovative solutions.
-            </p>
-        </div>
-    </div>
+    <p>Ready to build something innovative together? Let's discuss your next cloud transformation</p>
 </section>
 
 <section class="section">
@@ -57,61 +47,9 @@ title: "Contact Me"
             </div>
             <div>
                 <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Location</h3>
-                <p style="color: var(--text-secondary); margin: 0;">Sweden 🇸🇪</p>
+                <p style="color: var(--text-secondary); margin: 0;">Sweden</p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section">
-    <div class="grid-auto-250">
-        <div class="card-container-md text-center">
-            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🤝</div>
-            <h3 class="section-heading mb-2">Collaboration</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Open source projects, security research, or innovative DevSecOps solutions</p>
-            <a href="mailto:zeyaul9@gmail.com?subject=Collaboration Opportunity" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-handshake"></i>
-                Let's Collaborate
-            </a>
-        </div>
-
-        <div class="card-container-md text-center">
-            <div style="font-size: 2.5rem; margin-bottom: 1rem;">💼</div>
-            <h3 class="section-heading mb-2">Consulting</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Cloud security assessments, DevSecOps implementation, or architecture reviews</p>
-            <a href="mailto:zeyaul9@gmail.com?subject=Consulting Inquiry" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-briefcase"></i>
-                Discuss Project
-            </a>
-        </div>
-
-        <div class="card-container-md text-center">
-            <div style="font-size: 2.5rem; margin-bottom: 1rem;">☕</div>
-            <h3 class="section-heading mb-2">Tech Chat</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Kubernetes, security tools, cloud architectures, or latest industry trends</p>
-            <a href="mailto:zeyaul9@gmail.com?subject=Tech Chat" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-comments"></i>
-                Say Hello
-            </a>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div style="text-align: center; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); border-radius: 20px; padding: 3rem; color: white;">
-        <h2 style="margin-bottom: 1rem;">⚡ Quick Response</h2>
-        <p style="margin-bottom: 2rem; font-size: 1.1rem; opacity: 0.9;">
-            I typically respond within 24 hours. Looking forward to hearing from you!
-        </p>
-        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <a href="mailto:zeyaul9@gmail.com" style="color: white; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.5rem; background: rgba(255,255,255,0.2); border-radius: 25px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                <i class="fas fa-envelope"></i>
-                Email Me
-            </a>
-            <a href="https://github.com/mustafazeya" target="_blank" style="color: white; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.5rem; background: rgba(255,255,255,0.2); border-radius: 25px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                <i class="fab fa-github"></i>
-                Follow on GitHub
-            </a>
-        </div>
-    </div>
-</section>

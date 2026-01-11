@@ -1,10 +1,23 @@
-title: Mohammad Zeyaul Mustafa – DevSecOps Engineer
-description: "Senior Platform Engineer specializing in Azure, Terraform, and DevSecOps"
-# theme: jekyll-theme-cayman  # Commented out to use custom layout
-author: Zeyaul Mustafa
+title: Mohammad Zeyaul Mustafa – Senior Platform Engineer
+description: "Senior Platform Engineer & Cloud Architect with 9+ years experience in Azure enterprise migrations, Landing Zones, DevOps, and cloud transformation."
+author: Mohammad Zeyaul Mustafa
 email: zeyaul9@gmail.com
 baseurl: "" # for user.github.io
 url: "https://mustafazeya.online"
+
+# SEO Settings
+lang: en_US
+twitter:
+  username: mustafazeya
+social:
+  name: Mohammad Zeyaul Mustafa
+  links:
+    - https://github.com/mustafazeya
+    - https://www.linkedin.com/in/mustafazeya/
+
+# Logo and images
+logo: /assets/images/profile.jpg
+social_image: /assets/images/profile.jpg
 
 # Jekyll configuration
 markdown: kramdown
