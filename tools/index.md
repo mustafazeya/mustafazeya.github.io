@@ -30,5 +30,25 @@ description: "Free platform engineering tools including IP subnet calculator, CI
                 Launch Calculator
             </a>
         </div>
+
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <h3>URL Shortener</h3>
+            <p style="margin-bottom: 1.5rem;">Create short, memorable links for easy sharing. Generate custom short URLs with optional aliases and track your recent links.</p>
+            
+            <div class="tag-container" style="margin-bottom: 1.5rem;">
+                <span class="tech-tag">Link Shortening</span>
+                <span class="tech-tag-purple">Custom Aliases</span>
+                <span class="tech-tag-green">Recent History</span>
+                <span class="tech-tag">Copy to Clipboard</span>
+            </div>
+            
+            <a href="url-shortener" class="btn btn-primary">
+                <i class="fas fa-cut"></i>
+                Launch Shortener
+            </a>
+        </div>
     </div>
 </section>
