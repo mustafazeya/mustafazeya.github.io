@@ -1,12 +1,12 @@
 ---
 layout: modern
-title: "Platform Engineering Tools"
-description: "Free platform engineering tools including IP subnet calculator, CIDR network splitting, and infrastructure utilities for Azure cloud architects and DevOps engineers."
+title: "Tools & Utilities"
+description: "Collection of free tools and utilities to boost your productivity and simplify everyday tasks."
 ---
 
 <section class="hero">
-    <h1>Platform Engineering Tools</h1>
-    <p>Network and infrastructure tools for platform engineers</p>
+    <h1>Tools & Utilities</h1>
+    <p>Handy tools for everyday tasks</p>
 </section>
 
 <section class="section">
