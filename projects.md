@@ -30,8 +30,8 @@ description: "Explore enterprise Azure cloud projects including Landing Zones, A
             <div class="card-icon">
                 <i class="fas fa-brain"></i>
             </div>
-            <h3>CloudEx - AI-Powered Azure Management Platform</h3>
-            <p style="margin-bottom: 1.5rem;">Enterprise Azure management platform with GPT-powered natural language queries for multi-subscription environments. Features real-time cost analysis, resource discovery, and intelligent insights with zero-trust security model.</p>
+            <h3>Cirrus - AI-Powered Azure Management Platform</h3>
+            <p style="margin-bottom: 1.5rem;">Read-only Azure management portal for querying, analysing, and troubleshooting resources across multiple subscriptions using natural language. Translates questions into Resource Graph KQL, Log Analytics queries, cost breakdowns, and metric lookups — with root cause analysis, firewall inspection, and governance insights.</p>
             
             <div class="tag-container">
                 <span class="tech-tag">Azure OpenAI</span>

@@ -54,9 +54,9 @@ description: "Senior Platform Engineer & Azure Cloud Architect with 9+ years exp
                 <i class="fas fa-cloud"></i>
             </div>
             <div>
-                <h3 style="margin-bottom: 1rem;">CloudEx - AI-Powered Azure Management Platform</h3>
+                <h3 style="margin-bottom: 1rem;">Cirrus - AI-Powered Azure Management Platform</h3>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.7;">
-                    Enterprise Azure management platform with GPT-powered natural language queries for multi-subscription environments. Features real-time cost analysis, resource discovery, and intelligent insights with zero-trust security model.
+                    Read-only Azure management portal for querying, analysing, and troubleshooting resources across multiple subscriptions using natural language. Translates questions into Resource Graph KQL, Log Analytics queries, cost breakdowns, and metric lookups — with root cause analysis, firewall inspection, and governance insights.
                 </p>
                 <div class="tag-container" style="margin-bottom: 1.5rem;">
                     <span class="tech-tag">Azure OpenAI</span>
