@@ -31,6 +31,7 @@ description: "Explore enterprise Azure cloud projects including Landing Zones, A
                 <i class="fas fa-brain"></i>
             </div>
             <h3>Cirrus - AI-Powered Azure Management Platform</h3>
+            <img src="/assets/images/cirrus-home.jpg" alt="Cirrus home screen" style="width: 100%; border-radius: 8px; margin-bottom: 1rem;">
             <p style="margin-bottom: 1.5rem;">Read-only Azure management portal for querying, analysing, and troubleshooting resources across multiple subscriptions using natural language. Translates questions into Resource Graph KQL, Log Analytics queries, cost breakdowns, and metric lookups — with root cause analysis, firewall inspection, and governance insights.</p>
             
             <div class="tag-container">

@@ -55,6 +55,7 @@ description: "Senior Platform Engineer & Azure Cloud Architect with 9+ years exp
             </div>
             <div>
                 <h3 style="margin-bottom: 1rem;">Cirrus - AI-Powered Azure Management Platform</h3>
+                <img src="/assets/images/cirrus-home.jpg" alt="Cirrus home screen" style="width: 100%; border-radius: 8px; margin-bottom: 1rem;">
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.7;">
                     Read-only Azure management portal for querying, analysing, and troubleshooting resources across multiple subscriptions using natural language. Translates questions into Resource Graph KQL, Log Analytics queries, cost breakdowns, and metric lookups — with root cause analysis, firewall inspection, and governance insights.
                 </p>
